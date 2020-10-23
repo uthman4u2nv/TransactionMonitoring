@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    /*Layout = "~/Views/Shared/_DashboardLayout.cshtml";*/
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+
+}
+@*<div class="card" ng-app="IPSLLogin">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            <form  name="loginForm" ng-app="IPSLLogin" ng-controller="LoginCtrl">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" ng-model="details.email" placeholder="Email" name="myEmail" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                    <span ng-hide="{{loginForm.myEmail.$valid}}">Not a valid email address</span>
+                    <p ng-show="{{loginForm.myEmail.$error.email}}">Invalid Email Address</p>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" ng-model="details.pass" name="myPass" placeholder="Password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">
+                                Remember Me
+                            </label>
+                        </div>
+                    </div>
+                     /.col
+                    <div class="col-lg-4">
+                        <button type="submit" class="btn btn-primary btn-block" ng-click="LoginClick(details)">{{btnLogin}}</button>
+
+
+                    </div>
+
+                    <center><p class="mb-1"><a href="#">I forgot my password</a></p> </center>
+                     /.col
+
+        <p class="mb-0"><a href="register.html" class="text-center">Register a new membership</a></p>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span ng-show="loginForm.myEmail.$touched && loginForm.myEmail.$invalid"><p>Email is required.</p></span>
+                        <span ng-show="loginForm.myPass.$touched && loginForm.myPass.$invalid"><p>Password is required.</p></span>
+                        <span ng-show="true">{{myWelcome}}</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>*@
+    <div class="limiter" ng-app="IPSLLogin" ng-controller="LoginCtrl">
+        <div class="container-login100">
+            <div class="wrap-login100" style="margin-top:20px !important;">
+
+                <div class="login100-form validate-form" valign="top">
+
+                    <span class="login100-form-title p-b-34">
+
+                        <img src="~/Content/Image/logoipsl.png" /><br />
+                        <strong>TRANSACTION PERFORMANCE MONITORING SYSTEM (TPMS)</strong>
+                    </span>
+
+                    <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="first-name" class="input100" type="text" name="username" placeholder="Email" ng-model="useremail">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+                        <input class="input100" type="password" name="pass" placeholder="Password" ng-model="userpassword">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" ng-click="LoginClick()">
+                            {{btnLogin}}
+                        </button>
+                        <div ng-model="logout">@ViewBag.Message<br /></div>
+                        <div ng-show="display" class="alert alert-danger" style="margin-top:10px !important;">{{message}}</div>
+                    </div>
+
+                    <div class="w-full text-center p-t-27 p-b-239">
+                        <span class="txt1">
+                            Forgot
+                        </span>
+
+                        <a href="#" class="txt2">
+                            User name / password?
+                        </a>
+                    </div>
+
+
+                </div>
+
+                @*<div class="login100-more" style="background-image: url('../Content/Image/tpms2.jpeg'); width:500px;height:500px; margin: auto;"></div>*@
+            </div>
+        </div>
+        <div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+            <center>Loading...</center>
+        </div>
+    </div>
+
+<script>
+    var app = angular.module("IPSLLogin", []);
+       app.controller("LoginCtrl", function ($scope, $location, $http, $window) {
+        $scope.display = false;
+           $scope.btnLogin = "Sign In";
+           $scope.blackout = false;
+           $scope.email = localStorage.getItem("email");
+        //$scope.myUrl = $location.absUrl();
+           function Go(username, useremail) {
+               var users = {
+                   email:useremail,
+                   name:username
+               }
+               $http({
+                   method: 'POST',
+                   url: 'https://localhost:44373/Home/SetUser',
+                  // url: 'http://localhost/Home/SetUser',
+                   data: $.param(users),
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   withCredentials: false,
+               }).then(function successCallback(response) {
+                   if (response.data.responseCode == "00") {
+                       localStorage.setItem(response.data.email, "email");
+                      // $window.location.href = "../Home/Dashboard";
+
+                   } else {
+                       $scope.display = true;
+                       $scope.message = "Error";
+                   }
+               }, function errorCallback(response) {
+                   console.log(response.responseText);
+               });
+           }
+        $scope.LoginClick = function () {          
+            $scope.blackout = true;
+            $scope.btnLogin = "Sign in.....";
+            var user = {
+                password: $scope.userpassword,               
+                email: $scope.useremail
+            };
+
+            
+            $http({
+                method: 'POST',
+               // url: 'http://localhost:1234/api/Login',
+                url: 'http://localhost:57868/api/Authenticate2',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                //alert(response.data.responseCode);
+                //if (response.data.responseCode == "00") {
+               // alert(response.data.status);
+                if (response.data.status == "00") {
+                    
+                    $scope.display = false;
+                    $scope.message = "";
+                    localStorage.setItem(response.data.email, "email");
+                    //$scope.email = "";
+                    //$scope.password = "";
+                    Go(response.data.firstname + " " + response.data.lastname, response.data.email, response.data.bankAdmin, response.data.bankUser, response.data.bankCode);
+                    //alert(response.data.firsttime);
+                    //determine where the app goes
+                    if (response.data.firsttime=true) {
+                        $window.location.href = "../Home/ChangePassword";
+                    } else {
+                        $window.location.href = "../Home/Dashboard";
+                    }
+                    //$scope.blackout = false;
+                    
+                   //go to homepage
+
+
+
+                } else {
+                    $scope.blackout = false;
+                    $scope.display = true;
+                    $scope.password = "";
+                    $scope.btnLogin = "Sign In";
+                    $scope.logout = "";
+                    $scope.message = "Invalid Username or Password";
+                }
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+            });
+
+
+
+        }
+    })
+</script>

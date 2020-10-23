@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "Banks";
+    Layout = "~/Views/Shared/_HomeLayoutPage.cshtml";
+}
+
+
+
+
+<div class="content-wrapper" style="margin:10px !important;">
+    <section class="content">
+        <div class="container-fluid" ng-app="Bank" ng-controller="BankData">
+            <div class="modal fade" id="detailsView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update {{nameb}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Name</span>
+                                <input type="hidden" value="{{}}" />
+                                <input type="text" required ng-model="updatebankName" class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Code</span>
+                                <input type="text" required ng-model="updatebankCode"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Alias</span>
+                                <input type="text" required ng-model="updatebankAlias"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Sort Code</span>
+                                <input type="text" required ng-model="updateSortCode"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Failure Threshold</span>
+                                <input type="text" required ng-model="updateFailureThreshold"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Volume Threshold</span>
+                                <input type="text" required ng-model="updateVolumeThreshold"  class="form-control" />
+                            </div>
+                            
+                            
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Status</span>
+                                <select class="form-control" required ng-model="updatebankStatus">
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+
+                                <button class="btn btn-success" ng-click="UpdateBank()">{{btnUpdate}}</button>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-success alert-dismissible" role="alert" ng-show="success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{message}}
+            </div>
+            <div class="alert alert-danger alert-dismissible" role="alert" ng-show="failed">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{message}}
+            </div>
+            <div class="accordion" id="manageBanks">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title"><strong><i class="fas fa-cogs"></i>&nbsp;Banks</strong></h6>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Add New Bank
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#manageBanks">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card-body">
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text">Bank Name</span>
+
+                                        <input type="text" required name="bankName" ng-model="details.bankName" class="form-control" />
+                                    </div>
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text">Bank Code</span>
+
+                                        <input type="text" required name="bankCode" ng-model="details.bankCode" class="form-control" />
+                                    </div>
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text">Bank Alias</span>
+
+                                        <input type="text" required name="bankAlias" ng-model="details.bankAlias" class="form-control" />
+                                    </div>
+                                    <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Bank Sort Code</span>
+                                <input type="text" required ng-model="addSortCode"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Failure Threshold</span>
+                                <input type="text" required ng-model="addFailureThreshold"  class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Volume Threshold</span>
+                                <input type="text" required ng-model="addVolumeThreshold"  class="form-control" />
+                            </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-success" ng-click="AddBank(details)">{{btnAdd}}</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--List of banks-->
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                Available Banks
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#manageBanks">
+                        <div class="card-body">
+
+                            <table class="table table-bordered" id="bankTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Bank Code</th>
+                                        <th>Bank Name</th>
+                                        <th>Bank Alias</th>
+                                        <th>Sort Code</th>
+                                        <th>Volume Threshold</th>
+                                        <th>Failure Threshold</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in myData">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.code}}</td>
+                                        <td>{{x.name}}</td>
+                                        <td>{{x.alias}}</td>
+                                        <td>{{x.sortCode}}</td>
+                                        <td>{{x.volumeThreshold}}</td>
+                                        <td>{{x.failureThreshold}}</td>
+                                        <td><a style="text-decoration:none; color:black !important" ng-click="openModal(x.name,x.code)" data-toggle="modal" data-target="#detailsView"><strong><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View/Edit</strong></a></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>Bank Code</th>
+                                        <th>Bank Name</th>
+                                        <th>Bank Alias</th>
+                                        <th>Sort Code</th>
+                                        <th>Volume Threshold</th>
+                                        <th>Failure Threshold</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h5 class="modal-title" id="exampleModalLabel">Loading</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+            </div>
+            <div class="modal-body">
+             <h3><center>Please wait..<br />
+                 <img src="~/Content/Image/ajax-loader.gif" height="30" width="30" alt="Loading" /></center>
+             </h3>
+            </div>
+            <div class="modal-footer">                
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/app/banks.js"></script>

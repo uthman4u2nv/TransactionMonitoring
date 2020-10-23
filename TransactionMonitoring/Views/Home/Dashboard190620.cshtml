@@ -1,0 +1,566 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    /*Layout = "~/Views/Shared/_DashboardLayout.cshtml";*/
+    Layout = "~/Views/Shared/_HomeLayoutPage.cshtml";
+
+}
+@model IEnumerable<TransactionMonitoring.Models.BankData>
+
+    <style>
+    .bb {
+        -moz-column-count: 5;
+        -moz-column-gap: 10px;
+        -webkit-column-count: 5;
+        -webkit-column-gap: 10px;
+        column-count: 5;
+        column-gap: 10px;
+        list-style: none;
+    }
+
+    .blink-bg{
+		color: #fff;
+        
+		
+		animation: blinkingBackground 2s infinite;
+	}
+	@@keyframes blinkingBackground{
+		0%		{ background-color: red;}
+		25%		{ background-color: grey;}
+		50%		{ background-color: red;}
+		75%		{ background-color: grey;}
+		100%	{ background-color: red;}
+	}
+    </style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="margin:10px !important;">
+    <!-- Content Header (Page header) -->
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid" ng-app="Dashboard" ng-controller="DashboardData">
+            <div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+                <center>Loading...</center>
+            </div>
+            <!-- Info boxes -->
+            <!-- /.row -->
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-md-12">
+                    <!-- MAP & BOX PANE -->
+                    <!-- /.card -->
+                    <!-- /.row -->
+                    <!-- TABLE: LATEST ORDERS -->
+                    <div class="card">
+                        @*<div class="card-header border-transparent">
+                                <h3 class="card-title">Latest Orders</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>*@
+                        <!-- /.card-header -->
+                        <div class="card-body p-0" ng-app="Dashboard" id="loadPageData" ng-controller="DashboardData" style="margin:10px !important;">
+                            <div class="table-responsive">
+                                <span ng-hide="true">Error: {{myWelcome}}</span>
+                                @*<div class="row">
+                                    <div class="col-lg-offset-2">
+
+                                        <div class="input-group" style="margin:10px !important;">
+                                            @*<span class="input-group-addon">Search</span>*@
+                                @*<input class="form-control" ng-model="myfilter" type="search" placeholder="Type in to filter" aria-label="Search" />
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                <div class="modal fade" id="detailsView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="background-color:black !important;color:white !important;width:1200px !important;padding:5px !important"><strong>{{nameb}}</strong></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <a class="list-group-item bg-info"><strong>All Pesalink Transaction Types</strong></a>
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Outwards</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Inwards</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#linechart1" role="tab" aria-controls="contact" aria-selected="false">Chart(Failure Rate)</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#linechart2" role="tab" aria-controls="contact" aria-selected="false">Chart(Volume)</a>
+                                                    </li>
+                                                    @*<li class="nav-item">
+                                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chart(Processing Time)</a>
+                                                        </li>*@
+                                                </ul>
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                        <a class="list-group-item bg-info" style="padding:2px !important"><center><strong>Outwards @@{{TransactionPeriod}} </strong></center></a>
+                                                        
+                                                        <div class="row" style="margin-top:10px !important">
+                                                            <div class="col-md-4">
+                                                                <table class="tablesss">
+                                                                    <tr><td valign="top">Txn Vol</td><td align="right"><span class="badge badge-info">{{totalVolume}}</span></td></tr>
+                                                                   
+                                                                    <tr><td valign="top">Vol of Failed Txn </td><td align="right"><span class=" badge-info">{{totalFailure}}</span></td></tr>
+                                                                    <tr><td valign="top">Failure Rate</td><td align="right"> <span class="badge badge-info">{{failureRate | number : 2}}%</span></td></tr>
+                                                                    
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <table class="table">
+                                                                <tr><td><strong>Status</strong></td><td><strong>Volume</strong></td></tr>
+                                                                    <tr><td valign="top">Success(000)</td><td align="right"> <span class="badge badge-info">{{successrate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{totalVolume - totalFailure}}</span></td></tr>
+                                                                    <tr ng-if="outerror912 > 0"><td valign="top">Error Code(912) </td><td align="right"><span class="badge badge-info">{{error912 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror912}}</span></td></tr>
+                                                                    <tr ng-if="outerror100 > 0"><td valign="top">Error Code(100) </td><td align="right"><span class="badge badge-info">{{error100 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror100}}</span></td></tr>
+                                                                    <tr ng-if="outerror114 > 0"><td valign="top">Error Code(114) </td><td align="right"><span class="badge badge-info">{{error114 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror114}}</span></td></tr>
+                                                                    <tr ng-if="outerror107 > 0"><td valign="top">Error Code(107)</td><td align="right"> <span class="badge badge-info">{{outerror107Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror107}}</span></td></tr>
+                                                                    <tr ng-if="outerror116 > 0"><td valign="top">Error Code(116) </td><td align="right"><span class="badge badge-info">{{outerror116Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror116}}</span></td></tr>
+                                                                    <tr ng-if="outerror118 > 0"><td valign="top">Error Code(118) </td><td align="right"><span class="badge badge-info">{{outerror118Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror118}}</span></td></tr>
+                                                                    <tr ng-if="outerror101 > 0"><td valign="top">Error Code(101) </td><td align="right"><span class="badge badge-info">{{outerror101Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror101}}</span></td></tr>
+                                                                    <tr ng-if="outerror103 > 0"><td valign="top">Error Code(103) </td><td align="right"><span class="badge badge-info">{{outerror103Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror103}}</span></td></tr>
+                                                                    <tr ng-if="outerror104 > 0"><td valign="top">Error Code(104) </td><td align="right"><span class="badge badge-info">{{outerror104Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror104}}</span></td></tr>
+                                                                    <tr ng-if="outerror105 > 0"><td valign="top">Error Code(105) </td><td align="right"><span class="badge badge-info">{{outerror105Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror105}}</span></td></tr>
+                                                                    <tr ng-if="outerror106 > 0"><td valign="top">Error Code(106) </td><td align="right"><span class="badge badge-info">{{outerror106Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror106}}</span></td></tr>
+                                                                    <tr ng-if="outerror109 > 0"><td valign="top">Error Code(109) </td><td align="right"><span class="badge badge-info">{{outerror109Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror109}}</span></td></tr>
+                                                                    <tr ng-if="outerror110 > 0"><td valign="top">Error Code(110) </td><td align="right"><span class="badge badge-info">{{outerror110Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror110}}</span></td></tr>
+                                                                    <tr ng-if="outerror112 > 0"><td valign="top">Error Code(112) </td><td align="right"><span class="badge badge-info">{{outerror112Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror112}}</span></td></tr>
+                                                                    <tr ng-if="outerror115 > 0"><td valign="top">Error Code(115) </td><td align="right"><span class="badge badge-info">{{outerror115Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror115}}</span></td></tr>
+                                                                    <tr ng-if="outerror117 > 0"><td valign="top">Error Code(117) </td><td align="right"><span class="badge badge-info">{{outerror117Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror117}}</span></td></tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                               <table class="table">
+                                                                    <tr><td><strong>Status</strong></td><td align="right"><strong>Volume</strong></td></tr>
+                                                                    <tr ng-if="outerror102 > 0"><td valign="top">Error Code(102)</td><td align="right"> <span class="badge badge-info">{{error102 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror102}}</span></td></tr>
+                                                                    <tr ng-if="outerror908 > 0"><td valign="top">Error Code(908) </td><td align="right"><span class="badge badge-info">{{error908 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror908}}</span></td></tr>
+                                                                    <tr ng-if="outerror111 > 0"><td valign="top">Error Code(111) </td><td align="right"><span class="badge badge-info">{{error111 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror111}}</span></td></tr>
+                                                                    <tr ng-if="outerror400 > 0"><td valign="top">Error Code(400) </td><td align="right"><span class="badge badge-info">{{error400 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror400}}</span></td></tr>
+                                                                    <tr ng-if="outerror909 > 0"><td valign="top">Error Code(909) </td><td align="right"><span class="badge badge-info">{{error909 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror909}}</span></td></tr>
+                                                                    <tr ng-if="outerror119 > 0"><td valign="top">Error Code(119)</td><td align="right"> <span class="badge badge-info">{{outerror119Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror119}}</span></td></tr>
+                                                                    <tr ng-if="outerror121 > 0"><td valign="top">Error Code(121) </td><td align="right"><span class="badge badge-info">{{outerror121Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror121}}</span></td></tr>
+                                                                    <tr ng-if="outerror910 > 0"><td valign="top">Error Code(910) </td><td align="right"><span class="badge badge-info">{{outerror910Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror910}}</span></td></tr>
+                                                                    <tr ng-if="outerror911 > 0"><td valign="top">Error Code(911) </td><td align="right"><span class="badge badge-info">{{outerror911Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror911}}</span></td></tr>
+                                                                    <tr ng-if="outerror120 > 0"><td valign="top">Error Code(120) </td><td align="right"><span class="badge badge-info">{{outerror120Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror120}}</span></td></tr>					
+                                                                    <tr ng-if="outerror125 > 0"><td valign="top">Error Code(125) </td><td align="right"><span class="badge badge-info">{{outerror125Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror125}}</span></td></tr>
+                                                                    <tr ng-if="outerror200 > 0"><td valign="top">Error Code(200) </td><td align="right"><span class="badge badge-info">{{outerror200Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror200}}</span></td></tr>					
+                                                                    <tr ng-if="outerror201 > 0"><td valign="top">Error Code(201) </td><td align="right"><span class="badge badge-info">{{outerror201Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror201}}</span></td></tr>
+                                                                    <tr ng-if="outerror202 > 0"><td valign="top">Error Code(202) </td><td align="right"><span class="badge badge-info">{{outerror202Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror202}}</span></td></tr>					
+                                                                    <tr ng-if="outerror203 > 0"><td valign="top">Error Code(203) </td><td align="right"><span class="badge badge-info">{{outerror203Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror203}}</span></td></tr>
+                                                                    <tr ng-if="outerror204 > 0"><td valign="top">Error Code(204) </td><td align="right"><span class="badge badge-info">{{outerror204Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror204}}</span></td></tr>					
+                                                                    <tr ng-if="outerror904 > 0"><td valign="top">Error Code(904) </td><td align="right"><span class="badge badge-info">{{outerror904Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror904}}</span></td></tr>
+                                                                    <tr ng-if="outerror913 > 0"><td valign="top">Error Code(913) </td><td align="right"><span class="badge badge-info">{{outerror913Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror913}}</span></td></tr>
+                                                                    <tr ng-if="outerror914 > 0"><td valign="top">Error Code(914) </td><td align="right"><span class="badge badge-info">{{outerror914Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror914}}</span></td></tr>
+                                                                    <tr ng-if="outerror923 > 0"><td valign="top">Error Code(923) </td><td align="right"><span class="badge badge-info">{{outerror923Rate | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outerror923}}</span></td></tr>
+
+					
+                                                                </table> 
+                                                            </div>
+                                                            
+
+                                                        </div>
+                                                        <a class="list-group-item bg-info" style="padding:2px !important"><strong><center>Outward Txn for today</center></strong></a>
+                                                    <div class="row" style="margin-top:10px !important">
+                                                    
+                                                    <div class="col-md-4">
+                                                    <table class="tabless">
+                                                    <tr><td>Txn Volume</td><td align="right"><span class="badge badge-info">{{totalOutdaily}}</span></tr>
+                                                    <tr><td>Vol of Failed Txn</td><td align="right"><span class="badge badge-info">{{totalDailyFailedOut}}</span></td></tr>
+                                                    <tr><td>Failure Rate</td><td align="right"><span class="badge badge-info">{{dailyFailureRateOut | number : 2}}%</span></td></tr>
+                                                    </table>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <table class="table">
+                                                    <tr><td><strong>Status</strong></td><td align="right"><strong>Volume</strong></td></tr>
+                                                                    <tr><td valign="top">Success(000)</td><td align="right"> <span class="badge badge-info">{{dailySuccessRateOut}}%</span>&nbsp;<span class="badge badge-info">{{dailySuccessVolumeOut}}</span></td></tr>
+                                                                    <tr ng-if="outDaily_100 > 0"><td valign="top">Error Code(100) </td><td align="right"><span class="badge badge-info">{{outDailyRate_100  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_100}}</span></td></tr>
+						<tr ng-if="outDaily_107 > 0"><td valign="top">Error Code(107) </td><td align="right"><span class="badge badge-info">{{outDailyRate_107 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_107}}</span></td></tr>
+						<tr ng-if="outDaily_111 > 0"><td valign="top">Error Code(111) </td><td align="right"><span class="badge badge-info">{{outDailyRate_111 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_111}}</span></td></tr>
+						<tr ng-if="outDaily_114 > 0"><td valign="top">Error Code(114) </td><td align="right"><span class="badge badge-info">{{outDailyRate_114 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_114}}</span></td></tr>
+						<tr ng-if="outDaily_116 > 0"><td valign="top">Error Code(116) </td><td align="right"><span class="badge badge-info">{{outDailyRate_116 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_116}}</span></td></tr>
+						<tr ng-if="outDaily_118 > 0"><td valign="top">Error Code(118) </td><td align="right"><span class="badge badge-info">{{outDailyRate_118 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_118}}</span></td></tr>
+						<tr ng-if="outDaily_119 > 0"><td valign="top">Error Code(119) </td><td align="right"><span class="badge badge-info">{{outDailyRate_119 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_119}}</span></td></tr>
+						
+                                                                    
+                                                                </table>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <table class="table">
+                                                    <tr><td><strong>Status</strong></td><td><strong>Volume</strong></td></tr>
+                                                    <tr ng-if="outDaily_121 > 0"><td valign="top">Error Code(121) </td><td align="right"><span class="badge badge-info">{{outDailyRate_121 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_121}}</span></td></tr>
+						<tr ng-if="outDaily_400 > 0"><td valign="top">Error Code(400) </td><td align="right"><span class="badge badge-info">{{outDailyRate_400 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_400}}</span></td></tr>
+						<tr ng-if="outDaily_908 > 0"><td valign="top">Error Code(908) </td><td align="right"><span class="badge badge-info">{{outDailyRate_908 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_908}}</span></td></tr>
+						<tr ng-if="outDaily_909 > 0"><td valign="top">Error Code(909) </td><td align="right"><span class="badge badge-info">{{outDailyRate_909 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_909}}</span></td></tr>
+						<tr ng-if="outDaily_910 > 0"><td valign="top">Error Code(910) </td><td align="right"><span class="badge badge-info">{{outDailyRate_910 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_910}}</span></td></tr>
+						<tr ng-if="outDaily_911 > 0"><td valign="top">Error Code(911) </td><td align="right"><span class="badge badge-info">{{outDailyRate_911 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_911}}</span></td></tr>
+						<tr ng-if="outDaily_912 > 0"><td valign="top">Error Code(912) </td><td align="right"><span class="badge badge-info">{{outDailyRate_912 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{outDaily_912}}</span></td></tr>
+						
+                                                    </table>
+                                                    </div>
+                                                    </div>
+
+
+                                                    </div>
+                                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                        <a class="list-group-item bg-info" style="padding:2px !important"><center><strong>Inwards Txn @@{{TransactionPeriod}}</strong></center></a>
+                                                        <div class="row" style="margin-top:10px !important">
+                                                            <div class="col-md-4">
+                                                                <table class="tabless">
+                                                                    <tr><td valign="top">Txn Vol</td><td align="right"> <span class="badge badge-info">{{IntotalVolume}}</span></td></tr>
+                                                                    <tr><td valign="top">Vol of Failed Txn</td><td align="right"> <span class=" badge-info">{{IntotalFailure}}</span></td></tr>
+                                                                    <tr><td valign="top">Failure Rate </td><td align="right"><span class="badge badge-info">{{InfailureRate}}%</span></td></tr>
+                                                                    </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <table class="table">
+                                                                <tr><td><strong>Status</strong></td><td><strong>Volume</strong></td></tr>
+                                                                    <tr><td valign="top">Success(000)</td><td align="right"> <span class="badge badge-info">{{Insuccessrate}}%</span>&nbsp;<span class="badge badge-info">{{IntotalVolume -IntotalFailure }}</span></td></tr>
+                                                                    <tr ng-if="inerror107 > 0"><td valign="top">Error Code(107) </td><td align="right"><span class="badge badge-info">{{inerror107}}%</span>&nbsp;<span class="badge badge-info">{{inerror107Rate}}</span></td></tr>
+						<tr ng-if="inerror116 > 0"><td valign="top">Error Code(116) </td><td align="right"><span class="badge badge-info">{{inerror116 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror116Rate}}</span></td></tr>
+                        <tr ng-if="inerror118 > 0"><td valign="top">Error Code(118) </td><td align="right"><span class="badge badge-info">{{inerror118 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror118Rate}}</span></td></tr>
+                        <tr ng-if="inerror119 > 0"><td valign="top">Error Code(119) </td><td align="right"><span class="badge badge-info">{{inerror119 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror119Rate}}</span></td></tr>
+                        <tr ng-if="inerror121 > 0"><td valign="top">Error Code(121) </td><td align="right"><span class="badge badge-info">{{inerror121 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror121Rate}}</span></td></tr>
+                        <tr ng-if="inerror910 > 0"><td valign="top">Error Code(910) </td><td align="right"><span class="badge badge-info">{{inerror910  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror910Rate}}</span></td></tr>
+                        <tr ng-if="inerror911 > 0"><td valign="top">Error Code(911) </td><td align="right"><span class="badge badge-info">{{inerror911  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror911Rate}}</span></td></tr>
+                        
+
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <table class="table">
+                                                                <tr><td><strong>Status</strong></td><td align="right"><strong>Volume</strong></td></tr>
+                                                                <tr ng-if="inerror912 > 0"><td valign="top">Error Code(912)</td><td align="right"> <span class="badge badge-info">{{inerror912}}%</span>&nbsp;<span class="badge badge-info">{{inerror912Rate}}</span></td></tr>
+                        <tr ng-if="inerror100 > 0"><td valign="top">Error Code(100) </td><td align="right"><span class="badge badge-info">{{inerror100  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror100Rate}}</span></td></tr>
+						<tr ng-if="inerror114 > 0"><td valign="top">Error Code(114) </td><td align="right"><span class="badge badge-info">{{inerror114  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror114Rate}}</span></td></tr>
+						<tr ng-if="inerror102 > 0"><td valign="top">Error Code(102)</td><td align="right"> <span class="badge badge-info">{{inerror102  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror102Rate}}</span></td></tr>
+                        <tr ng-if="inerror908 > 0"><td valign="top">Error Code(908) </td><td align="right"><span class="badge badge-info">{{inerror908  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror908Rate}}</span></td></tr>
+						<tr ng-if="inerror111 > 0"><td valign="top">Error Code(111) </td><td align="right"><span class="badge badge-info">{{inerror111  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror111Rate}}</span></td></tr>
+						<tr ng-if="inerror400 > 0"><td valign="top">Error Code(400) </td><td align="right"><span class="badge badge-info">{{inerror400  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror400Rate}}</span></td></tr>
+						<tr ng-if="inerror909 > 0"><td valign="top">Error Code(909) </td><td align="right"><span class="badge badge-info">{{inerror909  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inerror909Rate}}</span></td></tr>
+                        
+                                                                </table>
+                                                            
+                                                            </div>
+
+                                                        </div>
+                                                <a class="list-group-item bg-info" style="padding:2px !important"><center><strong>Inward Txn for Today</strong></center></a>
+                                                    <div class="row" style="margin-top:10px !important">
+                                                    
+                                                    <div class="col-md-4">
+                                                    <table class="tabless">
+                                                    <tr><td>Txn Volume</td><td align="right"><span class="badge badge-info">{{totalInDaily}}</span></tr>
+                                                    <tr><td>Vol of Failed Txn</td><td align="right"><span class="badge badge-info">{{volumeFailedTxnIn}}</span></td></tr>
+                                                    <tr><td>Failure Rate</td><td align="right"><span class="badge badge-info">{{dailyFailureRateIn  | number : 2}}%</span></td></tr>
+                                                    </table>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <table class="table">
+                                                    <tr><td><strong>Status</strong></td><td align="right"><strong>Volume</strong></td></tr>
+                                                                    <tr><td valign="top">Success(000)</td><td align="right"> <span class="badge badge-info">{{dailySuccessRateIn}}%</span>&nbsp;<span class="badge badge-info">{{dailySuccessVolumeIn}}</span></td></tr>
+                                                                    <tr ng-if="inDaily_100 > 0"><td valign="top">Error Code(100) </td><td align="right"><span class="badge badge-info">{{inDailyRate_100 | number:2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_100}}</span></td></tr>
+						<tr ng-if="inDaily_107 > 0"><td valign="top">Error Code(107) </td><td align="right"><span class="badge badge-info">{{inDailyRate_107  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_107}}</span></td></tr>
+						<tr ng-if="inDaily_111 > 0"><td valign="top">Error Code(111) </td><td align="right"><span class="badge badge-info">{{inDailyRate_111  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_111}}</span></td></tr>
+						<tr ng-if="inDaily_114 > 0"><td valign="top">Error Code(114) </td><td align="right"><span class="badge badge-info">{{inDailyRate_114  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_114}}</span></td></tr>
+						<tr ng-if="inDaily_116 > 0"><td valign="top">Error Code(116) </td><td align="right"><span class="badge badge-info">{{inDailyRate_116  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_116}}</span></td></tr>
+						<tr ng-if="inDaily_118 > 0"><td valign="top">Error Code(118) </td><td align="right"><span class="badge badge-info">{{inDailyRate_118  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_118}}</span></td></tr>
+						<tr ng-if="inDaily_119 > 0"><td valign="top">Error Code(119) </td><td align="right"><span class="badge badge-info">{{inDailyRate_119  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_119}}</span></td></tr>
+						<tr ng-if="inDaily_121 > 0"><td valign="top">Error Code(121) </td><td align="right"><span class="badge badge-info">{{inDailyRate_121  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_121}}</span></td></tr>
+						
+                                                                    
+                                                                </table>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <table class="table">
+                                                    <tr><td><strong>Status</strong></td><td><strong>Volume</strong></td></tr>
+                                                    <tr ng-if="inDaily_400 > 0"><td valign="top">Error Code(400) </td><td align="right"><span class="badge badge-info">{{inDailyRate_400 | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_400}}</span></td></tr>
+						<tr ng-if="inDaily_908 > 0"><td valign="top">Error Code(908) </td><td align="right"><span class="badge badge-info">{{inDailyRate_908  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_908}}</span></td></tr>
+						<tr ng-if="inDaily_909 > 0"><td valign="top">Error Code(909) </td><td align="right"><span class="badge badge-info">{{inDailyRate_909  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_909}}</span></td></tr>
+						<tr ng-if="inDaily_910 > 0"><td valign="top">Error Code(910) </td><td align="right"><span class="badge badge-info">{{inDailyRate_910  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_910}}</span></td></tr>
+						<tr ng-if="inDaily_911 > 0"><td valign="top">Error Code(911) </td><td align="right"><span class="badge badge-info">{{inDailyRate_911  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_911}}</span></td></tr>
+						<tr ng-if="inDaily_912 > 0"><td valign="top">Error Code(912) </td><td align="right"><span class="badge badge-info">{{inDailyRate_912  | number : 2}}%</span>&nbsp;<span class="badge badge-info">{{inDaily_912}}</span></td></tr>
+						
+                                                    </table>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="linechart1" role="tabpanel" aria-labelledby="contact-tab">
+                                                        <div class="card card-info">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Line Chart</h3>
+
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <!--<div id="chart_div"></div>-->
+                                                                <figure class="highcharts-figure">
+                                                                    <div id="container"></div>
+                                                                    <p class="highcharts-description">
+                                                                        @*Basic line chart showing trends in a dataset. This chart includes the
+                                                                            <code>series-label</code> module, which adds a label to each line for
+                                                                            enhanced readability.*@
+                                                                    </p>
+                                                                </figure>
+                                                                <div class="chartx">
+
+                                                                    @*<div id="chartContainer" style="height: 370px; width: 200%;"></div>*@
+                                                                    @*<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>*@
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card-body -->
+                                                        </div>
+                                                        <!-- /.card -->
+                                                    </div>
+                                                    <div class="tab-pane fade" id="linechart2" role="tabpanel" aria-labelledby="contact-tab">
+                                                        <div class="card card-info">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Line Chart</h3>
+
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <figure class="highcharts-figure">
+                                                                    <div id="containervolume"></div>
+                                                                    <p class="highcharts-description">
+                                                                        @*Basic line chart showing trends in a dataset. This chart includes the
+                                                                            <code>series-label</code> module, which adds a label to each line for
+                                                                            enhanced readability.*@
+                                                                    </p>
+                                                                </figure>
+                                                                <div class="chart">
+
+                                                                    @*<div id="chartContainer" style="height: 370px; width: 200%;"></div>*@
+                                                                    @*<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>*@
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card-body -->
+                                                        </div>
+                                                        <!-- /.card -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="bb" style="margin-bottom: :0px !important;">
+                                    <div class="card card-widget widget-user" ng-repeat="x in myData |filter : myfilter ">
+
+
+                                        <div class="widget-user-headerz bg-info" style="height:20px !important;overflow:hidden !important">
+                                            <!--<img class="img-circle elevation-2" src="~/Content/Image/logoipsl.png" alt="{{x.BankName}}" height="40" width="40" />&nbsp; <br />-->
+                                            <!--<a style="text-decoration:none; color:black !important" ng-click="openModal(x.BankName)" data-toggle="modal" data-target="#exampleModal"><strong>{{x.BankName}}</strong></a>-->
+                                            <center><a href="#" style="text-decoration:none; color:black !important;" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView"><strong>{{x.BankName}} </strong></a></center>
+                                            <!--<h6 class="widget-user-username">
+
+                                            </h6>-->
+                                        </div>
+                                        <!--start-->
+                                        <div class="row">
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-blockz">
+                                                    <span class="description-textz"><center><strong>IN</strong></center></span>
+                                                    <h6 class="description-headerz" ng-if="x.InFailed < 1.0 && x.inVolume > 0.5" style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+                                                    
+                                                    <h6 class="description-headerz" ng-if="x.InFailed > 0.0 && x.InFailed <=2.0 && x.inVolume > 0" style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.InFailed < 1.0 && x.inVolume < 1.0" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.InFailed >2 && x.InFailed <=5" style="background-color:orange;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.InFailed > 5 && x.InFailed <=10" style="background-color:red;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz blink-bg" ng-if="x.InFailed > 10" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></strong></center></h6>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-blockz">
+                                                    <span class="description-textz"><center><strong>OUT</strong></center></span>
+                                           <h6 class="description-headerz" ng-if="x.OutFailed < 1.0 && x.outVolume > 0.5" style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+
+                                                    <h6 class="description-headerz" ng-if="x.OutFailed > 0.0 && x.OutFailed <= 2.0 && x.outVolume > 0 " style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.OutFailed < 1.0 && x.outVolume < 1.0" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.OutFailed > 2 && x.OutFailed <=5" style="background-color:orange;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="x.OutFailed > 5 && x.OutFailed <=10" style="background-color:red;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz blink-bg" ng-if="x.OutFailed > 10" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></strong></center></h6>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div><!--End-->
+                                        <!--<div class="widget-user-image">
+
+                                        </div>-->
+                                        @*<div class="card-footer" style="margin-top:0px !important">
+
+                                            </div>*@
+                                    </div>
+                                    @*<div class="panel panel-primary" ng-repeat="x in myData |filter : myfilter" >
+                                            <div class="panel-heading" style="color:white !important"><a data-toggle="modal" ng-click="openModal()"  data-target="#exampleModalCenter">{{x.BankName}}</a>
+                                                <a style="text-decoration:none;" ng-click="openModal(x.BankName)">{{x.BankName}}</a>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <tr><td></td><td>IN(%)</td><td>OUT(%)</td></tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td ng-if="x.InFailed <= 3.5" style="background-color:green;color:white">{{x.InFailed}}</td>
+                                                        <td ng-if="x.InFailed > 3.5 && x.InFailed <=5" style="background-color:orange">{{x.InFailed}}</td>
+                                                        <td ng-if="x.InFailed > 5" style="background-color:red">{{x.InFailed}}</td>
+
+                                                        <td ng-if="x.OutFailed <= 3.5" style="background-color:green;color:white">{{x.OutFailed}}</td>
+                                                        <td ng-if="x.OutFailed > 3.5 && x.OutFailed <=5" style="background-color:orange">{{x.OutFailed}}</td>
+                                                        <td ng-if="x.OutFailed > 5" style="background-color:red">{{x.OutFailed}}</td>
+
+
+
+                                                    </tr>
+                                                </table>
+
+
+                                            </div>
+                                        </div>*@
+
+                                </ul>
+                                <!-- START INDUSTRY -->
+
+                                <center>
+      <div class="widget-user-headerz bg-info" style="height:20px !important;overflow:hidden !important;margin-top:0px !important;">
+<center>
+<a href="#" style="text-decoration:none; color:black !important;" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView"><strong>INDUSTRY</strong></a>
+</center>                                 
+</div>
+<div class="col-md-6">
+<div class="row">
+    
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-blockz">
+                                                    <span class="description-textz"><center><strong>IN</strong></center></span>
+                                                    <h6 class="description-headerz" ng-if="IndInFailed < 1.0  && IndInVolume > 0" style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndInFailed > 0.5 && IndInFailed <=2.0" style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+                                                    
+                                                    <h6 class="description-headerz" ng-if="IndInFailed < 1.0 && IndInVolume < 1.0" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndInFailed >2 && IndInFailed <=5" style="background-color:orange;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndInFailed > 5 && IndInFailed <=10" style="background-color:red;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz blink-bg" ng-if="IndInFailed > 10" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndInFailed}}%</a></strong></center></h6>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-blockz">
+                                                    <span class="description-textz"><center><strong>OUT</strong></center></span>
+                                                    <h6 class="description-headerz" ng-if="IndOutFailed < 1.0 && IndOutFailed <= 5.0 && IndOutVolume > 0 " style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndOutFailed > 0.5 && IndOutFailed <= 2.0 " style="background-color:green;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndOutFailed < 1.0 && IndOutVolume < 1.0" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndOutFailed > 2 && IndOutFailed <=5" style="background-color:orange;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz" ng-if="IndOutFailed > 5 && IndOutFailed <=10" style="background-color:red;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+                                                    <h6 class="description-headerz blink-bg" ng-if="IndOutFailed >10" style="background-color:grey;color:white;"><center><strong><a href="#" style="text-decoration:none; color:white !important" ng-click="openModal('INDUSTRY','INDUSTRY')" data-toggle="modal" data-target="#detailsView">{{IndOutFailed}}%</a></strong></center></h6>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+
+
+  
+                                
+                                </center>
+                                <!--END INDUSTRY -->
+
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            @*<a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>*@
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h5 class="modal-title" id="exampleModalLabel">Loading</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+            </div>
+            <div class="modal-body">
+             <h3><center>Fetching Data. Please wait..<br />
+                 <img src="~/Content/Image/ajax-loader.gif" height="30" width="30" alt="Loading" /></center>
+             </h3>
+            </div>
+            <div class="modal-footer">                
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" ng-app="Dashboard" ng-controller="DashboardData">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{bName}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script src="~/Scripts/app/dashboard.js"></script>
+    

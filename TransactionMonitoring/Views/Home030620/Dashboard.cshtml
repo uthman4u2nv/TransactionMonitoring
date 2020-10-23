@@ -1,0 +1,687 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    /*Layout = "~/Views/Shared/_DashboardLayout.cshtml";*/
+    Layout = "~/Views/Shared/_HomeLayoutPage.cshtml";
+
+}
+@model IEnumerable<TransactionMonitoring.Models.BankData>
+
+    <style>
+    .bb {
+        -moz-column-count: 5;
+        -moz-column-gap: 10px;
+        -webkit-column-count: 5;
+        -webkit-column-gap: 10px;
+        column-count: 5;
+        column-gap: 10px;
+        list-style: none;
+    }
+
+    .blink-bg{
+		color: #fff;
+		padding: 10px;
+		display: inline-block;
+		border-radius: 5px;
+		animation: blinkingBackground 2s infinite;
+	}
+	@@keyframes blinkingBackground{
+		0%		{ background-color: red;}
+		25%		{ background-color: green;}
+		50%		{ background-color: red;}
+		75%		{ background-color: green;}
+		100%	{ background-color: red;}
+	}
+    </style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="margin:10px !important;">
+    <!-- Content Header (Page header) -->
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid" ng-app="Dashboard" ng-controller="DashboardData">
+            <div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+                <center>Loading...</center>
+            </div>
+            <!-- Info boxes -->
+            <!-- /.row -->
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-md-12">
+                    <!-- MAP & BOX PANE -->
+                    <!-- /.card -->
+                    <!-- /.row -->
+                    <!-- TABLE: LATEST ORDERS -->
+                    <div class="card">
+                        @*<div class="card-header border-transparent">
+                                <h3 class="card-title">Latest Orders</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>*@
+                        <!-- /.card-header -->
+                        <div class="card-body p-0" ng-app="Dashboard" id="loadPageData" ng-controller="DashboardData" style="margin:10px !important;">
+                            <div class="table-responsive">
+                                <span ng-hide="true">Error: {{myWelcome}}</span>
+                                @*<div class="row">
+                                    <div class="col-lg-offset-2">
+
+                                        <div class="input-group" style="margin:10px !important;">
+                                            @*<span class="input-group-addon">Search</span>*@
+                                @*<input class="form-control" ng-model="myfilter" type="search" placeholder="Type in to filter" aria-label="Search" />
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+                                <div class="modal fade" id="detailsView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{nameb}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Outwards</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Inwards</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#linechart1" role="tab" aria-controls="contact" aria-selected="false">Chart(Failure Rate)</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#linechart2" role="tab" aria-controls="contact" aria-selected="false">Chart(Volume)</a>
+                                                    </li>
+                                                    @*<li class="nav-item">
+                                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Chart(Processing Time)</a>
+                                                        </li>*@
+                                                </ul>
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                        <a class="list-group-item active"><center>Outwards</center></a>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <table class="table table-bordered">
+                                                                    <tr><td valign="top">Txn Vol <span class="badge badge-info">{{totalVolume}}</span></td></tr>
+                                                                    <!--<tr><td valign="top">Min Vol Expected 1</td></tr>-->
+                                                                    <tr><td valign="top">Vol of Failed Txn <span class=" badge-info">{{totalFailure}}</span></td></tr>
+                                                                    <tr><td valign="top">Failure Rate <span class="badge badge-info">{{failureRate}}</span></td></tr>
+                                                                    <!--<tr><td valign="top">Avg. Processing Time <span class="badge badge-info">2.15s</span></td></tr>
+                                                                    <tr><td valign="top">Max Acc Failure Rate 10.0%</td></tr>-->
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <table class="table table-bordered">
+                                                                    <tr><td valign="top">Success(000) <span class="badge badge-info">{{successrate}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+                                                                    <tr><td valign="top">Error Code(102) <span class="badge badge-info">{{error102}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+                                                                    <tr><td valign="top">Error Code(912) <span class="badge badge-info">{{error912}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+
+
+
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <!--<table class="table table-bordered">
+                                                                    <!--<tr><td valign="top">Processors Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Issuer Bank Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Security Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Other Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+
+
+                                                                </table>-->
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                        <a class="list-group-item active"><center>Inwards</center></a>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <table class="table table-bordered">
+                                                                    <tr><td valign="top">Txn Vol <span class="badge badge-info">{{IntotalVolume}}</span></td></tr>
+                                                                    <!-- <tr><td valign="top">Min Vol Expected 1</td></tr>-->
+                                                                    <tr><td valign="top">Vol of Failed Txn <span class=" badge-info">{{IntotalFailure}}</span></td></tr>
+                                                                    <tr><td valign="top">Failure Rate <span class="badge badge-info">{{InfailureRate}}</span></td></tr>
+                                                                    @*<tr><td valign="top">Avg. Processing Time <span class="badge badge-info">2.15s</span></td></tr>
+                                                                        <tr><td valign="top">Max Acc Failure Rate 10.0%</td></tr>*@
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <table class="table table-bordered">
+                                                                    <tr><td valign="top">Success(000) <span class="badge badge-info">{{Insuccessrate}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+                                                                    <tr><td valign="top">Error Code(102) <span class="badge badge-info">{{Inerror102}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+                                                                    <tr><td valign="top">Error Code(912) <span class="badge badge-info">{{Inerror912}}%</span>&nbsp;@*<span class="badge badge-info">0</span>*@</td></tr>
+
+
+
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <!--<table class="table table-bordered">
+                                                                    <tr><td valign="top">Processors Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Issuer Bank Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Security Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+                                                                    <tr><td valign="top">Other Errors <span class="badge badge-info">0.0%</span>&nbsp;<span class="badge badge-info">0</span></td></tr>
+
+
+                                                                </table>-->
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="linechart1" role="tabpanel" aria-labelledby="contact-tab">
+                                                        <div class="card card-info">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Line Chart</h3>
+
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <figure class="highcharts-figure">
+                                                                    <div id="container"></div>
+                                                                    <p class="highcharts-description">
+                                                                        @*Basic line chart showing trends in a dataset. This chart includes the
+                                                                            <code>series-label</code> module, which adds a label to each line for
+                                                                            enhanced readability.*@
+                                                                    </p>
+                                                                </figure>
+                                                                <div class="chart">
+
+                                                                    @*<div id="chartContainer" style="height: 370px; width: 200%;"></div>*@
+                                                                    @*<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>*@
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card-body -->
+                                                        </div>
+                                                        <!-- /.card -->
+                                                    </div>
+                                                    <div class="tab-pane fade" id="linechart2" role="tabpanel" aria-labelledby="contact-tab">
+                                                        <div class="card card-info">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Line Chart</h3>
+
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <figure class="highcharts-figure">
+                                                                    <div id="container2"></div>
+                                                                    <p class="highcharts-description">
+                                                                        @*Basic line chart showing trends in a dataset. This chart includes the
+                                                                            <code>series-label</code> module, which adds a label to each line for
+                                                                            enhanced readability.*@
+                                                                    </p>
+                                                                </figure>
+                                                                <div class="chart">
+
+                                                                    @*<div id="chartContainer" style="height: 370px; width: 200%;"></div>*@
+                                                                    @*<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>*@
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card-body -->
+                                                        </div>
+                                                        <!-- /.card -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="bb">
+                                    <div class="card card-widget widget-user" ng-repeat="x in myData |filter : myfilter ">
+
+
+                                        <div class="widget-user-header bg-info" style="height:50px !important;overflow:hidden !important">
+                                            <!--<img class="img-circle elevation-2" src="~/Content/Image/logoipsl.png" alt="{{x.BankName}}" height="40" width="40" />&nbsp; <br />-->
+                                            <!--<a style="text-decoration:none; color:black !important" ng-click="openModal(x.BankName)" data-toggle="modal" data-target="#exampleModal"><strong>{{x.BankName}}</strong></a>-->
+                                            <a style="text-decoration:none; color:black !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView"><strong>{{x.BankName}}</strong></a>
+                                            <!--<h6 class="widget-user-username">
+
+                                            </h6>-->
+                                        </div>
+                                        <!--start-->
+                                        <div class="row">
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-block">
+                                                    <span class="description-text">IN</span>
+                                                    <h6 class="description-header" ng-if="x.InFailed <= 5.0" style="background-color:green;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></h6>
+                                                    <!--<h6 class="description-header" ng-if="x.InFailed <= 5.0 && x.inVolume = 0" style="background-color:grey;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></h6>-->
+                                                    <h6 class="description-header" ng-if="x.InFailed >5 && x.InFailed <=10" style="background-color:orange;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></h6>
+                                                    <h6 class="description-header" ng-if="x.InFailed > 10 && x.InFailed <=25" style="background-color:red;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></h6>
+                                                    <h6 class="description-header" ng-if="x.InFailed > 25" style="background-color:red;color:white;padding:10px !important"><div class="blink-bg"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.InFailed}}%</a></div></h6>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 border-right">
+                                                <div class="description-block">
+                                                    <span class="description-text">OUT</span>
+                                                    <h6 class="description-header" ng-if="x.OutFailed <= 5.0" style="background-color:green;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></h6>
+                                                    <!--<h6 class="description-header" ng-if="x.OutFailed <= 5.0 && x.outVolume=0" style="background-color:grey;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></h6>-->
+                                                    <h6 class="description-header" ng-if="x.OutFailed > 5 && x.OutFailed <=10" style="background-color:green;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></h6>
+                                                    <h6 class="description-header" ng-if="x.OutFailed > 10 && x.OutFailed <=25" style="background-color:red;color:white;padding:10px !important"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></h6>
+                                                    <h6 class="description-header" ng-if="x.OutFailed > 25" style="background-color:red;color:white;padding:10px !important"><div class="blink-bg"><a style="text-decoration:none; color:white !important" ng-click="openModal(x.BankName,x.BankCode)" data-toggle="modal" data-target="#detailsView">{{x.OutFailed}}%</a></div></h6>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div><!--End-->
+                                        <!--<div class="widget-user-image">
+
+                                        </div>-->
+                                        @*<div class="card-footer" style="margin-top:0px !important">
+
+                                            </div>*@
+                                    </div>
+                                    @*<div class="panel panel-primary" ng-repeat="x in myData |filter : myfilter" >
+                                            <div class="panel-heading" style="color:white !important"><a data-toggle="modal" ng-click="openModal()"  data-target="#exampleModalCenter">{{x.BankName}}</a>
+                                                <a style="text-decoration:none;" ng-click="openModal(x.BankName)">{{x.BankName}}</a>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <tr><td></td><td>IN(%)</td><td>OUT(%)</td></tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td ng-if="x.InFailed <= 3.5" style="background-color:green;color:white">{{x.InFailed}}</td>
+                                                        <td ng-if="x.InFailed > 3.5 && x.InFailed <=5" style="background-color:orange">{{x.InFailed}}</td>
+                                                        <td ng-if="x.InFailed > 5" style="background-color:red">{{x.InFailed}}</td>
+
+                                                        <td ng-if="x.OutFailed <= 3.5" style="background-color:green;color:white">{{x.OutFailed}}</td>
+                                                        <td ng-if="x.OutFailed > 3.5 && x.OutFailed <=5" style="background-color:orange">{{x.OutFailed}}</td>
+                                                        <td ng-if="x.OutFailed > 5" style="background-color:red">{{x.OutFailed}}</td>
+
+
+
+                                                    </tr>
+                                                </table>
+
+
+                                            </div>
+                                        </div>*@
+
+                                </ul>
+
+
+
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            @*<a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>*@
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+
+@*<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" ng-app="Dashboard" ng-controller="DashboardData">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{bName}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script>
+    var app = angular.module("Dashboard", ['ngTouch', 'ngAnimate', 'ui.bootstrap']);
+    //app.controller("DashboardData", function ($scope, $http, $modal, ) {
+    app.controller("DashboardData", ['$scope', '$uibModal', '$http', '$interval', '$timeout', function ($scope, $uibModal, $http, $interval, $timeout) {
+        $scope.blackout = false;
+        $scope.setName = function (name) {
+            // a//lert(name);
+            $scope.bName = name;
+        }
+
+        $scope.Page = "Dashboard";
+        $scope.openModal = function (name, code) {
+            //alert(name);
+            $scope.nameb = name;
+            var details = {
+                bankCode: code
+
+            };
+
+            $http({
+                method: 'POST',
+                //url: 'http://localhost:57868/api/TransAnalytics',
+                url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/TransAnalytics',
+                //url: 'https://localhost:4433/TransMonAPI/api/TransAnalytics',
+                data: $.param(details),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+
+                //alert("Response: "+response.data);
+
+                if (response.data.responseCode == "00") {
+                    $scope.totalVolume = response.data.outtotalVolume;
+                    $scope.totalFailure = response.data.outtotalFailure;
+                    $scope.failureRate = response.data.outfailureRate;
+                    $scope.successrate = response.data.outsuccess;
+                    $scope.error102 = response.data.outerror102;
+                    $scope.error912 = response.data.outerror912;
+
+                    $scope.IntotalVolume = response.data.totalVolume;
+                    $scope.IntotalFailure = response.data.totalFailure;
+                    $scope.InfailureRate = response.data.failureRate;
+                    $scope.Insuccessrate = response.data.success;
+                    $scope.Inerror102 = response.data.error102;
+                    $scope.Inerror912 = response.data.error912;
+                    //var log = [];
+                    //var log2 = [];
+                    // alert(key + ': ' + value);
+                    //alert("length" + response.data.FailureRateList.length);
+                    /*for (var i = 0; i < response.data.FailureRateList.length; i++) {
+                        angular.forEach(response.data.FailureRateList[i], function (value, key) {
+
+                            this.push(value);
+                        }, log);
+                    }
+                    for (var i = 0; i < response.data.FailureRateListIn.length; i++) {
+                        angular.forEach(response.data.FailureRateListIn[i], function (value, key) {
+                            // alert(key + ': ' + value);
+                            this.push(value);
+                        }, log2);
+                    }*/
+                    //alert("Log:" + log);
+                    //alert("Failure List" + response.data.FailureRateList[0]);
+                    // Console.log(response.data.FailureRateList);
+                    //drawChart(response.data.FailureRateList);
+                    var a = new Date();
+                    var currentDateString = (a.getMonth() + 1) + '/' + a.getDate() + '/' + a.getFullYear();
+                    Highcharts.chart('container', {
+                        title: {
+                            text: 'Transaction Failure Rate For ' + currentDateString
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Failure Rate'
+                            }
+                        },
+                        xAxis: {
+                            //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            //'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                            type: 'datetime',
+                            dateTimeLabelFormats: {
+                                day: '%H:%M'
+                            },
+                            accessibility: {
+                                rangeDescription: 'Range: 0 to 24'
+                            }
+                        },
+
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle'
+                        },
+
+                        plotOptions: {
+                            series: {
+                                label: {
+                                    connectorAllowed: true
+                                },
+                                pointStart: 0
+                            }
+                        },
+
+
+
+                        series: [{
+                            name: "Outgoing Failure Rate",
+                            //data: log,
+                            data: [3, 2, 7, 0, 1, 9, 4, 1, 3, 5, 0, 0, 0, 2, 4, 5, 7, 1, 2, 3, 1, 7],
+                            pointStart: Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()),
+                            pointInterval: 3600 * 1000, // one hour
+                            marker: {
+                                //enabled: false // uncomment to hide markers
+                            }
+                        }, {
+                            name: "Incoming Failure Rate",
+                            //data: log2,
+                            data: [2, 5, 7, 0, 1, 9, 4, 10, 3, 5, 15, 1, 10, 12, 20, 13, 8, 1, 2, 3, 1, 7],
+                            pointStart: Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()),
+                            pointInterval: 3600 * 1000, // one hour
+                            marker: {
+                                //enabled: false // uncomment to hide markers
+                            }
+                        }],
+
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 800
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+
+                    Highcharts.chart('container2', {
+                        title: {
+                            text: 'Transaction Volume Rate For ' + currentDateString
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Transaction Volume'
+                            }
+                        },
+                        xAxis: {
+                            //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            //'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                            type: 'datetime',
+                            dateTimeLabelFormats: {
+                                day: '%H:%M'
+                            },
+                            accessibility: {
+                                rangeDescription: 'Range: 0 to 24'
+                            }
+                        },
+
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle'
+                        },
+
+                        plotOptions: {
+                            series: {
+                                label: {
+                                    connectorAllowed: true
+                                },
+                                pointStart: 0
+                            }
+                        },
+
+
+
+                        series: [{
+                            name: "Outgoing Volume",
+                            //data: log,
+                            data: [2, 5, 7, 0, 1, 9, 4, 10, 3, 5, 15, 1, 10, 12, 20, 13, 8, 1, 2, 3, 1, 7],
+
+                            pointStart: Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()),
+                            pointInterval: 3600 * 1000, // one hour
+                            marker: {
+                                //enabled: false // uncomment to hide markers
+                            }
+                        }, {
+                            name: "Incoming Volume",
+                            //data: log2,
+                            data: [3, 2, 7, 0, 1, 9, 4, 1, 3, 5, 0, 0, 0, 2, 4, 5, 7, 1, 2, 3, 1, 7],
+                            pointStart: Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()),
+                            pointInterval: 3600 * 1000, // one hour
+                            marker: {
+                                //enabled: false // uncomment to hide markers
+                            }
+                        }],
+
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 800
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+
+                } else {
+                    $scope.totalVolume = "NA";
+                    $scope.totalFailure = "NA";
+                    $scope.failureRate = "NA";
+                    $scope.successrate = "NA";
+                    $scope.error102 = "NA";
+                    $scope.error912 = "NA";
+
+
+                }
+
+            }, function errorCallback(response) {
+                $windows.alert(response.responseText)
+            });
+
+        }
+
+        $scope.NewloadPage = function (myData) {
+            $scope.blackout = false;
+            var l = {
+                MyData: myData
+            }
+            $http({
+                method: 'POST',
+                url: 'https://localhost:4433/TransMonAPI/api/NewBankData',
+                data: $.param(l),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                $scope.blackout = false;
+                $scope.myData = response.data;
+                $scope.noOfBanks = response.data.length;
+                $scope.show = false;
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+                $scope.show = false;
+                $scope.myWelcome = response.responseText;
+            });
+
+
+
+
+
+
+        }
+
+        /* $scope.loadPage= function () {
+            // $http.post('http://localhost:57868/api/BankData').then(function (response) {
+             $http.post('https://tpms.ipsl.co.ke:4433/TransMonAPI/api/BankData').then(function (response) {
+                 $scope.blackout = false;
+                 //$http.post('http://localhost/TransMonAPI/api/BankData').then(function (response) {
+                 console.log(response);
+                 $scope.myData = response.data;
+                 $scope.noOfBanks = response.data.length;
+                 $scope.show = false;
+             }, function (error) {
+                 $scope.show = false;
+                 $scope.myWelcome = error.responseText;
+
+             })*/
+
+        //$timeout(function () {
+        //    $scope.reload();
+        //}, 1000)
+        //}
+
+
+    }]);
+
+    function connect() {
+        var socket = new SockJS('http://localhost:6500/ipsl-endpoint');
+        //var socket = new SockJS('https://169.254.213.151:6500/ipsl-endpoint');
+        var client = Stomp.over(socket);
+        console.log("About establishing connection ...");
+        client.connect({}, function (frame) {
+            client.subscribe('/ipsl-broker/client', function (data) {
+
+                angular.element('#loadPageData').scope().NewloadPage(data.body);
+                console.log(JSON.stringify(data.body));
+            });
+            console.info("Connected...");
+        });
+    }
+    $(document).ready(function () {
+        //start web socket conneciton
+        connect();
+    });
+</script>
+
+

@@ -1,0 +1,248 @@
+﻿
+@{
+    ViewBag.Title = "ChangePassword";
+    Layout = "~/Views/Shared/_HomePage.cshtml";
+}
+
+    <div class="content-wrapper" style="margin:10px !important;" ng-app="IPSLLogin" ng-controller="LoginCtrl">
+        <section class="content">
+            <div class="container-fluid row justify-content-lg-center">
+            @*<div class="text-center col-md-4 col-md-offset-4">*@
+                <div class="card col-lg-8" style="margin-top:80px !important">
+                    
+                    <div class="card-header">
+                        <h6 class="card-title"><strong><center>TRANSACTION PERFORMANCE MONITORING SYSTEM</center></strong></h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-xs-1 text-center">
+                            <div class="row justify-content-md-center">
+
+                                <div class="col-lg-6">
+                                    <div ng-model="logout">@ViewBag.Message<br /></div>
+                                    <div ng-show="display" class="alert alert-danger" style="margin-top:10px !important;">{{message}}</div>
+                                    <form name="loginForm" ng-submit="LoginClick(loginForm.$valid)" novalidate class="form">
+                                        <div class="input-group" style="margin-bottom:10px !important">
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i> </span>
+                                            <input type="email" name="useremail" required class="form-control" placeholder="Email" ng-model="useremail" />
+                                            <p ng-show="loginForm.useremail.$invalid && !loginForm.useremail.$pristine" class="help-block">Enter a valid email.</p>
+                                        </div>
+                                        <div class="input-group" style="margin-bottom:10px !important">
+                                            <span class="input-group-text"> <i class="fa fa-key"></i> </span>
+                                            <input type="password" required class="form-control" placeholder="Password" ng-model="userpassword" />
+                                            <p ng-show="loginForm.userpassword.$invalid && !loginForm.userpassword.$pristine" class="help-block">Password is required.</p>
+                                        </div>
+                                        <div class="input-group" style="margin-bottom:10px !important" valign="top">
+                                            <p>
+                                                <button class="btn btn-success" ng-disabled="loginForm.$invalid">{{btnLogin}}</button>
+
+                                                <a data-toggle="modal" data-target="#resetpassword"><strong>&nbsp;Forgot Password?</strong></a>
+                                            </p>
+                                        </div>
+                                        </form>
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+                    <center>Loading...</center>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="resetpassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Reset password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success alert-dismissible" role="alert" ng-show="resetsuccess">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{resetmessage}}
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" ng-show="resetfailed">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{resetmessage}}
+                        </div>
+                        
+                        <p>Enter your email to reset your password</p>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            <input type="text" placeholder="Email Address" value="{{resetemail}}" ng-model="resetemail" class="form-control" />
+                        </div>
+                        
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" ng-click="ResetUser()">{{btnReset}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var app = angular.module("IPSLLogin", []);
+       app.controller("LoginCtrl", function ($scope, $location, $http, $window) {
+        $scope.display = false;
+           $scope.btnLogin = "Sign In";
+           $scope.blackout = false;
+           $scope.email = localStorage.getItem("email");
+           $scope.btnReset = "Reset Password";
+        //$scope.myUrl = $location.absUrl();
+           function Go(username, useremail, bAdmin, bUser, bCode) {
+               
+               var users = {
+                   email:useremail,
+                   name: username,
+                   bankAdmin: bAdmin,
+                   bankUser: bUser,
+                   bankCode:bCode
+               }
+              // alert(users.email + " " + users.name + " " + users.bankAdmin + " " + users.bankUser + " " + bankCode);
+               $http({
+                   method: 'POST',
+                   //url: 'https://localhost:44373/Home/SetUser',
+                   url: 'https://tpms.ipsl.co.ke:4433/TransactionMonitoring/Home/SetUser',
+                   data: $.param(users),
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   withCredentials: false,
+               }).then(function successCallback(response) {
+                   if (response.data.responseCode == "00") {
+                       localStorage.setItem(response.data.email, "email");
+                      // $window.location.href = "../Home/Dashboard";
+
+                   } else {
+                       $scope.display = true;
+                       $scope.message = "Error";
+                   }
+               }, function errorCallback(response) {
+                   console.log(response.responseText);
+               });
+           }
+        $scope.LoginClick = function (isValid) {
+            $scope.blackout = true;
+            $scope.btnLogin = "Sign in.....";
+            var user = {
+                password: $scope.userpassword,
+                email: $scope.useremail
+            };
+
+
+            $http({
+                method: 'POST',
+                url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/Login',
+                //url: 'http://localhost:57868/api/Authenticate2',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                //alert(response.data.responseCode);
+                //if (response.data.responseCode == "00") {
+               // alert(response.data.status);
+                if (response.data.status == "00") {
+
+                    $scope.display = false;
+                    $scope.message = "";
+                    localStorage.setItem(response.data.email, "email");
+                    //$scope.email = "";
+                    //$scope.password = "";
+                   // alert(response.data.bankUser);
+                    Go(response.data.firstname + " " + response.data.lastname, response.data.email, response.data.bankAdmin, response.data.bankUser, response.data.bankCode);
+                   // alert(response.data.firsttime);
+                    //determine where the app goes
+                    if (response.data.firsttime=="true") {
+                        $window.location.href = "../Home/ChangePassword";
+                    } else {
+                        $window.location.href = "../Home/Dashboard";
+                    }
+                    //$scope.blackout = false;
+
+                   //go to homepage
+
+
+
+                } else {
+                    $scope.blackout = false;
+                    $scope.display = true;
+                    $scope.password = "";
+                    $scope.btnLogin = "Sign In";
+                    $scope.logout = "";
+                    $scope.message = "Invalid Username or Password";
+                }
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+            });
+
+
+
+           }
+           $scope.ResetUser = function () {
+               $scope.blackout = true;
+               $scope.resetsuccess = false;
+               $scope.resetfailed = false;
+               $scope.ResetUser = "Loading..";
+
+
+
+               var user = {
+                   email: $scope.resetemail
+
+               };
+               $http({
+                   method: 'POST',
+                   //url: 'http://localhost:57868/api/ResetUser2',
+                   url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/ResetUser',
+                   data: $.param(user),
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   withCredentials: false,
+               }).then(function successCallback(response) {
+                   // alert(response.data.responseCode);
+                   if (response.data.responseCode == "00") {
+                       $scope.resetsuccess = true;
+                       $scope.resetfailed = false;
+                       $scope.resetmessage = response.data.responseMessage;
+                       $scope.ResetUser = "Reset User";
+                       $scope.resetemail = "";
+
+
+                   } else {
+                       $scope.resetsuccess = false;
+                       $scope.resetfailed = true;
+                       $scope.resetmessage = response.data.responseMessage;
+                       $scope.ResetUser = "Reset User";
+
+
+                   }
+                   loadBanks();
+                   loadUsers();
+                   $scope.display = "show";
+                   $scope.blackout = false;
+
+
+
+
+
+
+
+               }, function errorCallback(response) {
+                   $scope.resetfailed = true;
+                   $scope.resetmessage = error.responseText;
+                   loadBanks();
+                   loadUsers();
+               });
+
+
+               $scope.blackout = false;
+
+           }
+    })
+        </script>

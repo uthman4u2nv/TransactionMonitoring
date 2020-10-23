@@ -1,0 +1,26 @@
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="sockjs-0.3.4.min.js"></script>
+<script src="stomp.js"></script>
+<script>
+
+function connect(){
+  var socket = new SockJS('http://localhost:6500/ipsl-endpoint');
+  var client = Stomp.over(socket);
+ console.log("About establishing connection ...");
+ client.connect({}, function(frame){
+      client.subscribe('/ipsl-broker/client',function(data){
+             console.log(JSON.stringify(data.body));
+      });
+      console.info("Connected...");
+ });
+}
+
+
+
+$(document).ready(function(){
+//start web socket conneciton
+     connect();
+});
+
+
+</script>

@@ -1,0 +1,560 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_HomeLayoutPage.cshtml";
+}
+
+<div class="content-wrapper" style="margin:10px !important;">
+    <section class="content">
+        <div class="container-fluid" ng-app="Users" ng-controller="UsersData">
+            <div class="alert alert-success alert-dismissible" role="alert" ng-show="success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{message}}
+            </div>
+            <div class="alert alert-danger alert-dismissible" role="alert" ng-show="failed">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{message}}
+            </div>
+            <div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+                <center>Loading...</center>
+            </div>
+
+            <div class="modal fade" id="updateView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-success alert-dismissible" role="alert" ng-show="updatesuccess">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{updatemessage}}
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" role="alert" ng-show="updatefailed">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{updatemessage}}
+                            </div>
+                            <p>Click on Update User to update the user</p>
+                            <div class="input-group" style="margin-bottom:10px !important;">
+
+                                <span class="input-group-text">First Name</span>
+                                <input type="text" value="{{updatefirstname}}" ng-model="updatefirstname" class="form-control" />
+                            </div>
+                            <div class="input-group" style="margin-bottom:10px !important;">
+
+                                <span class="input-group-text">Last Name</span>
+                                <input type="hidden" value="{{updateemail}}" ng-model="updateemail" class="form-control" />
+                                <input type="text" value="{{updatelastname}}" ng-model="updatelastname" class="form-control" />
+                            </div>
+                            
+                            <div class="input-group" style="margin-bottom:10px !important">
+                                <span class="input-group-text">Role</span>
+                                <select ng-model="updaterole" required class="form-control">
+                                    <option>--Select Role--</option>
+                                    <option value="1">Bank</option>
+                                    <option value="2">Admin</option>
+                                   
+                                </select>
+                                @* <select ng-model="addrole" ng-options="x for x in userole" class="form-control">
+            </select>*@
+                            </div>
+
+                            <button class="btn btn-success" ng-click="UpdateUser()">{{btnUpdate}}</button>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" id="detailsView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reset password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-success alert-dismissible" role="alert" ng-show="resetsuccess">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{resetmessage}}
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" role="alert" ng-show="resetfailed">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{resetmessage}}
+                            </div>
+                            <p>Are you sure you want to reset {{resetemail}}?</p>
+                            <p>Click on Reset User to reset the user</p>
+                      
+                            <input type="hidden" value="{{resetemail}}" ng-model="resetemail" class="form-control" />
+                            
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" ng-click="ResetUser()">{{btnReset}}</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="manageBanks">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title"><strong><i class="fas fa-user-friends"></i>&nbsp;Users</strong></h6>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Add New User
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#manageBanks">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card-body">
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text">First Name</span>
+
+                                        <input type="text" required ng-model="addfirstname" class="form-control" />
+                                    </div>
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text">Last Name</span>
+
+                                        <input type="text" required ng-model="addlastname" class="form-control" />
+                                    </div>
+                                    <div class="input-group" style="margin-bottom:10px !important">
+
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i> &nbsp;Email</span>
+
+                                        <input type="text" required ng-model="addemail" class="form-control" />
+                                    </div>
+                                    @*<div class="input-group" style="margin-bottom:10px !important">
+                                        <span class="input-group-text">Bank</span>
+                                        <select class="form-control" ng-model="addbank">
+                                            <option value="0">--Select Bank--</option>
+                                            <option ng-repeat="x in myData" value="{{x.code}}">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                    </div>*@
+                                    
+                                <div class="input-group" style="margin-bottom:10px !important">
+                                    <span class="input-group-text">Role</span>
+                                    <input type="hidden" ng-model="bankCode" />
+                                    <input type="hidden" ng-model="search" />
+                                    <select ng-model="addrole" required class="form-control">
+                                        <option>--Select Role--</option>
+                                        <option value="1">Bank User</option>
+                                        <option value="2">Bank Admin</option>
+
+                                    </select>
+                                    @* <select ng-model="addrole" ng-options="x for x in userole" class="form-control">
+        </select>*@
+                                </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-success" ng-click="AddUser()">{{btnAdd}}</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--List of banks-->
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                Available Users
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#manageBanks">
+                        <div class="card-body">
+                            <div class="row"><div class="col-md-12" style="margin-bottom:5px !important"><!--<input type="text" ng-model="search" class="form-control" placeholder="Search Users" />--></div></div>
+                            <table class="table table-bordered">
+                                <tr><th></th><th>First Name</th><th>Last Name</th><!--<th>Bank</th>--><th>Email</th><th>Role</th><th></th><th></th></tr>
+                                <tr ng-repeat="x in myUsers |filter : search">
+                                    <td></td>
+                                    <td>{{x.firstname}}</td>
+                                    <td>{{x.lastname}}</td>
+                                    <!--<td>{{x.bankCode}}</td>-->
+                                    <td>{{x.email}}</td>
+                                    <td>Bank Admin:{{x.bankAdmin}} | Bank User:{{x.bankUser}}</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+
+
+                                        <p><a ng-click="openUpdateModal(x.email,x.firstname,x.lastname,x.bankCode,x.bankAdmin)" data-toggle="modal" data-target="#updateView"><i class="fa fa-eye"></i><strong>&nbsp;Edit User</strong></a></p>
+                                        <p><a ng-click="openModal(x.email)" data-toggle="modal" data-target="#detailsView"><i class="fa fa-sync-alt"></i><strong>&nbsp;  Reset User</strong></a></p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </section>
+</div>
+<script>
+    var app = angular.module("Users", []);
+    app.controller("UsersData", ['$scope', '$http', function ($scope, $http) {
+        $scope.blackout = false;
+        $scope.userole = ["Bank User", "Bank Admin"];
+        $scope.Page = "Banks";
+        $scope.success = false;
+        $scope.failed = false;
+        $scope.btnAdd = "Adding User";
+        $scope.message = "";
+        $scope.display = "show";
+        $scope.btnReset = "Reset User";
+        $scope.btnUpdate = "Update User";
+        loadUsers();
+        loadBanks();
+        GetUser();
+        $scope.openUpdateModal = function (email,firstname,lastname,bank,role) {
+            //alert(role);
+            $scope.updatefirstname = firstname;
+            $scope.updatelastname = lastname;
+            $scope.updateemail = email;
+            $scope.updatebank = bank;
+            $scope.updaterole = role;
+            $scope.updatesuccess = false;
+            $scope.updatefailed = false;
+
+        }
+        $scope.openModal = function (email) {
+            //alert(email);
+            $scope.resetemail = email;
+            
+        }
+        function GetUser() {
+
+            $http({
+                method: 'POST',
+                //url: 'https://localhost:44373/Home/GetLoggedUser',
+                url: 'https://tpms.ipsl.co.ke:4433/TransactionMonitoring/Home/SetUser',
+                //data: $.param(users),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                
+                $scope.email = response.data.Email;
+                $scope.bankCode = response.data.bankCode;
+                $scope.search = response.data.bankCode;
+                //alert($scope.search);
+
+
+
+
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+            });
+        }
+         function loadBanks () {
+             $http.post('https://tpms.ipsl.co.ke:4433/TransMonAPI/api/ListOfBanks').then(function (response) {
+             //$http.post('http://localhost:57868/api/ListOfBanks2').then(function (response) {
+            
+                console.log(response);
+                $scope.myData = response.data;
+                $scope.noOfBanks = response.data.length;
+                $scope.show = false;
+            }, function (error) {
+                $scope.show = false;
+                $scope.myWelcome = error.responseText;
+
+            })
+        }
+        function loadUsers() {
+           // $http.post('http://localhost:57868/api/ListOfUsers2').then(function (response) {
+            $http.post('https://tpms.ipsl.co.ke:4433/TransMonAPI/api/ListOfUsers').then(function (response) {
+                //alert($scope.bankCode);
+                console.log(response);
+                $scope.myUsers = response.data;
+                $scope.noOfBanks = response.data.length;
+                $scope.show = false;
+            }, function (error) {
+                $scope.show = false;
+                $scope.myWelcome = error.responseText;
+
+            })
+        }
+        $scope.UpdateUser = function () {
+            $scope.blackout = true;
+            $scope.updatesuccess = false;
+            $scope.updatefailed = false;
+            $scope.btnUpdate = "Updating..";
+
+
+
+            var user = {
+                firstname: $scope.updatefirstname,
+                lastname: $scope.updatelastname,
+                bankCode: $scope.bankCode,
+                roleID: $scope.updaterole,
+                email: $scope.updateemail
+
+            };
+          
+            $http({
+                method: 'POST',
+                //url: 'http://localhost:57868/api/UpdateUser2',
+                url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/UpdateUser',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                // alert(response.data.responseCode);
+                if (response.data.responseCode == "00") {
+                    $scope.updatesuccess = true;
+                    $scope.updatefailed = false;
+                    $scope.updatemessage = response.data.responseMessage;
+                    $scope.btnUpdate = "Update User";
+
+
+                } else {
+                    $scope.updatesuccess = false;
+                    $scope.updatefailed = true;
+                    $scope.updatemessage = response.data.responseMessage;
+                    $scope.btnUpdate = "Update User";
+
+
+                }
+                loadBanks();
+                loadUsers();
+                $scope.display = "show";
+                $scope.blackout = false;
+
+
+
+
+
+
+
+            }, function errorCallback(response) {
+                $scope.updatefailed = true;
+                $scope.updatemessage = error.responseText;
+                loadBanks();
+                loadUsers();
+            });
+
+
+            $scope.blackout = false;
+
+        }
+        $scope.ResetUser = function () {
+            $scope.blackout = true;
+            $scope.resetsuccess = false;
+            $scope.resetfailed = false;
+            $scope.ResetUser = "Loading..";
+
+
+
+            var user = {
+                email: $scope.resetemail
+                
+            };
+                $http({
+                method: 'POST',
+                //url: 'http://localhost:57868/api/ResetUser2',
+                    url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/ResetUser',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                // alert(response.data.responseCode);
+                if (response.data.responseCode == "00") {
+                    $scope.resetsuccess = true;
+                    $scope.resetfailed = false;
+                    $scope.resetmessage = response.data.responseMessage;
+                    $scope.ResetUser = "Reset User";
+                   
+
+                } else {
+                    $scope.resetsuccess = false;
+                    $scope.resetfailed = true;
+                    $scope.resetmessage = response.data.responseMessage;
+                    $scope.ResetUser = "Reset User";
+                    
+
+                }
+                loadBanks();
+                loadUsers();
+                $scope.display = "show";
+                $scope.blackout = false;
+
+
+
+
+
+
+
+            }, function errorCallback(response) {
+                $scope.resetfailed = true;
+                $scope.resetmessage = error.responseText;
+                loadBanks();
+                loadUsers();
+            });
+
+
+            $scope.blackout = false;
+
+        }
+        $scope.UpdateUser2 = function () {
+            $scope.blackout = true;
+            $scope.resetsuccess = false;
+            $scope.resetfailed = false;
+            $scope.ResetUser = "Loading..";
+
+
+
+            var user = {
+                email: $scope.resetemail
+
+            };
+            $http({
+                method: 'POST',
+                //url: 'http://localhost:57868/api/ResetUser2',
+                url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/AddUser',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+                // alert(response.data.responseCode);
+                if (response.data.responseCode == "00") {
+                    $scope.resetsuccess = true;
+                    $scope.resetfailed = false;
+                    $scope.resetmessage = response.data.responseMessage;
+                    $scope.ResetUser = "Reset User";
+
+
+                } else {
+                    $scope.resetsuccess = false;
+                    $scope.resetfailed = true;
+                    $scope.resetmessage = response.data.responseMessage;
+                    $scope.ResetUser = "Reset User";
+
+
+                }
+                loadBanks();
+                loadUsers();
+                $scope.display = "show";
+                $scope.blackout = false;
+
+
+
+
+
+
+
+            }, function errorCallback(response) {
+                $scope.resetfailed = true;
+                $scope.resetmessage = error.responseText;
+                loadBanks();
+                loadUsers();
+            });
+
+
+            $scope.blackout = false;
+
+        }
+        $scope.AddUser = function () {
+            $scope.blackout = true;
+            $scope.success = false;
+            $scope.failed = false;
+
+
+
+            var user = {
+                firstname: $scope.addfirstname,
+                lastname: $scope.addlastname,
+                email: $scope.addemail,
+                bankCode: $scope.bankCode,
+                roleID:$scope.addrole
+            };
+
+
+            $http({
+                method: 'POST',
+                //url: 'http://localhost:57868/api/AddUser2',
+                url: 'https://tpms.ipsl.co.ke:4433/TransMonAPI/api/AddUser',
+                data: $.param(user),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                withCredentials: false,
+            }).then(function successCallback(response) {
+               // alert(response.data.responseCode);
+                if (response.data.responseCode == "00") {
+                    $scope.success = true;
+                    $scope.failed = false;
+                    $scope.message = response.data.responseMessage;
+                    $scope.btnAdd = "Add User";
+                    $scope.addfirstname = "";
+                    $scope.addlastname = "";
+                    $scope.addemail = "";
+                    $scope.addbank = "";
+                    $scope.addrole = "";
+                    
+                } else {
+                    $scope.success = false;
+                    $scope.failed = true;
+                    $scope.message = response.data.responseMessage;
+                    $scope.btnAdd = "Add User";
+                    Data.bankCode = "";
+                    Data.bankName = "";
+                    
+                }
+                loadBanks();
+                loadUsers();
+                $scope.display = "show";
+                $scope.blackout = false;
+
+
+
+
+
+
+
+            }, function errorCallback(error) {
+                $scope.failed = true;
+                    $scope.message = error.responseText;
+                    loadBanks();
+                    loadUsers();
+            });
+
+
+            $scope.blackout = false;
+
+        }
+    }])
+
+</script>
+
+
