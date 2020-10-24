@@ -3094,6 +3094,9 @@ namespace TransMonAPI.Controllers
             DateTime lastweekTo = req.dateFrom.AddDays(-1);
             DateTime lastweekFrom = req.dateFrom.AddDays(-7);
 
+            DateTime lastweekToDisp = Convert.ToDateTime(req.dateFrom.AddDays(-1));
+            DateTime lastweekFromDispl = Convert.ToDateTime(req.dateFrom.AddDays(-7));
+
             //var p = ReturnPosition(21);
 
 
@@ -3575,7 +3578,7 @@ namespace TransMonAPI.Controllers
                     resp.Out100w = Math.Round(Out100w, 2);
                     resp.Out120w = Math.Round(Out120w, 2);
                     resp.BankName = GetBankName(req.sortCode);
-                    resp.WeeklyDate = lastweekFrom + " - " + lastweekTo;
+                    resp.WeeklyDate = lastweekFromDispl + " - " + lastweekToDisp;
                     output = JsonConvert.SerializeObject(resp);
                 }
             }catch(Exception ex)

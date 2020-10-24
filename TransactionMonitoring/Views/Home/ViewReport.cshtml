@@ -1,0 +1,372 @@
+﻿
+@{
+    ViewBag.Title = "ViewReport";
+    Layout = "~/Views/Shared/_Report.cshtml";
+}
+
+<div class="content-wrapperz">
+    <section class="contentz">
+        <div class="container-fluidz">
+            <div class="card">
+                <!--<div class="card-header">
+                    <h6 class="card-title"><strong>Reports</strong></h6>
+                </div>-->
+                <div class="card-body">
+
+                    <!--<button class="btn btn-success" ng-click="export()" ng-if="responseCode=='00'">Export to PDF</button>-->
+                    <div class="row" style="font-size: medium !important">
+                        <div class="col-lg-12">
+                            <div class="container">
+                                <div class="panel panel-default">
+                                    <!--<div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12"><strong>-->
+                                    <!--<img src="~/Content/Image/ipsllogo.png" height="40" />-->
+                                    <!--</strong></div>
+                                        </div>
+                                    </div>-->
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <table class="tablez table-borderedz">
+                                                
+                                                <tr><td class="col-md-1z"><img src="~/Content/Image/logoipslsmall.png" /></td></tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong>
+                                                            <h4>INTEGRATED PAYMENT SERVICES LIMITED</h4>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                                <tr><td class="col-md-11z" align="left" colspan="2"><h6>BANKS EFFICIENCY AND COMPLIANCE RATING</h6><h6> ANALYSIS FOR @ViewBag.headingDate</h6></td></tr>
+                                                <tr><td align="left" colspan="2"><strong>BANK: @ViewBag.BankName</strong></td><td align="left"><strong></strong></td></tr>
+                                            </table>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class="tablez table-stripedz" border="1" style="border-color: darkslateblue !important;font-size:small !important;">
+                                                    <tr>
+                                                        <td colspan="3"></td>
+                                                        <th colspan="3" align="right">ANALYSIS FOR @ViewBag.headingDate</th>
+                                                        <th style="border:none !important">&nbsp;&nbsp;</th>
+                                                        <th colspan="3" align="right">ANALYSIS FOR @ViewBag.WeeklyDate</th>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td style="width:40px !important;"></td>
+                                                        <th class="col-sm-1z">OPERATIONAL PLATFROMS</th>
+                                                        <th class="col-sm-10z">MEASURES</th>
+                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
+                                                        <th style="border: none; !important;">&nbsp;&nbsp;</th>
+                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-sm-1z"><strong>1</strong></td>
+                                                        <td><strong>PESALINK</strong></td>
+                                                        <td><strong>1. Trans. Failure</strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td style="border: none; !important;"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><strong>1.) INWARD</strong></td>
+                                                        <td><i>(Code 114) - no account requested</i></td>
+                                                        <td>@ViewBag.In114%</td>
+                                                        <td>@ViewBag.In114r</td>
+                                                        <td>@ViewBag.In114bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In114w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 911) - Issuer timed out </i></td>
+                                                        <td>@ViewBag.In911%</td>
+                                                        <td>@ViewBag.In911r</td>
+                                                        <td>@ViewBag.In911bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In911w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 111) -  Invalid Card Number</i></td>
+                                                        <td>@ViewBag.In111%</td>
+                                                        <td>@ViewBag.In111r</td>
+                                                        <td>@ViewBag.In111bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In111w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 912) - Card Issuer Unavailable</i></td>
+                                                        <td>@ViewBag.In912%</td>
+                                                        <td>@ViewBag.In912r</td>
+                                                        <td>@ViewBag.In912bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In912w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 400) - Accepted (for reversal) </i></td>
+                                                        <td>@ViewBag.In400%</td>
+                                                        <td>@ViewBag.In400r</td>
+                                                        <td>@ViewBag.In400bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In400w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 100) - (no comments)</i></td>
+                                                        <td>@ViewBag.In100%</td>
+                                                        <td>@ViewBag.In100r</td>
+                                                        <td>@ViewBag.In100bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In100w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 102) - Suspected Fraud</i></td>
+                                                        <td>@ViewBag.In102%</td>
+                                                        <td>@ViewBag.In102r</td>
+                                                        <td>@ViewBag.In102bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In102w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
+                                                        <td>@ViewBag.In120%</td>
+                                                        <td>@ViewBag.In120r</td>
+                                                        <td>@ViewBag.In120bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In120w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 118) - no card record</i></td>
+                                                        <td>@ViewBag.In118%</td>
+                                                        <td>@ViewBag.In118r</td>
+                                                        <td>@ViewBag.In118bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.In118w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><strong>2.) OUTWARD</strong></td>
+                                                        <td><i>(Code 102) - Suspected fraud</i></td>
+                                                        <td>@ViewBag.Out102%</td>
+                                                        <td>@ViewBag.Out102r</td>
+                                                        <td>@ViewBag.Out102bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out102w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 114) - no acct requested</i></td>
+                                                        <td>@ViewBag.Out114%</td>
+                                                        <td>@ViewBag.Out114r</td>
+                                                        <td>@ViewBag.Out114bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out114w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 111) - invalid card number</i></td>
+                                                        <td>@ViewBag.Out111%</td>
+                                                        <td>@ViewBag.Out111r</td>
+                                                        <td>@ViewBag.Out111bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out111w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 912) - Issuer unavailable</i></td>
+                                                        <td>@ViewBag.Out912%</td>
+                                                        <td>@ViewBag.Out912r</td>
+                                                        <td>@ViewBag.Out912bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out912w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 911) - Issuer timed out</i></td>
+                                                        <td>@ViewBag.Out911%</td>
+                                                        <td>@ViewBag.Out911r</td>
+                                                        <td>@ViewBag.Out911bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out911w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 100) - (no comments)</i></td>
+                                                        <td>@ViewBag.Out100%</td>
+                                                        <td>@ViewBag.Out100r</td>
+                                                        <td>@ViewBag.Out100bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out100w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 400) - Accepted (for reversal)</i></td>
+                                                        <td>@ViewBag.Out400%</td>
+                                                        <td>@ViewBag.Out400r</td>
+                                                        <td>@ViewBag.Out400bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out400w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
+                                                        <td>@ViewBag.Out120%</td>
+                                                        <td>@ViewBag.Out120r</td>
+                                                        <td>@ViewBag.Out120bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out120w%</td>
+                                                        <td></td>
+                                                        <td>@ViewBag.Out120bb%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>(Code 118) - no card record</i></td>
+                                                        <td>@ViewBag.Out118%</td>
+                                                        <td>@ViewBag.Out118r</td>
+                                                        <td>@ViewBag.Out118bb%</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.Out118w%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+                                                    <tr style="height:20px !important">
+                                                        <td class="col-sm-1z"><strong></strong></td>
+                                                        <td><strong></strong></td>
+                                                        <td><strong></strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td style="border: none; !important;"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-sm-1z"><strong>2</strong></td>
+                                                        <td><strong>NETWORK CONNECTIVITY</strong></td>
+                                                        <td><strong>1. Link Average Downtime</strong></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td style="border: none; !important;"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><i>Link Availability</i></td>
+                                                        <td>@ViewBag.link%</td>
+                                                        <td>@ViewBag.linkr</td>
+                                                        <td>@ViewBag.linkbb</td>
+                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+                                                        <td>@ViewBag.linkw%</td>
+                                                        <td></td>
+                                                        <td>0.00%</td>
+                                                    </tr>
+
+
+
+
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div><hr />
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-md-4"><strong>Generated By IPSL Statistics</strong></div>
+                                            <div class="col-md-8"><center><strong>Website: https://tpms.ipsl.co.ke:4433/TransactionMonitoring </strong>
+                                            <br /><strong>Email: support@ipsl.co.ke</strong></center></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+
+

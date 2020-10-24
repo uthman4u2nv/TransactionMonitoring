@@ -55,9 +55,11 @@
         }
 	loadBanks();
         $scope.SearchReport = function () {    
-
+            //$scope.dFrom = "";
+            //$scope.dTo = "";
+            //$scope.sCode = "";
            
-            //debugger;
+            debugger;
 			$scope.blackout=true;
             var user = {
                 dateFrom: formatDate($scope.datefrom),
@@ -65,6 +67,9 @@
                 sortCode:$scope.sortCode
 
             };
+            $scope.dFrom = user.dateFrom;
+            $scope.dTo = user.dateTo;
+            $scope.sCode = user.sortCode;
             //alert(user.dateFrom+" "+user.sortCode);
             //return false;
             $http({

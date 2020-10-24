@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using System.Web.Security;
 using TransMonAPI.Models;
 using AllowAnonymousAttribute = System.Web.Mvc.AllowAnonymousAttribute;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
+using SelectPdf;
 
 namespace TransactionMonitoring.Controllers
 {
@@ -52,6 +54,202 @@ namespace TransactionMonitoring.Controllers
 
         public ActionResult Report()
         {
+            return View();
+        }
+        public ActionResult Convert(FormCollection collection)
+        {
+            // read parameters from the webpage
+            //string url = collection["TxtUrl"];
+            string dateFrom = Request.Form["dFrom"];
+            string dateTo = Request.Form["dTo"];
+            string sortCode = Request.Form["sCode"];
+            
+
+
+            //string dateFrom = "2020-01-01";  // dd-MM-yyyy    
+            //string dateTo = "2020-10-23";
+            //string sortCode = "40402000";
+
+            string url = ConfigurationManager.AppSettings["ReportTemplate"];
+            url += $"?dateFrom={dateFrom}&dateTo={dateTo}&sortCode={sortCode}"; 
+            // string pdf_page_size = collection["DdlPageSize"];
+            string pdf_page_size = "A4";
+            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), pdf_page_size, true);
+
+            //string pdf_orientation = collection["DdlPageOrientation"];
+            string pdf_orientation = "Portrait";
+            PdfPageOrientation pdfOrientation = (PdfPageOrientation)Enum.Parse(
+                typeof(PdfPageOrientation), pdf_orientation, true);
+
+            int webPageWidth = 1600;
+            try
+            {
+                //webPageWidth = System.Convert.ToInt32(collection["TxtWidth"]);
+                webPageWidth = 1024;
+            }
+            catch { }
+
+            int webPageHeight = 0;
+            try
+            {
+                //webPageHeight = System.Convert.ToInt32(collection["TxtHeight"]);
+                webPageHeight = 0;
+            }
+            catch { }
+
+            // instantiate a html to pdf converter object
+            SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+
+            // set converter options
+            converter.Options.PdfPageSize = pageSize;
+            converter.Options.PdfPageOrientation = pdfOrientation;
+            converter.Options.WebPageWidth = webPageWidth;
+            converter.Options.WebPageHeight = webPageHeight;
+            converter.Options.MarginLeft = 10;
+            converter.Options.MarginRight = 10;
+            converter.Options.MarginTop = 30;
+            converter.Options.MarginBottom = 30;
+
+            // create a new pdf document converting an url
+            SelectPdf.PdfDocument doc = converter.ConvertUrl(url);
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+
+            // return resulted pdf document
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            fileResult.FileDownloadName = "Document.pdf";
+            return fileResult;
+        }
+
+        [System.Web.Http.HttpGet]
+        public ActionResult ViewReport(string dateFrom, string dateTo,string sortCode)
+        {
+            
+            BankReportRequest req = new BankReportRequest();
+            //string dateFrom = Request["dFrom"];  // dd-MM-yyyy    
+            //string dateTo= Request["dTo"];
+            //string dateFrom = "2020-01-01";  // dd-MM-yyyy    
+            //string dateTo = "2020-10-23"; 
+            DateTime d;
+            DateTime e;
+            if (DateTime.TryParseExact(dateFrom, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out d))
+            {
+                // use d
+            }
+            if (DateTime.TryParseExact(dateTo, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out e)){}
+
+            req.dateFrom = d;
+            req.dateTo = e;
+            //req.sortCode = Request["sCode"];
+            req.sortCode = sortCode;
+            var rs = JsonConvert.SerializeObject(req);
+
+            var url = ConfigurationManager.AppSettings["ReportAPIURL"];
+            var content = new StringContent(rs, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+
+            HttpResponseMessage result = null;
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.ServerCertificateValidationCallback = new
+          RemoteCertificateValidationCallback
+          (
+             delegate { return true; }
+          );
+            result = client.PostAsync(url, content).Result;
+            var r = result.Content.ReadAsStringAsync().Result.Replace("\\", "");
+            var rr = JsonConvert.DeserializeObject<BankReportResponse>(r);
+            ViewBag.dateFrom = req.dateFrom;
+            ViewBag.dateTo = req.dateTo;           
+            ViewBag.In114 = Math.Round(rr.In114, 2);
+            ViewBag.In118 = Math.Round(rr.In118, 2);
+            ViewBag.In911 = Math.Round(rr.In911, 2);
+            ViewBag.In111 = Math.Round(rr.In111, 2);
+            ViewBag.In400 = Math.Round(rr.In400, 2);
+            ViewBag.In912 = Math.Round(rr.In912, 2);
+            ViewBag.In102 = Math.Round(rr.In102, 2);
+            ViewBag.In100 = Math.Round(rr.In100, 2);
+            ViewBag.In120 = Math.Round(rr.In120, 2);
+            ViewBag.In114w = Math.Round(rr.In114w, 2);
+            ViewBag.In118w = Math.Round(rr.In118w, 2);
+            ViewBag.In911w = Math.Round(rr.In911w, 2);
+            ViewBag.In111w = Math.Round(rr.In111w, 2);
+            ViewBag.In400w = Math.Round(rr.In400w, 2);
+            ViewBag.In912w = Math.Round(rr.In912w, 2);
+            ViewBag.In102w = Math.Round(rr.In102w, 2);
+            ViewBag.In100w = Math.Round(rr.In100w, 2);
+            ViewBag.In120w = Math.Round(rr.In120w, 2);
+
+            ViewBag.In114r = rr.In114r;
+            ViewBag.In118r = rr.In118r;
+            ViewBag.In911r = rr.In911r;
+            ViewBag.In111r = rr.In111r;
+            ViewBag.In400r = rr.In400r;
+            ViewBag.In912r = rr.In912r;
+            ViewBag.In102r = rr.In102r;
+            ViewBag.In100r = rr.In100r;
+            ViewBag.In120r = rr.In120r;
+
+            ViewBag.Out114r = rr.Out114r;
+            ViewBag.Out118r = rr.Out118r;
+            ViewBag.Out911r = rr.Out911r;
+            ViewBag.Out111r = rr.Out111r;
+            ViewBag.Out400r = rr.Out400r;
+            ViewBag.Out912r = rr.Out912r;
+            ViewBag.Out102r = rr.Out102r;
+            ViewBag.Out100r = rr.Out100r;
+            ViewBag.Out120r = rr.Out120r;
+
+            ViewBag.In114bb = rr.In114bb;
+            ViewBag.In118bb = rr.In118bb;
+            ViewBag.In911bb = rr.In911bb;
+            ViewBag.In111bb = rr.In111bb;
+            ViewBag.In400bb = rr.In400bb;
+            ViewBag.In912bb = rr.In912bb;
+            ViewBag.In102bb = rr.In102bb;
+            ViewBag.In100bb = rr.In100bb;
+            ViewBag.In120bb = rr.In120bb;
+
+            ViewBag.Out114bb = rr.Out114bb;
+            ViewBag.Out118bb = rr.Out118bb;
+            ViewBag.Out911bb = rr.Out911bb;
+            ViewBag.Out111bb = rr.Out111bb;
+            ViewBag.Out400bb = rr.Out400bb;
+            ViewBag.Out912bb = rr.Out912bb;
+            ViewBag.Out102bb = rr.Out102bb;
+            ViewBag.Out100bb = rr.Out100bb;
+            ViewBag.Out120bb = rr.Out120bb;
+            ViewBag.Out114 = Math.Round(rr.Out114, 2);
+            ViewBag.Out118 = Math.Round(rr.Out118, 2);
+            ViewBag.Out911 = Math.Round(rr.Out911, 2);
+            ViewBag.Out111 = Math.Round(rr.Out111, 2);
+            ViewBag.Out400 = Math.Round(rr.Out400, 2);
+            ViewBag.Out912 = Math.Round(rr.Out912, 2);
+            ViewBag.Out102 = Math.Round(rr.Out102, 2);
+            ViewBag.Out100 = Math.Round(rr.Out100, 2);
+            ViewBag.Out120 = Math.Round(rr.Out120, 2);
+
+            ViewBag.Out114w = Math.Round(rr.Out114w, 2);
+            ViewBag.Out118w = Math.Round(rr.Out118w, 2);
+            ViewBag.Out911w = Math.Round(rr.Out911w, 2);
+            ViewBag.Out111w = Math.Round(rr.Out111w, 2);
+            ViewBag.Out400w = Math.Round(rr.Out400w, 2);
+            ViewBag.Out912w = Math.Round(rr.Out912w, 2);
+            ViewBag.Out102w = Math.Round(rr.Out102w, 2);
+            ViewBag.Out100w = Math.Round(rr.Out100w, 2);
+            ViewBag.Out120w = Math.Round(rr.Out120w, 2);
+            ViewBag.BankName = rr.BankName;
+            ViewBag.headingDate = dateFrom + " -  " + dateTo;
+            ViewBag.WeeklyDate = rr.WeeklyDate;
+            ViewBag.link = 100;
+            ViewBag.linkr = "1st";
+            ViewBag.linkbb = "100%";
+            ViewBag.linkw = "0.00";
+           
             return View();
         }
 
