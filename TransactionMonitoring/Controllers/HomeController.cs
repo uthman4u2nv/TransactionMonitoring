@@ -249,7 +249,39 @@ namespace TransactionMonitoring.Controllers
             ViewBag.linkr = "1st";
             ViewBag.linkbb = "100%";
             ViewBag.linkw = "0.00";
-           
+            ViewBag.linkwr = "1st";
+            ViewBag.intf = "95";
+            ViewBag.intfr = "3rd";
+            ViewBag.intfbb = "100%";
+            ViewBag.intfw = "0.00";
+            ViewBag.intfwr = "1st";
+            ViewBag.cust = 10;
+            ViewBag.custr = "2nd";
+            ViewBag.custbb = "5%";
+            ViewBag.custw = "0.00";
+            ViewBag.custwr = "1st";
+
+            ViewBag.Out114wr = rr.Out114wr;
+            ViewBag.Out118wr = rr.Out118wr;
+            ViewBag.Out911wr = rr.Out911wr;
+            ViewBag.Out111wr = rr.Out111wr;
+            ViewBag.Out400wr = rr.Out400wr;
+            ViewBag.Out912wr = rr.Out912wr;
+            ViewBag.Out102wr = rr.Out102wr;
+            ViewBag.Out100wr = rr.Out100wr;
+            ViewBag.Out120wr = rr.Out120wr;
+
+            ViewBag.In114wr = rr.In114wr;
+            ViewBag.In118wr = rr.In118wr;
+            ViewBag.In911wr = rr.In911wr;
+            ViewBag.In111wr = rr.In111wr;
+            ViewBag.In400wr = rr.In400wr;
+            ViewBag.In912wr = rr.In912wr;
+            ViewBag.In102wr = rr.In102wr;
+            ViewBag.In100wr = rr.In100wr;
+            ViewBag.In120wr = rr.In120wr;
+
+
             return View();
         }
 

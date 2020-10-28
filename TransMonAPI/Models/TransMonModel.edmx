@@ -65,6 +65,18 @@
           <Property Name="SENDERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
           <Property Name="TRANSACTION_SOURCE" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Report2">
+          <Key>
+            <PropertyRef Name="REPORTID" />
+          </Key>
+          <Property Name="REPORTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ENDDATE" Type="date" Nullable="false" />
+          <Property Name="BANK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PCTEFF" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="int" Nullable="false" />
+          <Property Name="ORIENTATION" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="roleID" />
@@ -121,6 +133,7 @@ warning 6002: The table/view 'TransactionMonitoring.dbo.View_Users' does not hav
           <EntitySet Name="Methods" EntityType="Self.Methods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MyAnalytics" EntityType="Self.MyAnalytics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report2" EntityType="Self.Report2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeeklyRating" EntityType="Self.WeeklyRating" Schema="dbo" store:Type="Tables" />
@@ -159,6 +172,7 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
           <EntitySet Name="MyAnalytics" EntityType="TransactionMonitoringModel.MyAnalytic" />
           <EntitySet Name="Reports" EntityType="TransactionMonitoringModel.Report" />
           <EntitySet Name="WeeklyRatings" EntityType="TransactionMonitoringModel.WeeklyRating" />
+          <EntitySet Name="Report2" EntityType="TransactionMonitoringModel.Report2" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -258,6 +272,18 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
           <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
           <Property Name="RESPONSECODE" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Report2">
+          <Key>
+            <PropertyRef Name="REPORTID" />
+          </Key>
+          <Property Name="REPORTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BANK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PCTEFF" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RESPONSECODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
+          <Property Name="ORIENTATION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -373,6 +399,19 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
                 <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
                 <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
                 <ScalarProperty Name="RANKINGID" ColumnName="RANKINGID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Report2">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.Report2">
+              <MappingFragment StoreEntitySet="Report2">
+                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

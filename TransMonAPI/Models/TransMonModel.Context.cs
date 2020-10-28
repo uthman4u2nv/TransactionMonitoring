@@ -34,5 +34,6 @@ namespace TransMonAPI.Models
         public DbSet<MyAnalytic> MyAnalytics { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<WeeklyRating> WeeklyRatings { get; set; }
+        public DbSet<Report2> Report2 { get; set; }
     }
 }

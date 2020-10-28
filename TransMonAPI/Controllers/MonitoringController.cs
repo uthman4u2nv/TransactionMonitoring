@@ -3170,6 +3170,14 @@ namespace TransMonAPI.Controllers
             decimal Out114bb = 0; decimal Out111bb = 0; decimal Out400bb = 0; decimal Out912bb = 0; decimal Out911bb = 0;
             decimal Out102bb = 0; decimal Out100bb = 0; decimal Out120bb = 0; decimal Out118bb = 0;
 
+            int Out114wRank = 0; int Out911wRank = 0;int Out111wRank = 0;
+            int Out400wRank = 0; int Out912wRank = 0;  int Out102wRank = 0;
+            int Out100wRank = 0; int Out120wRank = 0;int Out118wRank = 0;
+
+            int In114wRank = 0; int In911wRank = 0; int In111wRank = 0;
+            int In400wRank = 0; int In912wRank = 0; int In102wRank = 0;
+            int In100wRank = 0; int In120wRank = 0; int In118wRank = 0;
+
             BankReportResponse resp = new BankReportResponse();
             ErrorResponse r = new ErrorResponse();
             try
@@ -3179,8 +3187,8 @@ namespace TransMonAPI.Controllers
                     var In = db.Reports.Where(a => a.TRANSDATE >= req.dateFrom && a.TRANSDATE <= req.dateTo && a.RECEIVERS_SORT_CODE == req.sortCode && a.RESPONSECODE !="0");
                     var Out= db.Reports.Where(a => a.TRANSDATE >= req.dateFrom && a.TRANSDATE <= req.dateTo && a.SENDERS_SORT_CODE == req.sortCode && a.RESPONSECODE != "0");
 
-                    var Inw = db.Reports.Where(a => a.TRANSDATE >= lastweekFrom && a.TRANSDATE <= lastweekTo && a.RECEIVERS_SORT_CODE == req.sortCode && a.RESPONSECODE != "0");
-                    var Outw = db.Reports.Where(a => a.TRANSDATE >= lastweekFrom && a.TRANSDATE <= lastweekTo && a.SENDERS_SORT_CODE == req.sortCode && a.RESPONSECODE != "0");
+                    var Inw = db.Report2.Where(a => a.ENDDATE == lastweekTo && a.BANK == req.sortCode && a.RESPONSECODE != "0" && a.ORIENTATION=="INFLOW");
+                    var Outw = db.Report2.Where(a => a.ENDDATE == lastweekTo  && a.BANK == req.sortCode && a.RESPONSECODE != "0" && a.ORIENTATION == "OUTFLOW");
                     if (In.Count()> 0)
                     {
                         foreach (var i in In)
@@ -3257,60 +3265,150 @@ namespace TransMonAPI.Controllers
                         In120 = 0;
                         In118 = 0;
                     }
+                    
                     if (Inw.Count() > 0)
                     {
+                        int In114wCount = 0;
+                        int In911wCount = 0;
+                        int In111wCount = 0;
+                        int In400wCount = 0;
+                        int In912wCount = 0;
+                        int In102wCount = 0;
+                        int In100wCount = 0;
+                        int In120wCount = 0;
+                        int In118wCount = 0;
                         foreach (var j in Inw)
                         {
-                            totalTransInWeek += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                            totalTransInWeek += Convert.ToInt16(j.PCTEFF);
                             if (j.RESPONSECODE == "114")
                             {
-                                totaltrans114w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans114w += j.PCTEFF;
+                                In114wCount++;
+                                In114wRank = j.WEEKLYRANK;
 
                             }
                             if (j.RESPONSECODE == "911")
                             {
-                                totaltrans911w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans911w += j.PCTEFF;
+                                In911wCount++;
+                                In911wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "111")
                             {
-                                totaltrans111w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans111w += j.PCTEFF;
+                                In111wCount++;
+                                In111wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "400")
                             {
-                                totaltrans400w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans400w += j.PCTEFF;
+                                In400wCount++;
+                                In400wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "912")
                             {
-                                totaltrans912w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans912w += j.PCTEFF;
+                                In912wCount++;
+                                In912wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "102")
                             {
-                                totaltrans102w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans102w += j.PCTEFF;
+                                In102wCount++;
+                                In102wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "100")
                             {
-                                totaltrans100w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans100w += j.PCTEFF;
+                                In100wCount++;
+                                In100wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "120")
                             {
-                                totaltrans120w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans120w += j.PCTEFF;
+                                In120wCount++;
+                                In120wRank = j.WEEKLYRANK;
                             }
                             if (j.RESPONSECODE == "118")
                             {
-                                totaltrans118w += Convert.ToInt16(j.TRANSACTIONCOUNT);
+                                totaltrans118w += j.PCTEFF;
+                                In118wCount++;
+                                In118wRank = j.WEEKLYRANK;
                             }
 
                         }
-                        In114w = (totaltrans114w / totalTransInWeek) * 100;
-
-                        In911w = (totaltrans911w / totalTransInWeek) * 100;
-                        In111w = (totaltrans111w / totalTransInWeek) * 100;
-                        In400w = (totaltrans400w / totalTransInWeek) * 100;
-                        In912w = (totaltrans912w / totalTransInWeek) * 100;
-                        In102w = (totaltrans102w / totalTransInWeek) * 100;
-                        In100w = (totaltrans100w / totalTransInWeek) * 100;
-                        In120w = (totaltrans120w / totalTransInWeek) * 100;
-                        In118w = (totaltrans118w / totalTransInWeek) * 100;
+                        if (In114wCount > 0)
+                        {
+                            In114w = (totaltrans114w /In114wCount);
+                        }
+                        else
+                        {
+                            In114w = 0;
+                        }
+                        if (In911wCount > 0)
+                        {
+                            In911w = (totaltrans911w / In911wCount);
+                        }
+                        else
+                        {
+                            In911w = 0;
+                        }
+                        if (In111wCount > 0)
+                        {
+                            In111w = (totaltrans111w / In111wCount);
+                        }
+                        else
+                        {
+                            In111w = 0;
+                        }
+                        if (In400wCount > 0)
+                        {
+                            In400w = (totaltrans400w / In400wCount);
+                        }
+                        else
+                        {
+                            In400w = 0;
+                        }
+                        if (In912wCount > 0)
+                        {
+                            In912w = (totaltrans912w / In912wCount);
+                        }
+                        else
+                        {
+                            In912w = 0;
+                        }
+                        if (In102wCount > 0)
+                        {
+                            In102w = (totaltrans102w / In102wCount);
+                        }
+                        else
+                        {
+                            In102w = 0;
+                        }
+                        if (In100wCount > 0)
+                        {
+                            In100w = (totaltrans100w / In100wCount);
+                        }
+                        else
+                        {
+                            In100w = 0;
+                        }
+                        if (In120wCount > 0)
+                        {
+                            In120w = (totaltrans120w / In120wCount);
+                        }
+                        else
+                        {
+                            In120w = 0;
+                        }
+                        if (In118wCount > 0)
+                        {
+                            In118w = (totaltrans118w / In118wCount);
+                        }
+                        else
+                        {
+                            In118w = 0;
+                        }
                     }
                     else
                     {
@@ -3324,6 +3422,15 @@ namespace TransMonAPI.Controllers
                         In100w = 0;
                         In120w = 0;
                         In118w = 0;
+                        In114wRank = 0;
+                        In911wRank = 0;
+                        In111wRank = 0;
+                        In400wRank = 0;
+                        In912wRank = 0;
+                        In102wRank = 0;
+                        In100wRank = 0;
+                        In120wRank = 0;
+                        In118wRank = 0;
                     }
 
 
@@ -3397,62 +3504,159 @@ namespace TransMonAPI.Controllers
                     }
                     if (Outw.Count() > 0)
                     {
+                        int Out114wCount = 0;
+                        int Out911wCount = 0;
+                        int Out111wCount = 0;
+                        int Out400wCount = 0;
+                        int Out912wCount = 0;
+                        int Out102wCount = 0;
+                        int Out100wCount = 0;
+                        int Out120wCount = 0;
+                        int Out118wCount = 0;
+
+                        
                         foreach (var k in Outw)
                         {
-                            totalTransOutWeek += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                            totalTransOutWeek += Convert.ToInt16(k.PCTEFF);
                             if (k.RESPONSECODE == "114")
                             {
-                                totaltransOut114w = Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut114w += k.PCTEFF;
+                                Out114wCount++;
+                                Out114wRank = k.WEEKLYRANK;
+                                //Out114wCount=1;
                             }
                             if (k.RESPONSECODE == "118")
                             {
-                                totaltransOut118w = Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut118w += k.PCTEFF;
+                                Out118wCount++;
+                                Out118wRank = k.WEEKLYRANK;
                             }
 
                             if (k.RESPONSECODE == "911")
                             {
-                                totaltransOut911w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut911w += k.PCTEFF;
+                                Out911wCount++;
+                                Out911wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "111")
                             {
-                                totaltransOut111w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut111w += k.PCTEFF;
+                                Out111wCount++;
+                                Out111wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "400")
                             {
-                                totaltransOut400w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut400w += k.PCTEFF;
+                                Out400wCount++;
+                                Out400wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "912")
                             {
-                                totaltransOut912w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut912w += k.PCTEFF;
+                                Out912wCount++;
+                                Out912wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "102")
                             {
-                                totaltransOut102w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut102w += k.PCTEFF;
+                                Out102wCount++;
+                                Out102wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "100")
                             {
-                                totaltransOut100w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut100w += k.PCTEFF;
+                                Out100wCount++;
+                                Out100wRank = k.WEEKLYRANK;
                             }
                             if (k.RESPONSECODE == "120")
                             {
-                                totaltransOut120w += Convert.ToInt16(k.TRANSACTIONCOUNT);
+                                totaltransOut120w += k.PCTEFF;
+                                Out120wCount++;
+                                Out120wRank = k.WEEKLYRANK;
+
                             }
-                            if (k.RESPONSECODE == "118")
+                           /* if (k.RESPONSECODE == "118")
                             {
-                                totaltransOut118w += Convert.ToInt16(k.TRANSACTIONCOUNT);
-                            }
+                                totaltransOut118w += Convert.ToInt16(k.PCTEFF);
+                                Out118wCount++;
+                            }*/
 
 
                         }
-                        Out114w = (totaltransOut114w / totalTransOutWeek) * 100;
-                        Out911w = (totaltransOut911w / totalTransOutWeek) * 100;
-                        Out111w = (totaltransOut111w / totalTransOutWeek) * 100;
-                        Out400w = (totaltransOut400w / totalTransOutWeek) * 100;
-                        Out912w = (totaltransOut912w / totalTransOutWeek) * 100;
-                        Out102w = (totaltransOut102w / totalTransOutWeek) * 100;
-                        Out100w = (totaltransOut100w / totalTransOutWeek) * 100;
-                        Out120w = (totaltransOut120w / totalTransOutWeek) * 100;
-                        Out118w = (totaltransOut118w / totalTransOutWeek) * 100;
+                        if (Out114wCount > 0)
+                        {
+                            Out114w = (totaltransOut114w / Out114wCount);
+                        }
+                        else
+                        {
+                            Out114w = 0;
+                        }
+                        if (Out911wCount > 0)
+                        {
+                            Out911w = (totaltransOut911w / Out911wCount);
+                        }
+                        else
+                        {
+                            Out911w = 0;
+                        }
+                        if (Out111wCount > 0)
+                        {
+                            Out111w = (totaltransOut111w / Out111wCount);
+                        }
+                        else
+                        {
+                            Out111w = 0;
+                        }
+                        if (Out400wCount > 0)
+                        {
+                            Out400w = (totaltransOut400w / Out400wCount);
+                        }
+                        else
+                        {
+                            Out400w = 0;
+                        }
+                        if (Out912wCount > 0)
+                        {
+                            Out912w = (totaltransOut912w / Out912wCount);
+                        }
+                        else
+                        {
+                            Out912w = 0;
+                        }
+                        if (Out102wCount > 0)
+                        {
+                            Out102w = (totaltransOut102w / Out102wCount);
+                        }
+                        else
+                        {
+                            Out102w = 0;
+                        }
+                        if (Out100wCount > 0)
+                        {
+                            Out100w = (totaltransOut100w / Out100wCount);
+                        }
+                        else
+                        {
+                            Out100w = 0;
+                        }
+                        if (Out120wCount > 0)
+                        {
+                            Out120w = (totaltransOut120w / Out120wCount);
+                            //Out120wRank = k.WEEKLYRANK;
+                        }
+                        else
+                        {
+                            Out120w = 0;
+                            //Out120wRank = 0;
+                        }
+                        if (Out118wCount > 0)
+                        {
+                            Out118w = (totaltransOut118w / Out118wCount);
+                        }
+                        else
+                        {
+                            Out118w = 0;
+                        }
                     }
                     else
                     {
@@ -3465,6 +3669,15 @@ namespace TransMonAPI.Controllers
                         Out100w = 0;
                         Out120w = 0;
                         Out118w = 0;
+                        Out114wRank = 0;
+                        Out911wRank = 0;
+                        Out111wRank = 0;
+                        Out400wRank = 0;
+                        Out912wRank = 0;
+                        Out102wRank = 0;
+                        Out100wRank = 0;
+                        Out120wRank = 0;
+                        Out118wRank = 0;
                     }
 
                     /** RANKING **/
@@ -3577,6 +3790,27 @@ namespace TransMonAPI.Controllers
                     resp.Out102w = Math.Round(Out102w, 2);
                     resp.Out100w = Math.Round(Out100w, 2);
                     resp.Out120w = Math.Round(Out120w, 2);
+
+                    resp.Out114wr = ReturnPosition(Out114wRank);
+                    resp.Out118wr = ReturnPosition(Out118wRank);
+                    resp.Out911wr = ReturnPosition(Out911wRank);
+                    resp.Out111wr = ReturnPosition(Out111wRank);
+                    resp.Out400wr = ReturnPosition(Out400wRank);
+                    resp.Out912wr = ReturnPosition(Out912wRank);
+                    resp.Out102wr = ReturnPosition(Out102wRank);
+                    resp.Out100wr = ReturnPosition(Out100wRank);
+                    resp.Out120wr = ReturnPosition(Out120wRank);
+
+                    resp.In114wr = ReturnPosition(In114wRank);
+                    resp.In118wr = ReturnPosition(In118wRank);
+                    resp.In911wr = ReturnPosition(In911wRank);
+                    resp.In111wr = ReturnPosition(In111wRank);
+                    resp.In400wr = ReturnPosition(In400wRank);
+                    resp.In912wr = ReturnPosition(In912wRank);
+                    resp.In102wr = ReturnPosition(In102wRank);
+                    resp.In100wr = ReturnPosition(In100wRank);
+                    resp.In120wr = ReturnPosition(In120wRank);
+
                     resp.BankName = GetBankName(req.sortCode);
                     resp.WeeklyDate = lastweekFromDispl + " - " + lastweekToDisp;
                     output = JsonConvert.SerializeObject(resp);

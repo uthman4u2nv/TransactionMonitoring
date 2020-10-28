@@ -191,6 +191,9 @@
     <Compile Include="Models\Report.cs">
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Report2.cs">
+      <DependentUpon>TransMonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Role.cs">
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>

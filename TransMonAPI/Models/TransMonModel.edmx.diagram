@@ -14,6 +14,7 @@
         <EntityTypeShape EntityType="TransactionMonitoringModel.MyAnalytic" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="TransactionMonitoringModel.Report" Width="1.5" PointX="7.375" PointY="3.75" />
         <EntityTypeShape EntityType="TransactionMonitoringModel.WeeklyRating" Width="1.5" PointX="3.375" PointY="7.75" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Report2" Width="1.5" PointX="5.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

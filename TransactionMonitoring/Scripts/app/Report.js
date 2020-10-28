@@ -168,8 +168,45 @@
                     $scope.Out100bb = response.data.Out100bb;
                     $scope.Out120bb = response.data.Out120bb;
 
+                    $scope.Out114wr = response.data.Out114wr;
+                    $scope.Out118wr = response.data.Out118wr;
+                    $scope.Out911wr = response.data.Out911wr;
+                    $scope.Out111wr = response.data.Out111wr;
+                    $scope.Out400wr = response.data.Out400wr;
+                    $scope.Out912wr = response.data.Out912wr;
+                    $scope.Out102wr = response.data.Out102wr;
+                    $scope.Out100wr = response.data.Out100wr;
+                    $scope.Out120wr = response.data.Out120wr;
+
+                    $scope.In114wr = response.data.In114wr;
+                    $scope.In118wr = response.data.In118wr;
+                    $scope.In911wr = response.data.In911wr;
+                    $scope.In111wr = response.data.In111wr;
+                    $scope.In400wr = response.data.In400wr;
+                    $scope.In912wr = response.data.In912wr;
+                    $scope.In102wr = response.data.In102wr;
+                    $scope.In100wr = response.data.In100wr;
+                    $scope.In120wr = response.data.In120wr;
+
                     $scope.BankName = response.data.BankName;
                     $scope.WeeklyDate = response.data.WeeklyDate;
+
+                    $scope.link = "100";
+                    $scope.linkr = "1st";
+                    $scope.linkbb = "100";
+                    $scope.linkw = "0.00%";
+                    $scope.linkwr = "1st";
+                    $scope.intf = "95";
+                    $scope.intfr = "3rd";
+                    $scope.intfbb = "100%";
+                    $scope.intfw = "0.00";
+                    $scope.intfwr = "1st";
+
+                    $scope.cust = "0.00";
+                    $scope.custr = "1st";
+                    $scope.custbb = "0.00";
+                    $scope.custw = "0.00";
+                    $scope.custwr = "1st";
 
                    
 

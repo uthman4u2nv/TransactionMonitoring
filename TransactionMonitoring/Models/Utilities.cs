@@ -117,6 +117,30 @@ namespace TransactionMonitoring.Models
         public decimal Out118w { get; set; }
         /**END WEEKLY OUT VALUES **/
 
+        /** WEEKLY RANKING **/
+        public string Out114wr { get; set; }
+        public string Out111wr { get; set; }
+        public string Out400wr { get; set; }
+        public string Out912wr { get; set; }
+        public string Out911wr { get; set; }
+        public string Out102wr { get; set; }
+        public string Out100wr { get; set; }
+        public string Out120wr { get; set; }
+        public string Out118wr { get; set; }
+
+        public string In114wr { get; set; }
+        public string In111wr { get; set; }
+        public string In400wr { get; set; }
+        public string In912wr { get; set; }
+        public string In911wr { get; set; }
+        public string In102wr { get; set; }
+        public string In100wr { get; set; }
+        public string In120wr { get; set; }
+        public string In118wr { get; set; }
+
+        /**END WEEKLY RANKING */
+
+
         public string WeeklyDate { get; set; }
     }
 
