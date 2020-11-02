@@ -82,7 +82,8 @@
             }).then(function successCallback(response) {
                 // alert(response.data.responseCode);
                 if (response.data.responseCode == "00") {
-                    $scope.headingDate = formatDate($scope.datefrom) + " - " + formatDate($scope.dateto);
+                    //$scope.headingDate = formatDate($scope.datefrom) + " - " + formatDate($scope.dateto);
+                    $scope.headingDate = response.data.headingDate;
                     $scope.responseCode = "00";
                     $scope.In114 = response.data.In114 + "%";
                     $scope.In911 = response.data.In911 + "%";
@@ -116,6 +117,8 @@
                     $scope.Out120 = response.data.Out120 + "%";
                     $scope.Out100 = response.data.Out100 + "%";
                     $scope.Out118 = response.data.Out118 + "%";
+                    $scope.Out121 = response.data.Out121 + "%";
+                    $scope.Out909 = response.data.Out909 + "%";
 
                     $scope.Out114w = response.data.Out114w + "%";
                     $scope.Out911w = response.data.Out911w + "%";
@@ -127,6 +130,8 @@
                     $scope.Out120w = response.data.Out120w + "%";
                     $scope.Out100w = response.data.Out100w + "%";
                     $scope.Out118w = response.data.Out118w + "%";
+                    $scope.Out121w = response.data.Out121w + "%";
+                    $scope.Out909w = response.data.Out909w + "%";
 
                     $scope.In114r = response.data.In114r;
                     $scope.In118r = response.data.In118r;
@@ -147,6 +152,8 @@
                     $scope.Out102r = response.data.Out102r;
                     $scope.Out100r = response.data.Out100r;
                     $scope.Out120r = response.data.Out120r;
+                    $scope.Out121r = response.data.Out121r;
+                    $scope.Out909r = response.data.Out909r;
 
                     $scope.In114bb = response.data.In114bb;
                     $scope.In118bb = response.data.In118bb;
@@ -167,6 +174,9 @@
                     $scope.Out102bb = response.data.Out102bb;
                     $scope.Out100bb = response.data.Out100bb;
                     $scope.Out120bb = response.data.Out120bb;
+                    $scope.Out121bb = response.data.Out121bb;
+                    $scope.Out909bb = response.data.Out909bb;
+
 
                     $scope.Out114wr = response.data.Out114wr;
                     $scope.Out118wr = response.data.Out118wr;
@@ -177,6 +187,8 @@
                     $scope.Out102wr = response.data.Out102wr;
                     $scope.Out100wr = response.data.Out100wr;
                     $scope.Out120wr = response.data.Out120wr;
+                    $scope.Out121wr = response.data.Out121wr;
+                    $scope.Out909wr = response.data.Out909wr;
 
                     $scope.In114wr = response.data.In114wr;
                     $scope.In118wr = response.data.In118wr;
@@ -207,6 +219,12 @@
                     $scope.custbb = "0.00";
                     $scope.custw = "0.00";
                     $scope.custwr = "1st";
+
+                    $scope.bankrank = "1.08%";
+                    $scope.bankrankw = "1.49%";
+
+                    $scope.indrank = "1.28%";
+                    $scope.indrankw = "1.35%";
 
                    
 

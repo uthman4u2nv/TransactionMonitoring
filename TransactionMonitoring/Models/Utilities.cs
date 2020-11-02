@@ -58,6 +58,9 @@ namespace TransactionMonitoring.Models
         public string Out120r { get; set; }
         public string Out118r { get; set; }
 
+        public string Out121r { get; set; }
+        public string Out909r { get; set; }
+
 
         /** END RANKING OUTWARDS **/
         /** BEST BANK RATING **/
@@ -80,6 +83,8 @@ namespace TransactionMonitoring.Models
         public decimal Out100bb { get; set; }
         public decimal Out120bb { get; set; }
         public decimal Out118bb { get; set; }
+        public decimal Out121bb { get; set; }
+        public decimal Out909bb { get; set; }
 
         /** END BEST BANK RATING **/
 
@@ -104,6 +109,8 @@ namespace TransactionMonitoring.Models
         public decimal Out100 { get; set; }
         public decimal Out120 { get; set; }
         public decimal Out118 { get; set; }
+        public decimal Out121 { get; set; }
+        public decimal Out909 { get; set; }
 
         /**WEEKLY OUT VALUES **/
         public decimal Out114w { get; set; }
@@ -115,6 +122,8 @@ namespace TransactionMonitoring.Models
         public decimal Out100w { get; set; }
         public decimal Out120w { get; set; }
         public decimal Out118w { get; set; }
+        public decimal Out121w { get; set; }
+        public decimal Out909w { get; set; }
         /**END WEEKLY OUT VALUES **/
 
         /** WEEKLY RANKING **/
@@ -127,6 +136,8 @@ namespace TransactionMonitoring.Models
         public string Out100wr { get; set; }
         public string Out120wr { get; set; }
         public string Out118wr { get; set; }
+        public string Out121wr { get; set; }
+        public string Out909wr { get; set; }
 
         public string In114wr { get; set; }
         public string In111wr { get; set; }
@@ -140,7 +151,7 @@ namespace TransactionMonitoring.Models
 
         /**END WEEKLY RANKING */
 
-
+        public string headingDate { get; set; }
         public string WeeklyDate { get; set; }
     }
 

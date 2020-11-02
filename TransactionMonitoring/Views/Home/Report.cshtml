@@ -76,28 +76,28 @@
                                             <!--<td class="col-md-4" align="left"><strong></strong></td>--><!--</tr>-->
                                             <!--<tr><td align="right"><strong>BANK:</strong></td><td><strong>{{BankName}}</strong></td></tr>-->
                                             <!--</table>-->
-                                            <table class="tablez table-borderedz">
-                                                <tr><td class="col-md-1z"><img src="~/Content/Image/logoipsl.png" /></td></tr>
+                                            <table class="table table-bordered">
+                                                <tr><td class="col-md-1z" colspan="3"><img src="~/Content/Image/logoipsl.png" /></td></tr>
                                                 <tr>
-                                                    <td>
+                                                    <td colspan="2">
                                                         <strong>
                                                             <h4>INTEGRATED PAYMENT SERVICES LIMITED</h4>
                                                         </strong>
                                                     </td>
                                                 </tr>
-                                                <tr><td class="col-md-11z" align="left" colspan="2"><h5>BANKS EFFICIENCY AND COMPLIANCE RATING</h5><h6> ANALYSIS FOR {{headingDate}}</h6></td></tr>
-                                                <tr><td align="left"><strong>BANK: {{BankName}}</strong></td><td align="left"></td></tr>
+                                                <tr><td class="col-md-12" align="left" colspan="3"><h5>BANKS EFFICIENCY AND COMPLIANCE RATING - </h5> Analysis for {{headingDate}}</td></tr>
+                                                <tr><td align="left" colspan="3"><strong>BANK: {{BankName}}</strong></td></tr>
                                                 </table>
 
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <table class="table table-striped">
-                                                    <tr>
-                                                        <td colspan="3"></td>
-                                                        <th colspan="3">ANALYSIS FOR <br /> {{headingDate}}</th>
+                                                <table class="tables table-stripeds">
+                                                    <tr style="border:none !important">
+                                                        <td colspan="3" style="border:none !important"></td>
+                                                        <th colspan="3" style="border:none !important"><strong><h6><u>Analysis for  {{headingDate}}</u></h6></strong></th>
                                                         <th>&nbsp;&nbsp;</th>
-                                                        <th colspan="3">ANALYSIS FOR <br />{{WeeklyDate}}</th>
+                                                        <th colspan="3" style="border:none !important"><strong><h6><u>Analysis for {{WeeklyDate}}</u></h6></strong></th>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
@@ -126,19 +126,7 @@
                                                     <tr>
                                                         <td></td>
                                                         <td><strong>1.) INWARD</strong></td>
-                                                        <td><i>(Code 114) - no account requested</i></td>
-                                                        <td>{{In114}}</td>
-                                                        <td>{{In114r}}</td>
-                                                        <td>{{In114bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In114w}}</td>
-                                                        <td>{{In114wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 911) - Issuer timed out </i></td>
+                                                        <td><i>(Code 911) - Card Issuer Timed Out</i></td>
                                                         <td>{{In911}}</td>
                                                         <td>{{In911r}}</td>
                                                         <td>{{In911bb}}%</td>
@@ -147,24 +135,10 @@
                                                         <td>{{In911wr}}</td>
                                                         <td>0.00%</td>
                                                     </tr>
-
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
-                                                        <td><i>(Code 111) -  Invalid Card Number</i></td>
-                                                        <td>{{In111}}</td>
-                                                        <td>{{In111r}}</td>
-                                                        <td>{{In111bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In111w}}</td>
-                                                        <td>{{In111wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 912) Card Issuer Unavailable</i></td>
+                                                        <td><i>(Code 912) - Card Issuer Unavailable </i></td>
                                                         <td>{{In912}}</td>
                                                         <td>{{In912r}}</td>
                                                         <td>{{In912bb}}%</td>
@@ -173,181 +147,207 @@
                                                         <td>{{In912wr}}</td>
                                                         <td>0.00%</td>
                                                     </tr>
+                                                    <!--
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 111) -  Invalid Card Number</i></td>
+        <td>{{In111}}</td>
+        <td>{{In111r}}</td>
+        <td>{{In111bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In111w}}</td>
+        <td>{{In111wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 400) - Accepted (for reversal) </i></td>
-                                                        <td>{{In400}}</td>
-                                                        <td>{{In400r}}</td>
-                                                        <td>{{In400bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In400w}}</td>
-                                                        <td>{{In400wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 912) Card Issuer Unavailable</i></td>
+        <td>{{In912}}</td>
+        <td>{{In912r}}</td>
+        <td>{{In912bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In912w}}</td>
+        <td>{{In912wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 100) - (no comments)</i></td>
-                                                        <td>{{In100}}</td>
-                                                        <td>{{In100r}}</td>
-                                                        <td>{{In100bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In100w}}</td>
-                                                        <td>{{In100wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 102) - Suspected Fraud</i></td>
-                                                        <td>{{In102}}</td>
-                                                        <td>{{In102r}}</td>
-                                                        <td>{{In102bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In102w}}</td>
-                                                        <td>{{In102wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
-                                                        <td>{{In120}}</td>
-                                                        <td>{{In120r}}</td>
-                                                        <td>{{In120bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In120w}}</td>
-                                                        <td>{{In120wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 118) - no card record</i></td>
-                                                        <td>{{In118}}</td>
-                                                        <td>{{In118r}}</td>
-                                                        <td>{{In118bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{In118w}}</td>
-                                                        <td>{{In118wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 400) - Accepted (for reversal) </i></td>
+        <td>{{In400}}</td>
+        <td>{{In400r}}</td>
+        <td>{{In400bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In400w}}</td>
+        <td>{{In400wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 100) - (no comments)</i></td>
+        <td>{{In100}}</td>
+        <td>{{In100r}}</td>
+        <td>{{In100bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In100w}}</td>
+        <td>{{In100wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 102) - Suspected Fraud</i></td>
+        <td>{{In102}}</td>
+        <td>{{In102r}}</td>
+        <td>{{In102bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In102w}}</td>
+        <td>{{In102wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
+        <td>{{In120}}</td>
+        <td>{{In120r}}</td>
+        <td>{{In120bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In120w}}</td>
+        <td>{{In120wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 118) - no card record</i></td>
+        <td>{{In118}}</td>
+        <td>{{In118r}}</td>
+        <td>{{In118bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{In118w}}</td>
+        <td>{{In118wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    -->
                                                     <tr>
                                                         <td></td>
                                                         <td><strong>2.) OUTWARD</strong></td>
-                                                        <td><i>(Code 102) - Suspected fraud</i></td>
-                                                        <td>{{Out102}}</td>
-                                                        <td>{{Out102r}}</td>
-                                                        <td>{{Out102bb}}%</td>
+                                                        <td><i>(Code 121) - Exceeded Withdrawal Limit</i></td>
+                                                        <td>{{Out121}}</td>
+                                                        <td>{{Out121r}}</td>
+                                                        <td>{{Out121bb}}%</td>
                                                         <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out102w}}</td>
-                                                        <td>{{Out102wr}}</td>
+                                                        <td>{{Out121w}}</td>
+                                                        <td>{{Out121wr}}</td>
                                                         <td>0.00%</td>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
-                                                        <td><i>(Code 114) - no acct requested</i></td>
-                                                        <td>{{Out114}}</td>
-                                                        <td>{{Out114r}}</td>
-                                                        <td>{{Out114bb}}%</td>
+                                                        <td><i>(Code 909) - System Malfunction</i></td>
+                                                        <td>{{Out909}}</td>
+                                                        <td>{{Out909r}}</td>
+                                                        <td>{{Out909bb}}%</td>
                                                         <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out114w}}</td>
-                                                        <td>{{Out114wr}}</td>
+                                                        <td>{{Out909w}}</td>
+                                                        <td>{{Out909wr}}</td>
                                                         <td>0.00%</td>
                                                     </tr>
+                                                    <!--
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 111) - invalid card number</i></td>
+        <td>{{Out111}}</td>
+        <td>{{Out111r}}</td>
+        <td>{{Out111bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out111w}}</td>
+        <td>{{Out111wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 111) - invalid card number</i></td>
-                                                        <td>{{Out111}}</td>
-                                                        <td>{{Out111r}}</td>
-                                                        <td>{{Out111bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out111w}}</td>
-                                                        <td>{{Out111wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 912) Issuer unavailable</i></td>
+        <td>{{Out912}}</td>
+        <td>{{Out912r}}</td>
+        <td>{{Out912bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out912w}}</td>
+        <td>{{Out912wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 912) Issuer unavailable</i></td>
-                                                        <td>{{Out912}}</td>
-                                                        <td>{{Out912r}}</td>
-                                                        <td>{{Out912bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out912w}}</td>
-                                                        <td>{{Out912wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 911) - Issuer timed out</i></td>
+        <td>{{Out911}}</td>
+        <td>{{Out911r}}</td>
+        <td>{{Out911bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out911w}}</td>
+        <td>{{Out911wr}}</td>
+        <td>0.00%</td>
+    </tr>
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 911) - Issuer timed out</i></td>
-                                                        <td>{{Out911}}</td>
-                                                        <td>{{Out911r}}</td>
-                                                        <td>{{Out911bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out911w}}</td>
-                                                        <td>{{Out911wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 100) - (no comments)</i></td>
-                                                        <td>{{Out100}}</td>
-                                                        <td>{{Out100r}}</td>
-                                                        <td>{{Out100bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out100w}}</td>
-                                                        <td>{{Out100wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 400) - Accepted (for reversal)</i></td>
-                                                        <td>{{Out400}}</td>
-                                                        <td>{{Out400r}}</td>
-                                                        <td>{{Out400bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out400w}}</td>
-                                                        <td>{{Out400wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
-                                                        <td>{{Out120}}</td>
-                                                        <td>{{Out120r}}</td>
-                                                        <td>{{Out120bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out120w}}</td>
-                                                        <td>{{Out120wr}}</td>
-                                                        <td>{{Out120bb}}%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><i>(Code 118) - no card record</i></td>
-                                                        <td>{{Out118}}</td>
-                                                        <td>{{Out118r}}</td>
-                                                        <td>{{Out118bb}}%</td>
-                                                        <td>&nbsp;&nbsp;</td>
-                                                        <td>{{Out118w}}</td>
-                                                        <td>{{Out118wr}}</td>
-                                                        <td>0.00%</td>
-                                                    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 100) - (no comments)</i></td>
+        <td>{{Out100}}</td>
+        <td>{{Out100r}}</td>
+        <td>{{Out100bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out100w}}</td>
+        <td>{{Out100wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 400) - Accepted (for reversal)</i></td>
+        <td>{{Out400}}</td>
+        <td>{{Out400r}}</td>
+        <td>{{Out400bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out400w}}</td>
+        <td>{{Out400wr}}</td>
+        <td>0.00%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 120) - Transaction not permitted to terminal</i></td>
+        <td>{{Out120}}</td>
+        <td>{{Out120r}}</td>
+        <td>{{Out120bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out120w}}</td>
+        <td>{{Out120wr}}</td>
+        <td>{{Out120bb}}%</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><i>(Code 118) - no card record</i></td>
+        <td>{{Out118}}</td>
+        <td>{{Out118r}}</td>
+        <td>{{Out118bb}}%</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{Out118w}}</td>
+        <td>{{Out118wr}}</td>
+        <td>0.00%</td>
+    </tr>-->
                                                     <tr style="height:20px !important">
                                                         <td class="col-sm-1z"><strong></strong></td>
                                                         <td><strong></strong></td>
@@ -435,29 +435,41 @@
                                                         <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="col-sm-1z"><strong>4</strong></td>
-                                                        <td><strong>CUSTOMER SERVICE</strong></td>
-                                                        <td><strong>1. Unresolved Customer Complaints</strong></td>
+                                                        <td class="col-sm-1z"></td>
                                                         <td></td>
+                                                        <td><i>Bank Average for Ranked Performance Measures</i></td>
+                                                        <td>{{bankrank}}</td>
                                                         <td></td>
                                                         <td></td>
                                                         <td style="border: none; !important;"></td>
-                                                        <td></td>
+                                                        <td>{{bankrankw}}</td>
                                                         <td></td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
+                                                        <td class="col-sm-1z"></td>
+                                                        <td><strong></strong></td>
+                                                        <td><i>Industry Average for Ranked Performance Measures</i></td>
+                                                        <td>{{indrank}}</td>
                                                         <td></td>
                                                         <td></td>
-                                                        <td><i>Unresolved Complaints</i></td>
-                                                        <td>{{cust}}%</td>
-                                                        <td>{{custr}}</td>
-                                                        <td>{{custbb}}%</td>
-                                                        <td style="border: none; !important;">&nbsp;&nbsp;</td>
-                                                        <td>{{custw}}%</td>
-                                                        <td>{{custwr}}</td>
-                                                        <td>0.00%</td>
+                                                        <td style="border: none; !important;"></td>
+                                                        <td>{{indrankw}}</td>
+                                                        <td></td>
+                                                        <td></td>
                                                     </tr>
+                                                    <!--<tr>
+        <td></td>
+        <td></td>
+        <td><i>Unresolved Complaints</i></td>
+        <td>{{cust}}%</td>
+        <td>{{custr}}</td>
+        <td>{{custbb}}%</td>
+        <td style="border: none; !important;">&nbsp;&nbsp;</td>
+        <td>{{custw}}%</td>
+        <td>{{custwr}}</td>
+        <td>0.00%</td>
+    </tr>-->
 
 
 

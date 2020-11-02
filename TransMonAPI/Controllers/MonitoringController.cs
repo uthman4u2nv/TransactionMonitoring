@@ -976,13 +976,22 @@ namespace TransMonAPI.Controllers
                     //var rr = JsonConvert.DeserializeObject<tAnalytic>(GetTransAnalytics());
                     var startdate = DateTime.Now.AddMinutes(-5).ToString();
                 var enddate = DateTime.Now.ToString();
-
-
-                var request = req.bankData.Replace("\\", "");
-                var dailyrequest = req.dailyData.Replace("\\", "");
-
-                var rr = JsonConvert.DeserializeObject<NLastFiveMinutes>(request);
-                var yy = JsonConvert.DeserializeObject<DailyTransAnalytic>(dailyrequest);
+                    //var request="";
+                    //var dailyrequest = "";
+                    
+                        var request = req.bankData.Replace("\\", "");
+                    
+                        var dailyrequest = req.dailyData.Replace("\\", "");
+                    
+                   // NLastFiveMinutes rr = null;
+                    //DailyTransAnalytic yy = null;
+                    //var yy = "";
+                   
+                        var rr = JsonConvert.DeserializeObject<NLastFiveMinutes>(request);
+                    
+                    
+                        var yy = JsonConvert.DeserializeObject<DailyTransAnalytic>(dailyrequest);
+                   
                     var xx = JsonConvert.DeserializeObject<LatestTransAnalytics>(GetDashboardAnalytics(req.bankCode));
                     List<ChartData> x = new List<ChartData>();
                     List<ChartData> y = new List<ChartData>();
@@ -3136,6 +3145,8 @@ namespace TransMonAPI.Controllers
             decimal totaltransOut100 = 0;
             decimal totaltransOut120 = 0;
             decimal totaltransOut118 = 0;
+            decimal totaltransOut121 = 0;
+            decimal totaltransOut909 = 0;
 
             decimal totaltransOut114w = 0;
             decimal totaltransOut911w = 0;
@@ -3146,6 +3157,8 @@ namespace TransMonAPI.Controllers
             decimal totaltransOut100w = 0;
             decimal totaltransOut120w = 0;
             decimal totaltransOut118w = 0;
+            decimal totaltransOut121w = 0;
+            decimal totaltransOut909w = 0;
 
             int In114P = 0;
 
@@ -3153,26 +3166,27 @@ namespace TransMonAPI.Controllers
             decimal In114=0;decimal In111 = 0; decimal In400 = 0; decimal In912 = 0;
             decimal In911 = 0; decimal In102 = 0; decimal In100 = 0; decimal In120 = 0; decimal In118 = 0;
             decimal Out114 = 0; decimal Out111 = 0; decimal Out400 = 0; decimal Out912 = 0;
-            decimal Out911 = 0; decimal Out102 = 0; decimal Out100 = 0; decimal Out120 = 0; decimal Out118 = 0;
+            decimal Out911 = 0; decimal Out102 = 0; decimal Out100 = 0; decimal Out120 = 0; decimal Out118 = 0;decimal Out121 = 0;decimal Out909 = 0;
 
             decimal In114w = 0; decimal In111w = 0; decimal In400w = 0; decimal In912w = 0;
             decimal In911w = 0; decimal In102w = 0; decimal In100w = 0; decimal In120w = 0; decimal In118w = 0;
             decimal Out114w = 0; decimal Out111w = 0; decimal Out400w = 0; decimal Out912w = 0;
-            decimal Out911w = 0; decimal Out102w = 0; decimal Out100w = 0; decimal Out120w = 0; decimal Out118w = 0;
+            decimal Out911w = 0; decimal Out102w = 0; decimal Out100w = 0; decimal Out120w = 0; decimal Out118w = 0; decimal Out121w = 0; decimal Out909w = 0;
 
             var In114r="";var In111r = ""; var In400r = ""; var In912r = ""; var In911r = "";
             var In102r = ""; var In100r = ""; var In120r = ""; var In118r = "";
             var Out114r = ""; var Out111r = ""; var Out400r = ""; var Out912r = ""; var Out911r = "";
-            var Out102r = ""; var Out100r = ""; var Out120r = ""; var Out118r = "";
+            var Out102r = ""; var Out100r = ""; var Out120r = ""; var Out118r = ""; var Out121r = ""; var Out909r = "";
 
             decimal In114bb = 0; decimal In111bb = 0; decimal In400bb = 0; decimal In912bb = 0; decimal In911bb = 0;
             decimal In102bb = 0; decimal In100bb = 0; decimal In120bb = 0; decimal In118bb = 0;
             decimal Out114bb = 0; decimal Out111bb = 0; decimal Out400bb = 0; decimal Out912bb = 0; decimal Out911bb = 0;
-            decimal Out102bb = 0; decimal Out100bb = 0; decimal Out120bb = 0; decimal Out118bb = 0;
+            decimal Out102bb = 0; decimal Out100bb = 0; decimal Out120bb = 0; decimal Out118bb = 0; decimal Out121bb = 0; decimal Out909bb = 0;
 
             int Out114wRank = 0; int Out911wRank = 0;int Out111wRank = 0;
             int Out400wRank = 0; int Out912wRank = 0;  int Out102wRank = 0;
             int Out100wRank = 0; int Out120wRank = 0;int Out118wRank = 0;
+            int Out121wRank = 0; int Out909wRank = 0;
 
             int In114wRank = 0; int In911wRank = 0; int In111wRank = 0;
             int In400wRank = 0; int In912wRank = 0; int In102wRank = 0;
@@ -3477,6 +3491,14 @@ namespace TransMonAPI.Controllers
                             {
                                 totaltransOut120 += Convert.ToInt16(o.TRANSACTIONCOUNT);
                             }
+                            if (o.RESPONSECODE == "121")
+                            {
+                                totaltransOut121 += Convert.ToInt16(o.TRANSACTIONCOUNT);
+                            }
+                            if (o.RESPONSECODE == "909")
+                            {
+                                totaltransOut909 += Convert.ToInt16(o.TRANSACTIONCOUNT);
+                            }
 
 
                         }
@@ -3489,6 +3511,8 @@ namespace TransMonAPI.Controllers
                         Out100 = (totaltransOut100 / totalTransOut) * 100;
                         Out120 = (totaltransOut120 / totalTransOut) * 100;
                         Out118 = (totaltransOut118 / totalTransOut) * 100;
+                        Out121 = (totaltransOut121 / totalTransOut) * 100;
+                        Out909 = (totaltransOut909 / totalTransOut) * 100;
                     }
                     else
                     {
@@ -3501,6 +3525,8 @@ namespace TransMonAPI.Controllers
                         Out100 = 0;
                         Out120 = 0;
                         Out118 = 0;
+                        Out121 = 0;
+                        Out909 = 0;
                     }
                     if (Outw.Count() > 0)
                     {
@@ -3513,8 +3539,10 @@ namespace TransMonAPI.Controllers
                         int Out100wCount = 0;
                         int Out120wCount = 0;
                         int Out118wCount = 0;
+                        int Out121wCount = 0;
+                        int Out909wCount = 0;
 
-                        
+
                         foreach (var k in Outw)
                         {
                             totalTransOutWeek += Convert.ToInt16(k.PCTEFF);
@@ -3575,11 +3603,18 @@ namespace TransMonAPI.Controllers
                                 Out120wRank = k.WEEKLYRANK;
 
                             }
-                           /* if (k.RESPONSECODE == "118")
+                            if (k.RESPONSECODE == "121")
                             {
-                                totaltransOut118w += Convert.ToInt16(k.PCTEFF);
-                                Out118wCount++;
-                            }*/
+                                totaltransOut121w += Convert.ToInt16(k.PCTEFF);
+                                Out121wCount++;
+                                Out121wRank = k.WEEKLYRANK;
+                            }
+                            if (k.RESPONSECODE == "909")
+                            {
+                                totaltransOut909w += Convert.ToInt16(k.PCTEFF);
+                                Out909wCount++;
+                                Out909wRank = k.WEEKLYRANK;
+                            }
 
 
                         }
@@ -3657,6 +3692,24 @@ namespace TransMonAPI.Controllers
                         {
                             Out118w = 0;
                         }
+
+                        if (Out121wCount > 0)
+                        {
+                            Out121w = (totaltransOut121w / Out121wCount);
+                        }
+                        else
+                        {
+                            Out121w = 0;
+                        }
+
+                        if (Out909wCount > 0)
+                        {
+                            Out909w = (totaltransOut909w / Out909wCount);
+                        }
+                        else
+                        {
+                            Out909w = 0;
+                        }
                     }
                     else
                     {
@@ -3669,6 +3722,8 @@ namespace TransMonAPI.Controllers
                         Out100w = 0;
                         Out120w = 0;
                         Out118w = 0;
+                        Out121w = 0;
+                        Out909w = 0;
                         Out114wRank = 0;
                         Out911wRank = 0;
                         Out111wRank = 0;
@@ -3678,6 +3733,8 @@ namespace TransMonAPI.Controllers
                         Out100wRank = 0;
                         Out120wRank = 0;
                         Out118wRank = 0;
+                        Out121wRank = 0;
+                        Out909wRank = 0;
                     }
 
                     /** RANKING **/
@@ -3700,6 +3757,8 @@ namespace TransMonAPI.Controllers
                     Out100r = ReturnPosition(ReturnRank2("100", req.sortCode));
                     Out120r = ReturnPosition(ReturnRank2("120", req.sortCode));
                     Out118r = ReturnPosition(ReturnRank2("118", req.sortCode));
+                    Out121r = ReturnPosition(ReturnRank2("121", req.sortCode));
+                    Out909r = ReturnPosition(ReturnRank2("909", req.sortCode));
                     /** END RANKING **/
 
 
@@ -3747,6 +3806,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102r = Out102r;
                     resp.Out100r = Out100r;
                     resp.Out120r = Out120r;
+                    resp.Out121r = Out121r;
+                    resp.Out909r = Out909r;
 
                     resp.In114bb = BestBankRating("114");
                     resp.In118bb = BestBankRating("118");
@@ -3767,6 +3828,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102bb = BestBankRating("102");
                     resp.Out100bb = BestBankRating("100");
                     resp.Out120bb = BestBankRating("120");
+                    resp.Out121bb = BestBankRating("121");
+                    resp.Out909bb = BestBankRating("909");
 
 
 
@@ -3780,6 +3843,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102 = Math.Round(Out102, 2);
                     resp.Out100 = Math.Round(Out100, 2);
                     resp.Out120 = Math.Round(Out120, 2);
+                    resp.Out121 = Math.Round(Out121, 2);
+                    resp.Out909 = Math.Round(Out909, 2);
 
                     resp.Out114w = Math.Round(Out114w, 2);
                     resp.Out118w = Math.Round(Out118w, 2);
@@ -3790,6 +3855,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102w = Math.Round(Out102w, 2);
                     resp.Out100w = Math.Round(Out100w, 2);
                     resp.Out120w = Math.Round(Out120w, 2);
+                    resp.Out121w = Math.Round(Out121w, 2);
+                    resp.Out909w = Math.Round(Out909w, 2);
 
                     resp.Out114wr = ReturnPosition(Out114wRank);
                     resp.Out118wr = ReturnPosition(Out118wRank);
@@ -3800,6 +3867,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102wr = ReturnPosition(Out102wRank);
                     resp.Out100wr = ReturnPosition(Out100wRank);
                     resp.Out120wr = ReturnPosition(Out120wRank);
+                    resp.Out121wr = ReturnPosition(Out121wRank);
+                    resp.Out909wr = ReturnPosition(Out909wRank);
 
                     resp.In114wr = ReturnPosition(In114wRank);
                     resp.In118wr = ReturnPosition(In118wRank);
@@ -3812,7 +3881,8 @@ namespace TransMonAPI.Controllers
                     resp.In120wr = ReturnPosition(In120wRank);
 
                     resp.BankName = GetBankName(req.sortCode);
-                    resp.WeeklyDate = lastweekFromDispl + " - " + lastweekToDisp;
+                    resp.WeeklyDate = lastweekFromDispl.ToString("MMMM dd, yyyy") + " to " + lastweekToDisp.ToString("MMMM dd, yyyy");
+                    resp.headingDate = req.dateFrom.ToString("MMMM dd, yyyy") + " to " + req.dateTo.ToString("MMMM dd, yyyy");
                     output = JsonConvert.SerializeObject(resp);
                 }
             }catch(Exception ex)

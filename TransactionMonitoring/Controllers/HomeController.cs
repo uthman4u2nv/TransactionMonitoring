@@ -107,8 +107,8 @@ namespace TransactionMonitoring.Controllers
             converter.Options.WebPageHeight = webPageHeight;
             converter.Options.MarginLeft = 10;
             converter.Options.MarginRight = 10;
-            converter.Options.MarginTop = 30;
-            converter.Options.MarginBottom = 30;
+            converter.Options.MarginTop = 10;
+            converter.Options.MarginBottom = 10;
 
             // create a new pdf document converting an url
             SelectPdf.PdfDocument doc = converter.ConvertUrl(url);
@@ -203,6 +203,8 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out102r = rr.Out102r;
             ViewBag.Out100r = rr.Out100r;
             ViewBag.Out120r = rr.Out120r;
+            ViewBag.Out121r = rr.Out121r;
+            ViewBag.Out909r = rr.Out909r;
 
             ViewBag.In114bb = rr.In114bb;
             ViewBag.In118bb = rr.In118bb;
@@ -223,6 +225,8 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out102bb = rr.Out102bb;
             ViewBag.Out100bb = rr.Out100bb;
             ViewBag.Out120bb = rr.Out120bb;
+            ViewBag.Out121bb = rr.Out121bb;
+            ViewBag.Out909bb = rr.Out909bb;
             ViewBag.Out114 = Math.Round(rr.Out114, 2);
             ViewBag.Out118 = Math.Round(rr.Out118, 2);
             ViewBag.Out911 = Math.Round(rr.Out911, 2);
@@ -232,6 +236,8 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out102 = Math.Round(rr.Out102, 2);
             ViewBag.Out100 = Math.Round(rr.Out100, 2);
             ViewBag.Out120 = Math.Round(rr.Out120, 2);
+            ViewBag.Out121 = Math.Round(rr.Out121, 2);
+            ViewBag.Out909 = Math.Round(rr.Out909, 2);
 
             ViewBag.Out114w = Math.Round(rr.Out114w, 2);
             ViewBag.Out118w = Math.Round(rr.Out118w, 2);
@@ -242,8 +248,11 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out102w = Math.Round(rr.Out102w, 2);
             ViewBag.Out100w = Math.Round(rr.Out100w, 2);
             ViewBag.Out120w = Math.Round(rr.Out120w, 2);
+            ViewBag.Out121w = Math.Round(rr.Out121w, 2);
+            ViewBag.Out909w = Math.Round(rr.Out909w, 2);
             ViewBag.BankName = rr.BankName;
-            ViewBag.headingDate = dateFrom + " -  " + dateTo;
+            //ViewBag.headingDate = dateFrom + " -  " + dateTo;
+            ViewBag.headingDate = rr.headingDate;
             ViewBag.WeeklyDate = rr.WeeklyDate;
             ViewBag.link = 100;
             ViewBag.linkr = "1st";
@@ -270,6 +279,8 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out102wr = rr.Out102wr;
             ViewBag.Out100wr = rr.Out100wr;
             ViewBag.Out120wr = rr.Out120wr;
+            ViewBag.Out121wr = rr.Out121wr;
+            ViewBag.Out909wr = rr.Out909wr;
 
             ViewBag.In114wr = rr.In114wr;
             ViewBag.In118wr = rr.In118wr;
@@ -280,6 +291,12 @@ namespace TransactionMonitoring.Controllers
             ViewBag.In102wr = rr.In102wr;
             ViewBag.In100wr = rr.In100wr;
             ViewBag.In120wr = rr.In120wr;
+
+            ViewBag.bankrank = "1.08%";
+            ViewBag.bankrankw = "1.49%";
+
+            ViewBag.indrank = "1.28%";
+            ViewBag.indrankw = "1.35%";
 
 
             return View();
