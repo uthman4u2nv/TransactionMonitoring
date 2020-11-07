@@ -176,7 +176,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Aggregate_Daily_Transaction.cs">
+      <DependentUpon>TransMonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Bank.cs">
+      <DependentUpon>TransMonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\banksefficiency.cs">
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Log.cs">
@@ -217,6 +223,9 @@
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Utility.cs" />
+    <Compile Include="Models\View_Position.cs">
+      <DependentUpon>TransMonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\View_Users.cs">
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>
@@ -236,8 +245,8 @@
     <Content Include="Global.asax" />
     <Content Include="Models\TransMonModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TransMonModel.Context.cs</LastGenOutput>
       <DependentUpon>TransMonModel.edmx</DependentUpon>
+      <LastGenOutput>TransMonModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\TransMonModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TransactionMonitoringModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aggregate_Daily_Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TRANSDATE" Type="date" />
+          <Property Name="YEARQUARTER" Type="int" />
+          <Property Name="TRANSACTION_TYPE" Type="int" />
+          <Property Name="TRANLEG" Type="int" />
+          <Property Name="TRANSACTIONCOUNT" Type="int" />
+          <Property Name="TRANSACTIONVALUE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TRANSACTION_MODE" Type="int" />
+          <Property Name="TRANSACTION_DESCRIPTION" Type="nvarchar" MaxLength="50" />
+          <Property Name="RECEIVERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="SENDERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TRANSACTION_SOURCE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Banks">
           <Key>
             <PropertyRef Name="bankID" />
@@ -13,6 +31,24 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="date_created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionMonitoring.dbo.banksefficiency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="banksefficiency">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="date" Nullable="false" />
+          <Property Name="BANK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PCTEFF" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="int" Nullable="false" />
+          <Property Name="ORIENTATION" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Logs">
           <Key>
@@ -108,6 +144,29 @@
           <Property Name="SENDERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionMonitoring.dbo.View_Position' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Position">
+          <Key>
+            <PropertyRef Name="REPORTID" />
+            <PropertyRef Name="TRANSDATE" />
+            <PropertyRef Name="YEARQUARTER" />
+            <PropertyRef Name="TRANSACTION_TYPE" />
+          </Key>
+          <Property Name="REPORTID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TRANSDATE" Type="date" Nullable="false" />
+          <Property Name="YEARQUARTER" Type="int" Nullable="false" />
+          <Property Name="TRANSACTION_TYPE" Type="int" Nullable="false" />
+          <Property Name="TRANLEG" Type="int" />
+          <Property Name="TRANSACTIONCOUNT" Type="int" />
+          <Property Name="TRANSACTIONVALUE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TRANSACTION_MODE" Type="int" />
+          <Property Name="TRANSACTION_DESCRIPTION" Type="nvarchar" MaxLength="50" />
+          <Property Name="RECEIVERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="SENDERS_SORT_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TRANSACTION_SOURCE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'TransactionMonitoring.dbo.View_Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="View_Users">
           <Key>
@@ -128,6 +187,7 @@ warning 6002: The table/view 'TransactionMonitoring.dbo.View_Users' does not hav
           <Property Name="bankCode" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityContainer Name="TransactionMonitoringModelStoreContainer">
+          <EntitySet Name="Aggregate_Daily_Transaction" EntityType="Self.Aggregate_Daily_Transaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Methods" EntityType="Self.Methods" Schema="dbo" store:Type="Tables" />
@@ -137,6 +197,33 @@ warning 6002: The table/view 'TransactionMonitoring.dbo.View_Users' does not hav
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeeklyRating" EntityType="Self.WeeklyRating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="banksefficiency" EntityType="Self.banksefficiency" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[banksefficiency].[ENDDATE] AS [ENDDATE], 
+[banksefficiency].[BANK] AS [BANK], 
+[banksefficiency].[PCTEFF] AS [PCTEFF], 
+[banksefficiency].[RESPONSECODE] AS [RESPONSECODE], 
+[banksefficiency].[WEEKLYRANK] AS [WEEKLYRANK], 
+[banksefficiency].[ORIENTATION] AS [ORIENTATION]
+FROM [dbo].[banksefficiency] AS [banksefficiency]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Position" EntityType="Self.View_Position" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[View_Position].[REPORTID] AS [REPORTID], 
+[View_Position].[TRANSDATE] AS [TRANSDATE], 
+[View_Position].[YEARQUARTER] AS [YEARQUARTER], 
+[View_Position].[TRANSACTION_TYPE] AS [TRANSACTION_TYPE], 
+[View_Position].[TRANLEG] AS [TRANLEG], 
+[View_Position].[TRANSACTIONCOUNT] AS [TRANSACTIONCOUNT], 
+[View_Position].[TRANSACTIONVALUE] AS [TRANSACTIONVALUE], 
+[View_Position].[RESPONSECODE] AS [RESPONSECODE], 
+[View_Position].[TRANSACTION_MODE] AS [TRANSACTION_MODE], 
+[View_Position].[TRANSACTION_DESCRIPTION] AS [TRANSACTION_DESCRIPTION], 
+[View_Position].[RECEIVERS_SORT_CODE] AS [RECEIVERS_SORT_CODE], 
+[View_Position].[SENDERS_SORT_CODE] AS [SENDERS_SORT_CODE], 
+[View_Position].[TRANSACTION_SOURCE] AS [TRANSACTION_SOURCE]
+FROM [dbo].[View_Position] AS [View_Position]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="View_Users" EntityType="Self.View_Users" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [View_Users].[name] AS [name], 
@@ -162,55 +249,13 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
           <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityContainer Name="TransactionMonitoringEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Banks" EntityType="Self.Bank" />
-          <EntitySet Name="Users" EntityType="TransactionMonitoringModel.User" />
-          <EntitySet Name="View_Users" EntityType="TransactionMonitoringModel.View_Users" />
-          <EntitySet Name="Logs" EntityType="TransactionMonitoringModel.Log" />
-          <EntitySet Name="Methods" EntityType="TransactionMonitoringModel.Method" />
-          <EntitySet Name="Roles" EntityType="TransactionMonitoringModel.Role" />
-          <EntitySet Name="MyAnalytics" EntityType="TransactionMonitoringModel.MyAnalytic" />
-          <EntitySet Name="Reports" EntityType="TransactionMonitoringModel.Report" />
-          <EntitySet Name="WeeklyRatings" EntityType="TransactionMonitoringModel.WeeklyRating" />
-          <EntitySet Name="Report2" EntityType="TransactionMonitoringModel.Report2" />
-        </EntityContainer>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="bankCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="role" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="View_Users">
-          <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="firstname" />
-            <PropertyRef Name="lastname" />
-            <PropertyRef Name="email" />
-            <PropertyRef Name="roleName" />
-            <PropertyRef Name="role" />
-            <PropertyRef Name="bankCode" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="roleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="role" Type="Int32" Nullable="false" />
-          <Property Name="bankCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Log">
           <Key>
             <PropertyRef Name="LogID" />
           </Key>
           <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LogDateIn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LogRequest" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LogRequest" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Method" Type="Int32" Nullable="false" />
           <Property Name="LogRequestToAPI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="LogRequestToAPIDate" Type="DateTime" Precision="3" />
@@ -223,14 +268,7 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
             <PropertyRef Name="MethodID" />
           </Key>
           <Property Name="MethodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MethodName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="roleID" />
-          </Key>
-          <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="roleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="MyAnalytic">
           <Key>
@@ -238,7 +276,7 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
           </Key>
           <Property Name="AnalyticsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AnalyticsDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BankCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BankCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FailureRateIn" Type="Double" Nullable="false" />
           <Property Name="VolumeIn" Type="Int32" Nullable="false" />
           <Property Name="FailureRateOut" Type="Double" Nullable="false" />
@@ -262,28 +300,135 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
           <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TRANSACTION_SOURCE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="WeeklyRating">
-          <Key>
-            <PropertyRef Name="RANKINGID" />
-          </Key>
-          <Property Name="RANKINGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RECEIVERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PCTEFF" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
-          <Property Name="RESPONSECODE" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Report2">
           <Key>
             <PropertyRef Name="REPORTID" />
           </Key>
           <Property Name="REPORTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="BANK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PCTEFF" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="RESPONSECODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BANK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PCTEFF" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
-          <Property Name="ORIENTATION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ORIENTATION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="bankCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WeeklyRating">
+          <Key>
+            <PropertyRef Name="RANKINGID" />
+          </Key>
+          <Property Name="RANKINGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RECEIVERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PCTEFF" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="banksefficiency">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BANK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PCTEFF" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
+          <Property Name="ORIENTATION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="View_Position">
+          <Key>
+            <PropertyRef Name="REPORTID" />
+            <PropertyRef Name="TRANSDATE" />
+            <PropertyRef Name="YEARQUARTER" />
+            <PropertyRef Name="TRANSACTION_TYPE" />
+          </Key>
+          <Property Name="REPORTID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TRANSDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="YEARQUARTER" Type="Int32" Nullable="false" />
+          <Property Name="TRANSACTION_TYPE" Type="Int32" Nullable="false" />
+          <Property Name="TRANLEG" Type="Int32" />
+          <Property Name="TRANSACTIONCOUNT" Type="Int32" />
+          <Property Name="TRANSACTIONVALUE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TRANSACTION_MODE" Type="Int32" />
+          <Property Name="TRANSACTION_DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RECEIVERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TRANSACTION_SOURCE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="View_Users">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="firstname" />
+            <PropertyRef Name="lastname" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="roleName" />
+            <PropertyRef Name="role" />
+            <PropertyRef Name="bankCode" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="Int32" Nullable="false" />
+          <Property Name="bankCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TransactionMonitoringEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Banks" EntityType="Self.Bank" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="Methods" EntityType="Self.Method" />
+          <EntitySet Name="MyAnalytics" EntityType="Self.MyAnalytic" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <EntitySet Name="Report2" EntityType="Self.Report2" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="WeeklyRatings" EntityType="Self.WeeklyRating" />
+          <EntitySet Name="banksefficiencies" EntityType="Self.banksefficiency" />
+          <EntitySet Name="View_Position" EntityType="Self.View_Position" />
+          <EntitySet Name="View_Users" EntityType="Self.View_Users" />
+          <EntitySet Name="Aggregate_Daily_Transaction" EntityType="TransactionMonitoringModel.Aggregate_Daily_Transaction" />
+        </EntityContainer>
+        <EntityType Name="Aggregate_Daily_Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TRANSDATE" Type="DateTime" Precision="0" />
+          <Property Name="YEARQUARTER" Type="Int32" />
+          <Property Name="TRANSACTION_TYPE" Type="Int32" />
+          <Property Name="TRANLEG" Type="Int32" />
+          <Property Name="TRANSACTIONCOUNT" Type="Int32" />
+          <Property Name="TRANSACTIONVALUE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TRANSACTION_MODE" Type="Int32" />
+          <Property Name="TRANSACTION_DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RECEIVERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SENDERS_SORT_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TRANSACTION_SOURCE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -301,79 +446,154 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="TransactionMonitoringModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="role" ColumnName="role" />
-                <ScalarProperty Name="bankCode" ColumnName="bankCode" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="lastname" ColumnName="lastname" />
-                <ScalarProperty Name="firstname" ColumnName="firstname" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="View_Users">
-            <EntityTypeMapping TypeName="TransactionMonitoringModel.View_Users">
-              <MappingFragment StoreEntitySet="View_Users">
-              <ScalarProperty Name="bankCode" ColumnName="bankCode" />
-                <ScalarProperty Name="role" ColumnName="role" />
-                <ScalarProperty Name="roleName" ColumnName="roleName" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="lastname" ColumnName="lastname" />
-                <ScalarProperty Name="firstname" ColumnName="firstname" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Logs">
             <EntityTypeMapping TypeName="TransactionMonitoringModel.Log">
               <MappingFragment StoreEntitySet="Logs">
-                <ScalarProperty Name="LogResponse" ColumnName="LogResponse" />
-                <ScalarProperty Name="LogResponseFromAPIDate" ColumnName="LogResponseFromAPIDate" />
-                <ScalarProperty Name="LogResponseFromAPI" ColumnName="LogResponseFromAPI" />
-                <ScalarProperty Name="LogRequestToAPIDate" ColumnName="LogRequestToAPIDate" />
-                <ScalarProperty Name="LogRequestToAPI" ColumnName="LogRequestToAPI" />
-                <ScalarProperty Name="Method" ColumnName="Method" />
-                <ScalarProperty Name="LogRequest" ColumnName="LogRequest" />
-                <ScalarProperty Name="LogDateIn" ColumnName="LogDateIn" />
                 <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="LogDateIn" ColumnName="LogDateIn" />
+                <ScalarProperty Name="LogRequest" ColumnName="LogRequest" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="LogRequestToAPI" ColumnName="LogRequestToAPI" />
+                <ScalarProperty Name="LogRequestToAPIDate" ColumnName="LogRequestToAPIDate" />
+                <ScalarProperty Name="LogResponseFromAPI" ColumnName="LogResponseFromAPI" />
+                <ScalarProperty Name="LogResponseFromAPIDate" ColumnName="LogResponseFromAPIDate" />
+                <ScalarProperty Name="LogResponse" ColumnName="LogResponse" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Methods">
             <EntityTypeMapping TypeName="TransactionMonitoringModel.Method">
               <MappingFragment StoreEntitySet="Methods">
-                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
                 <ScalarProperty Name="MethodID" ColumnName="MethodID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="TransactionMonitoringModel.Role">
-              <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="roleName" ColumnName="roleName" />
-                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MyAnalytics">
             <EntityTypeMapping TypeName="TransactionMonitoringModel.MyAnalytic">
               <MappingFragment StoreEntitySet="MyAnalytics">
-                <ScalarProperty Name="VolumeOut" ColumnName="VolumeOut" />
-                <ScalarProperty Name="FailureRateOut" ColumnName="FailureRateOut" />
-                <ScalarProperty Name="VolumeIn" ColumnName="VolumeIn" />
-                <ScalarProperty Name="FailureRateIn" ColumnName="FailureRateIn" />
-                <ScalarProperty Name="BankCode" ColumnName="BankCode" />
-                <ScalarProperty Name="AnalyticsDate" ColumnName="AnalyticsDate" />
                 <ScalarProperty Name="AnalyticsID" ColumnName="AnalyticsID" />
+                <ScalarProperty Name="AnalyticsDate" ColumnName="AnalyticsDate" />
+                <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+                <ScalarProperty Name="FailureRateIn" ColumnName="FailureRateIn" />
+                <ScalarProperty Name="VolumeIn" ColumnName="VolumeIn" />
+                <ScalarProperty Name="FailureRateOut" ColumnName="FailureRateOut" />
+                <ScalarProperty Name="VolumeOut" ColumnName="VolumeOut" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reports">
             <EntityTypeMapping TypeName="TransactionMonitoringModel.Report">
               <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
+                <ScalarProperty Name="TRANSDATE" ColumnName="TRANSDATE" />
+                <ScalarProperty Name="YEARQUARTER" ColumnName="YEARQUARTER" />
+                <ScalarProperty Name="TRANSACTION_TYPE" ColumnName="TRANSACTION_TYPE" />
+                <ScalarProperty Name="TRANLEG" ColumnName="TRANLEG" />
+                <ScalarProperty Name="TRANSACTIONCOUNT" ColumnName="TRANSACTIONCOUNT" />
+                <ScalarProperty Name="TRANSACTIONVALUE" ColumnName="TRANSACTIONVALUE" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="TRANSACTION_MODE" ColumnName="TRANSACTION_MODE" />
+                <ScalarProperty Name="TRANSACTION_DESCRIPTION" ColumnName="TRANSACTION_DESCRIPTION" />
+                <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
+                <ScalarProperty Name="SENDERS_SORT_CODE" ColumnName="SENDERS_SORT_CODE" />
+                <ScalarProperty Name="TRANSACTION_SOURCE" ColumnName="TRANSACTION_SOURCE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Report2">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.Report2">
+              <MappingFragment StoreEntitySet="Report2">
+                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="bankCode" ColumnName="bankCode" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeeklyRatings">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.WeeklyRating">
+              <MappingFragment StoreEntitySet="WeeklyRating">
+                <ScalarProperty Name="RANKINGID" ColumnName="RANKINGID" />
+                <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="SENDERS_SORT_CODE" ColumnName="SENDERS_SORT_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="banksefficiencies">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.banksefficiency">
+              <MappingFragment StoreEntitySet="banksefficiency">
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Position">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.View_Position">
+              <MappingFragment StoreEntitySet="View_Position">
+                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
+                <ScalarProperty Name="TRANSDATE" ColumnName="TRANSDATE" />
+                <ScalarProperty Name="YEARQUARTER" ColumnName="YEARQUARTER" />
+                <ScalarProperty Name="TRANSACTION_TYPE" ColumnName="TRANSACTION_TYPE" />
+                <ScalarProperty Name="TRANLEG" ColumnName="TRANLEG" />
+                <ScalarProperty Name="TRANSACTIONCOUNT" ColumnName="TRANSACTIONCOUNT" />
+                <ScalarProperty Name="TRANSACTIONVALUE" ColumnName="TRANSACTIONVALUE" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="TRANSACTION_MODE" ColumnName="TRANSACTION_MODE" />
+                <ScalarProperty Name="TRANSACTION_DESCRIPTION" ColumnName="TRANSACTION_DESCRIPTION" />
+                <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
+                <ScalarProperty Name="SENDERS_SORT_CODE" ColumnName="SENDERS_SORT_CODE" />
+                <ScalarProperty Name="TRANSACTION_SOURCE" ColumnName="TRANSACTION_SOURCE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Users">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.View_Users">
+              <MappingFragment StoreEntitySet="View_Users">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="bankCode" ColumnName="bankCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aggregate_Daily_Transaction">
+            <EntityTypeMapping TypeName="TransactionMonitoringModel.Aggregate_Daily_Transaction">
+              <MappingFragment StoreEntitySet="Aggregate_Daily_Transaction">
                 <ScalarProperty Name="TRANSACTION_SOURCE" ColumnName="TRANSACTION_SOURCE" />
                 <ScalarProperty Name="SENDERS_SORT_CODE" ColumnName="SENDERS_SORT_CODE" />
                 <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
@@ -386,32 +606,7 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
                 <ScalarProperty Name="TRANSACTION_TYPE" ColumnName="TRANSACTION_TYPE" />
                 <ScalarProperty Name="YEARQUARTER" ColumnName="YEARQUARTER" />
                 <ScalarProperty Name="TRANSDATE" ColumnName="TRANSDATE" />
-                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WeeklyRatings">
-            <EntityTypeMapping TypeName="TransactionMonitoringModel.WeeklyRating">
-              <MappingFragment StoreEntitySet="WeeklyRating">
-                <ScalarProperty Name="SENDERS_SORT_CODE" ColumnName="SENDERS_SORT_CODE" />
-                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
-                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
-                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
-                <ScalarProperty Name="RECEIVERS_SORT_CODE" ColumnName="RECEIVERS_SORT_CODE" />
-                <ScalarProperty Name="RANKINGID" ColumnName="RANKINGID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Report2">
-            <EntityTypeMapping TypeName="TransactionMonitoringModel.Report2">
-              <MappingFragment StoreEntitySet="Report2">
-                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
-                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
-                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
-                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
-                <ScalarProperty Name="BANK" ColumnName="BANK" />
-                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
-                <ScalarProperty Name="REPORTID" ColumnName="REPORTID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -430,7 +625,7 @@ FROM [dbo].[View_Users] AS [View_Users]</DefiningQuery>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="true" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

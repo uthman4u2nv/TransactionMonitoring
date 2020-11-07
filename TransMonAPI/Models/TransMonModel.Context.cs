@@ -26,14 +26,17 @@ namespace TransMonAPI.Models
         }
     
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<View_Users> View_Users { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Method> Methods { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<MyAnalytic> MyAnalytics { get; set; }
         public DbSet<Report> Reports { get; set; }
-        public DbSet<WeeklyRating> WeeklyRatings { get; set; }
         public DbSet<Report2> Report2 { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<WeeklyRating> WeeklyRatings { get; set; }
+        public DbSet<banksefficiency> banksefficiencies { get; set; }
+        public DbSet<View_Position> View_Position { get; set; }
+        public DbSet<View_Users> View_Users { get; set; }
+        public DbSet<Aggregate_Daily_Transaction> Aggregate_Daily_Transaction { get; set; }
     }
 }

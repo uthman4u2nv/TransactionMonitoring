@@ -149,6 +149,11 @@ namespace TransactionMonitoring.Models
         public string In120wr { get; set; }
         public string In118wr { get; set; }
 
+        public decimal In911bbw { get; set; }
+        public decimal In912bbw { get; set; }
+        public decimal Out121bbw { get; set; }
+        public decimal Out909bbw { get; set; }
+
         /**END WEEKLY RANKING */
 
         public string headingDate { get; set; }

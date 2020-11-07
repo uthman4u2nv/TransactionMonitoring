@@ -1895,7 +1895,10 @@ namespace TransMonAPI.Models
 
 
         /**END WEEKLY OUT VALUES **/
-
+        public decimal In911bbw { get; set; }
+        public decimal In912bbw { get; set; }
+        public decimal Out121bbw { get; set; }
+        public decimal Out909bbw { get; set; }
         public string WeeklyDate { get; set; }
         public string headingDate { get; set; }
     }

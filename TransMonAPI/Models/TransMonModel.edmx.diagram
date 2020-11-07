@@ -4,17 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3c5f93821c8945828aad27bd269a142e" Name="Diagram1">
+      <Diagram DiagramId="63605b9ac34a4f3383f676e0041f2345" Name="Diagram1">
         <EntityTypeShape EntityType="TransactionMonitoringModel.Bank" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.User" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.View_Users" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.Log" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.Method" Width="1.5" PointX="5.375" PointY="4.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.Role" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.MyAnalytic" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.Report" Width="1.5" PointX="7.375" PointY="3.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.WeeklyRating" Width="1.5" PointX="3.375" PointY="7.75" />
-        <EntityTypeShape EntityType="TransactionMonitoringModel.Report2" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Log" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Method" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.MyAnalytic" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Report" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Report2" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Role" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.User" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.WeeklyRating" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.banksefficiency" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.View_Position" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.View_Users" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransactionMonitoringModel.Aggregate_Daily_Transaction" Width="1.5" PointX="0.75" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

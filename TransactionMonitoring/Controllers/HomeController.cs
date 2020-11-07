@@ -250,6 +250,11 @@ namespace TransactionMonitoring.Controllers
             ViewBag.Out120w = Math.Round(rr.Out120w, 2);
             ViewBag.Out121w = Math.Round(rr.Out121w, 2);
             ViewBag.Out909w = Math.Round(rr.Out909w, 2);
+            ViewBag.In911bbw = rr.In911bbw;
+            ViewBag.In912bbw = rr.In912bbw;
+            ViewBag.Out121bbw = rr.Out121bbw;
+            ViewBag.Out909bbw = rr.Out909bbw;
+
             ViewBag.BankName = rr.BankName;
             //ViewBag.headingDate = dateFrom + " -  " + dateTo;
             ViewBag.headingDate = rr.headingDate;

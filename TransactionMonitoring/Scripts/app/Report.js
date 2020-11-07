@@ -199,6 +199,10 @@
                     $scope.In102wr = response.data.In102wr;
                     $scope.In100wr = response.data.In100wr;
                     $scope.In120wr = response.data.In120wr;
+                    $scope.In911bbw = response.data.In911bbw;
+                    $scope.In912bbw = response.data.In912bbw;
+                    $scope.Out121bbw = response.data.Out121bbw;
+                    $scope.Out909bbw = response.data.Out909bbw;
 
                     $scope.BankName = response.data.BankName;
                     $scope.WeeklyDate = response.data.WeeklyDate;
