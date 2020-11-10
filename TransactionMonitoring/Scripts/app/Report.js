@@ -207,22 +207,31 @@
                     $scope.BankName = response.data.BankName;
                     $scope.WeeklyDate = response.data.WeeklyDate;
 
-                    $scope.link = "100";
-                    $scope.linkr = "1st";
-                    $scope.linkbb = "100";
-                    $scope.linkw = "0.00%";
-                    $scope.linkwr = "1st";
-                    $scope.intf = "95";
-                    $scope.intfr = "3rd";
-                    $scope.intfbb = "100%";
-                    $scope.intfw = "0.00";
-                    $scope.intfwr = "1st";
+                    $scope.link = response.data.link;
+                    $scope.linkr = response.data.linkr;
+                    $scope.linkbb = response.data.linkbb;
+                    $scope.linkw = response.data.linkw+"%";
+                    $scope.linkwr = response.data.linkwr;
+                    $scope.linkbbw = response.data.linkbbw;
+                    $scope.intf = response.data.intf;
+                    $scope.intfr = response.data.intfr;
+                    $scope.intfbb = response.data.intfbb;
+                    $scope.intfw = response.data.intfw+"%";
+                    $scope.intfwr = response.data.intfwr;
+                    $scope.intfbbw = response.data.intfbbw;
 
                     $scope.cust = "0.00";
                     $scope.custr = "1st";
                     $scope.custbb = "0.00";
                     $scope.custw = "0.00";
                     $scope.custwr = "1st";
+
+                    $scope.tf = response.data.tf;
+                    $scope.nu = response.data.nu;
+                    $scope.iu = response.data.iu;
+                    $scope.tfreq = response.data.tfreq;
+                    $scope.nureq = response.data.nureq;
+                    $scope.iureq = response.data.iureq;
 
                     $scope.bankrank = "1.08%";
                     $scope.bankrankw = "1.49%";

@@ -155,6 +155,12 @@ namespace TransactionMonitoring.Models
         public decimal Out909bbw { get; set; }
 
         /**END WEEKLY RANKING */
+        public decimal tf { get; set; }
+        public decimal nu { get; set; }
+        public decimal iu { get; set; }
+        public string tfreq { get; set; }
+        public string nureq { get; set; }
+        public string iureq { get; set; }
 
         public string headingDate { get; set; }
         public string WeeklyDate { get; set; }

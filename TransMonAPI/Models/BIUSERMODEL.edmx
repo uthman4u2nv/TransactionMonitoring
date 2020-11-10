@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BIDATABASEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bank_Description">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CBK_CODES" Type="int" />
+          <Property Name="BANK_ID" Type="varchar" MaxLength="10" />
+          <Property Name="BANK_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="SORT_CODE" Type="varchar" MaxLength="12" />
+          <Property Name="STATUS" Type="int" />
+        </EntityType>
+        <EntityType Name="Banks">
+          <Key>
+            <PropertyRef Name="bankID" />
+          </Key>
+          <Property Name="bankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BIDATABASE.BIUSER.banksefficiency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="banksefficiency">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="date" Nullable="false" />
+          <Property Name="BANK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PCTEFF" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="int" Nullable="false" />
+          <Property Name="ORIENTATION" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INTERFACE_UPTIME">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="END_DATE" Type="date" />
+          <Property Name="BANK_CODE" Type="nvarchar" MaxLength="10" />
+          <Property Name="RATE" Type="int" />
+          <Property Name="RANK" Type="int" />
+        </EntityType>
+        <EntityType Name="LINK_AVAILABILITY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="END_DATE" Type="date" />
+          <Property Name="BANK_CODE" Type="nvarchar" MaxLength="10" />
+          <Property Name="RATE" Type="int" />
+          <Property Name="RANK" Type="int" />
+        </EntityType>
+        <EntityType Name="Banks2">
+          <Key>
+            <PropertyRef Name="bankID" />
+          </Key>
+          <Property Name="bankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BIDATABASE.dbo.banksefficiency2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="banksefficiency2">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="date" Nullable="false" />
+          <Property Name="BANK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PCTEFF" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="int" Nullable="false" />
+          <Property Name="ORIENTATION" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BIDATABASEModelStoreContainer">
+          <EntitySet Name="Bank_Description" EntityType="Self.Bank_Description" Schema="BIUSER" store:Type="Tables" />
+          <EntitySet Name="Banks" EntityType="Self.Banks" Schema="BIUSER" store:Type="Tables" />
+          <EntitySet Name="INTERFACE_UPTIME" EntityType="Self.INTERFACE_UPTIME" Schema="BIUSER" store:Type="Tables" />
+          <EntitySet Name="LINK_AVAILABILITY" EntityType="Self.LINK_AVAILABILITY" Schema="BIUSER" store:Type="Tables" />
+          <EntitySet Name="Banks2" EntityType="Self.Banks2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="banksefficiency" EntityType="Self.banksefficiency" store:Type="Tables" store:Schema="BIUSER">
+            <DefiningQuery>SELECT 
+[banksefficiency].[ENDDATE] AS [ENDDATE], 
+[banksefficiency].[BANK] AS [BANK], 
+[banksefficiency].[PCTEFF] AS [PCTEFF], 
+[banksefficiency].[RESPONSECODE] AS [RESPONSECODE], 
+[banksefficiency].[WEEKLYRANK] AS [WEEKLYRANK], 
+[banksefficiency].[ORIENTATION] AS [ORIENTATION]
+FROM [BIUSER].[banksefficiency] AS [banksefficiency]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="banksefficiency2" EntityType="Self.banksefficiency2" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[banksefficiency2].[ENDDATE] AS [ENDDATE], 
+[banksefficiency2].[BANK] AS [BANK], 
+[banksefficiency2].[PCTEFF] AS [PCTEFF], 
+[banksefficiency2].[RESPONSECODE] AS [RESPONSECODE], 
+[banksefficiency2].[WEEKLYRANK] AS [WEEKLYRANK], 
+[banksefficiency2].[ORIENTATION] AS [ORIENTATION]
+FROM [dbo].[banksefficiency2] AS [banksefficiency2]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BIDATABASEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bank_Description">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CBK_CODES" Type="Int32" />
+          <Property Name="BANK_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SORT_CODE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="bankID" />
+          </Key>
+          <Property Name="bankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Banks2">
+          <Key>
+            <PropertyRef Name="bankID" />
+          </Key>
+          <Property Name="bankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="banksefficiency">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BANK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PCTEFF" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
+          <Property Name="ORIENTATION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="banksefficiency2">
+          <Key>
+            <PropertyRef Name="ENDDATE" />
+            <PropertyRef Name="BANK" />
+            <PropertyRef Name="PCTEFF" />
+            <PropertyRef Name="RESPONSECODE" />
+            <PropertyRef Name="WEEKLYRANK" />
+            <PropertyRef Name="ORIENTATION" />
+          </Key>
+          <Property Name="ENDDATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BANK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PCTEFF" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RESPONSECODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WEEKLYRANK" Type="Int32" Nullable="false" />
+          <Property Name="ORIENTATION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BIDATABASEEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bank_Description" EntityType="Self.Bank_Description" />
+          <EntitySet Name="Banks" EntityType="Self.Bank" />
+          <EntitySet Name="Banks2" EntityType="Self.Banks2" />
+          <EntitySet Name="banksefficiencies" EntityType="Self.banksefficiency" />
+          <EntitySet Name="banksefficiency2" EntityType="Self.banksefficiency2" />
+          <EntitySet Name="INTERFACE_UPTIME" EntityType="BIDATABASEModel.INTERFACE_UPTIME" />
+          <EntitySet Name="LINK_AVAILABILITY" EntityType="BIDATABASEModel.LINK_AVAILABILITY" />
+        </EntityContainer>
+        <EntityType Name="INTERFACE_UPTIME">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="END_DATE" Type="DateTime" Precision="0" />
+          <Property Name="BANK_CODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RATE" Type="Int32" />
+          <Property Name="RANK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LINK_AVAILABILITY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="END_DATE" Type="DateTime" Precision="0" />
+          <Property Name="BANK_CODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RATE" Type="Int32" />
+          <Property Name="RANK" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BIDATABASEModelStoreContainer" CdmEntityContainer="BIDATABASEEntities1">
+          <EntitySetMapping Name="Bank_Description">
+            <EntityTypeMapping TypeName="BIDATABASEModel.Bank_Description">
+              <MappingFragment StoreEntitySet="Bank_Description">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CBK_CODES" ColumnName="CBK_CODES" />
+                <ScalarProperty Name="BANK_ID" ColumnName="BANK_ID" />
+                <ScalarProperty Name="BANK_NAME" ColumnName="BANK_NAME" />
+                <ScalarProperty Name="SORT_CODE" ColumnName="SORT_CODE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="BIDATABASEModel.Bank">
+              <MappingFragment StoreEntitySet="Banks">
+                <ScalarProperty Name="bankID" ColumnName="bankID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks2">
+            <EntityTypeMapping TypeName="BIDATABASEModel.Banks2">
+              <MappingFragment StoreEntitySet="Banks2">
+                <ScalarProperty Name="bankID" ColumnName="bankID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="banksefficiencies">
+            <EntityTypeMapping TypeName="BIDATABASEModel.banksefficiency">
+              <MappingFragment StoreEntitySet="banksefficiency">
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="banksefficiency2">
+            <EntityTypeMapping TypeName="BIDATABASEModel.banksefficiency2">
+              <MappingFragment StoreEntitySet="banksefficiency2">
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="PCTEFF" ColumnName="PCTEFF" />
+                <ScalarProperty Name="RESPONSECODE" ColumnName="RESPONSECODE" />
+                <ScalarProperty Name="WEEKLYRANK" ColumnName="WEEKLYRANK" />
+                <ScalarProperty Name="ORIENTATION" ColumnName="ORIENTATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INTERFACE_UPTIME">
+            <EntityTypeMapping TypeName="BIDATABASEModel.INTERFACE_UPTIME">
+              <MappingFragment StoreEntitySet="INTERFACE_UPTIME">
+                <ScalarProperty Name="RANK" ColumnName="RANK" />
+                <ScalarProperty Name="RATE" ColumnName="RATE" />
+                <ScalarProperty Name="BANK_CODE" ColumnName="BANK_CODE" />
+                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LINK_AVAILABILITY">
+            <EntityTypeMapping TypeName="BIDATABASEModel.LINK_AVAILABILITY">
+              <MappingFragment StoreEntitySet="LINK_AVAILABILITY">
+                <ScalarProperty Name="RANK" ColumnName="RANK" />
+                <ScalarProperty Name="RATE" ColumnName="RATE" />
+                <ScalarProperty Name="BANK_CODE" ColumnName="BANK_CODE" />
+                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

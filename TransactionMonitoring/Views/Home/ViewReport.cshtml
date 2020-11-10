@@ -364,9 +364,9 @@
                                                         <td>@ViewBag.linkr</td>
                                                         <td>@ViewBag.linkbb</td>
                                                         <td style="border: none; !important;">&nbsp;&nbsp;</td>
-                                                        <td>@ViewBag.linkw%</td>
+                                                        <td>@ViewBag.linkw</td>
                                                         <td>@ViewBag.linkwr</td>
-                                                        <td>0.00%</td>
+                                                        <td>@ViewBag.linkbbw%</td>
                                                     </tr>
 
                                                     <tr style="height:20px !important">
@@ -401,9 +401,9 @@
                                                         <td>@ViewBag.intfr</td>
                                                         <td>@ViewBag.intfbb</td>
                                                         <td style="border: none; !important;">&nbsp;&nbsp;</td>
-                                                        <td>@ViewBag.intfw%</td>
+                                                        <td>@ViewBag.intfw</td>
                                                         <td>@ViewBag.intfwr</td>
-                                                        <td>0.00%</td>
+                                                        <td>@ViewBag.intfbbw%</td>
                                                     </tr>
                                                     <tr style="height:20px !important">
                                                         <td class="col-sm-1z"><strong></strong></td>
@@ -493,11 +493,11 @@
                                     <a class="list-group-item active" style="background-color:black !important;color:white !important;border:none !important"><strong>METRICS BREAKDOWN for @ViewBag.headingDate</strong></a>
                                     <table class="table table-striped" style="font-size:14px !important">
                                         <tr><td><strong>Measures</strong></td><td><strong>Weights</strong></td><td><strong>Meet Requirement</strong></td></tr>
-                                        <tr><td><i><strong>Transaction Failure</strong></i></td><td><i><strong>1.80%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Network Uptime</strong></i></td><td><i><strong>2.20%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Interface Uptime</strong></i></td><td><i><strong>1.50%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Aggregated Rating</strong></i></td><td><i><strong>5.50%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Bank Rank</strong></i></td><td><i><strong>6th</strong></i></td></tr>
+                                        <tr><td><i><strong>Transaction Failure</strong></i></td><td><i><strong>@ViewBag.tf%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
+                                        <tr><td><i><strong>Network Uptime</strong></i></td><td><i><strong>@ViewBag.nu%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
+                                        <tr><td><i><strong>Interface Uptime</strong></i></td><td><i><strong>@ViewBag.iu%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
+                                        <tr><td><i><strong>Aggregated Rating</strong></i></td><td><i><strong>%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
+                                        <tr><td><i><strong>Bank Rank</strong></i></td><td><i><strong></strong></i></td></tr>
 
 
                                     </table>

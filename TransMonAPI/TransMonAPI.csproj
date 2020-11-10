@@ -180,10 +180,40 @@
       <DependentUpon>TransMonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Bank.cs">
-      <DependentUpon>TransMonModel.tt</DependentUpon>
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Banks2.cs">
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\banksefficiency.cs">
-      <DependentUpon>TransMonModel.tt</DependentUpon>
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\banksefficiency2.cs">
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bank_Description.cs">
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BIUSERMODEL.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BIUSERMODEL.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BIUSERMODEL.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BIUSERMODEL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BIUSERMODEL.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTERFACE_UPTIME.cs">
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LINK_AVAILABILITY.cs">
+      <DependentUpon>BIUSERMODEL.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Log.cs">
       <DependentUpon>TransMonModel.tt</DependentUpon>
@@ -243,6 +273,16 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Models\BIUSERMODEL.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BIUSERMODEL.edmx</DependentUpon>
+      <LastGenOutput>BIUSERMODEL.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BIUSERMODEL.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BIUSERMODEL.edmx</DependentUpon>
+      <LastGenOutput>BIUSERMODEL.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\TransMonModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TransMonModel.edmx</DependentUpon>
@@ -292,6 +332,13 @@
     </EntityDeploy>
     <Content Include="Models\TransMonModel.edmx.diagram">
       <DependentUpon>TransMonModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\BIUSERMODEL.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BIUSERMODEL.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BIUSERMODEL.edmx.diagram">
+      <DependentUpon>BIUSERMODEL.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

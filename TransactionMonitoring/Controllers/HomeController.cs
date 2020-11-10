@@ -259,7 +259,7 @@ namespace TransactionMonitoring.Controllers
             //ViewBag.headingDate = dateFrom + " -  " + dateTo;
             ViewBag.headingDate = rr.headingDate;
             ViewBag.WeeklyDate = rr.WeeklyDate;
-            ViewBag.link = 100;
+            /*ViewBag.link = 100;
             ViewBag.linkr = "1st";
             ViewBag.linkbb = "100%";
             ViewBag.linkw = "0.00";
@@ -269,6 +269,20 @@ namespace TransactionMonitoring.Controllers
             ViewBag.intfbb = "100%";
             ViewBag.intfw = "0.00";
             ViewBag.intfwr = "1st";
+            */
+            ViewBag.link = rr.link;
+            ViewBag.linkr = rr.linkr;
+            ViewBag.linkbb = rr.linkbb;
+            ViewBag.linkw = rr.linkw + "%";
+            ViewBag.linkwr = rr.linkwr;
+            ViewBag.linkbbw = rr.linkbbw;
+            ViewBag.intf = rr.intf;
+            ViewBag.intfr = rr.intfr;
+            ViewBag.intfbb = rr.intfbb;
+            ViewBag.intfw = rr.intfw + "%";
+            ViewBag.intfwr = rr.intfwr;
+            ViewBag.intfbbw = rr.intfbbw;
+
             ViewBag.cust = 10;
             ViewBag.custr = "2nd";
             ViewBag.custbb = "5%";
@@ -302,6 +316,13 @@ namespace TransactionMonitoring.Controllers
 
             ViewBag.indrank = "1.28%";
             ViewBag.indrankw = "1.35%";
+
+            ViewBag.tf = rr.tf;
+            ViewBag.nu = rr.nu;
+            ViewBag.iu = rr.iu;
+            ViewBag.tfreq = rr.tfreq;
+            ViewBag.nureq = rr.nureq;
+            ViewBag.iureq = rr.iureq;
 
 
             return View();

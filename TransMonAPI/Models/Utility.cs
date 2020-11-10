@@ -1891,6 +1891,9 @@ namespace TransMonAPI.Models
         public string In100wr { get; set; }
         public string In120wr { get; set; }
         public string In118wr { get; set; }
+
+
+
         /**END WEEKLY RANKING */
 
 
@@ -1899,8 +1902,52 @@ namespace TransMonAPI.Models
         public decimal In912bbw { get; set; }
         public decimal Out121bbw { get; set; }
         public decimal Out909bbw { get; set; }
+
+        public decimal link { get; set; }
+        public string linkr { get; set; }
+        public decimal linkbb { get; set; }
+        public decimal linkw { get; set; }
+        public string linkwr { get; set; }
+        public decimal linkbbw { get; set; }
+
+        public decimal intf { get; set; }
+        public string intfr { get; set; }
+        public decimal intfbb { get; set; }
+        public decimal intfw { get; set; }
+        public string intfwr { get; set; }
+        public decimal intfbbw { get; set; }
+
+        public decimal tf { get; set; }
+        public decimal nu { get; set; }
+        public decimal iu { get; set; }
+        public string tfreq { get; set; }
+        public string nureq { get; set; }
+        public string iureq { get; set; }
+
+
+
+
+
         public string WeeklyDate { get; set; }
         public string headingDate { get; set; }
+    }
+    public class Link
+    {
+        public decimal link { get; set; }
+        public int linkr { get; set; }
+        public decimal linkbb { get; set; }
+        public decimal linkw { get; set; }
+        public int linkwr { get; set; }
+        public decimal linkbbw { get; set; }
+    }
+    public class IntFace
+    {
+        public decimal intf { get; set; }
+        public int intfr { get; set; }
+        public decimal intfbb { get; set; }
+        public decimal intfw { get; set; }
+        public int intfwr { get; set; }
+        public decimal intfbbw { get; set; }
     }
     
     public class ErrorResponse
