@@ -15,18 +15,18 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <!--<div class="col-md-3">
                             <div class="input-group" style="margin-bottom:10px !important">
 
                                 <span class="input-group-text">Date From</span>
 
                                 <input type="date" required ng-model="datefrom" class="form-control" />
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-3">
                             <div class="input-group" style="margin-bottom:10px !important">
 
-                                <span class="input-group-text">Date To</span>
+                                <span class="input-group-text">Select a Friday</span>
 
                                 <input type="date" required ng-model="dateto" class="form-control" />
                             </div>
@@ -51,7 +51,7 @@
 
                     @using (Html.BeginForm("Convert", "Home", FormMethod.Post))
                     {
-                        <input type="hidden" class="form-control" ng-model="dFrom" value="{{dFrom}}"  name="dFrom" />
+                        <input type="hidden" class="form-control" ng-model="dFrom" value="{{dTo}}"  name="dFrom" />
                         <input type="hidden" class="form-control" ng-model="dTo" value="{{dTo}}" name="dTo" />
                         <input type="hidden" class="form-control" ng-model="sCode" value="{{sCode}}" name="sCode" />
                         <button class="btn btn-success" ng-if="responseCode=='00'">Export to PDF</button>
@@ -72,47 +72,75 @@
 
                                         <div class="row">
                                             <!--<table class="table table-bordered">
-            <tr><td class="col-md-1"><img src="~/Content/Image/logoipsl.png" /></td><td class="col-md-11" align="center"><strong>BANKS EFFICIENCY AND COMPLIANCE RATING <br />ANALYSIS FOR {{headingDate}}<br /><center><strong>BANK:{{BankName}}</strong></center></strong></td>-->
+    <tr><td class="col-md-1"><img src="~/Content/Image/logoipsl.png" /></td><td class="col-md-11" align="center"><strong>BANKS EFFICIENCY AND COMPLIANCE RATING <br />ANALYSIS FOR {{headingDate}}<br /><center><strong>BANK:{{BankName}}</strong></center></strong></td>-->
                                             <!--<td class="col-md-4" align="left"><strong></strong></td>--><!--</tr>-->
                                             <!--<tr><td align="right"><strong>BANK:</strong></td><td><strong>{{BankName}}</strong></td></tr>-->
                                             <!--</table>-->
-                                            <table class="table table-bordered">
-                                                <tr><td class="col-md-1z" colspan="3"><img src="~/Content/Image/logoipsl.png" /></td></tr>
+                                            <!--<table class="table table-bordered">
+        <tr><td class="col-md-1z" colspan="3"><img src="~/Content/Image/logoipsl.png" /></td></tr>
+        <tr>
+            <td colspan="2">
+                <strong>
+                    <h4>INTEGRATED PAYMENT SERVICES LIMITED</h4>
+                </strong>
+            </td>
+        </tr>
+        <tr><td class="col-md-12" align="left" colspan="3"><h5>BANKS EFFICIENCY AND COMPLIANCE RATING - </h5> Analysis for {{headingDate}}</td></tr>
+        <tr><td align="left" colspan="3"><strong>BANK: {{BankName}}</strong></td></tr>
+    </table>-->
+                                            <table class="table table-borderedss table-striped">
+
                                                 <tr>
-                                                    <td colspan="2">
-                                                        <strong>
-                                                            <h4>INTEGRATED PAYMENT SERVICES LIMITED</h4>
-                                                        </strong>
+                                                    <!--<td class="col-md-1z" valign="middle"></td>-->
+                                                    <td class="col-md-11z" colspan="3" align="center" valign="middle" style="white-space: nowrap;">
+                                                        <img src="~/Content/Image/logoipsl.png" />&nbsp;&nbsp;<br />
+                                                        <h4><strong>INTEGRATED PAYMENT SERVICES LIMITED</strong></h4>
+
                                                     </td>
                                                 </tr>
-                                                <tr><td class="col-md-12" align="left" colspan="3"><h5>BANKS EFFICIENCY AND COMPLIANCE RATING - </h5> Analysis for {{headingDate}}</td></tr>
-                                                <tr><td align="left" colspan="3"><strong>BANK: {{BankName}}</strong></td></tr>
+                                                <tr>
+                                                </tr>
+
+                                                <tr><td class="col-md-11z" align="center" colspan="3"><h6><strong>BANKS PERFORMANCE AND EFFICIENCY RATING ON PESALINK</strong></h6><!--<h6> </h6>--></td></tr>
+                                                <tr><td class="col-md-11z" align="center" colspan="3"><h6><strong>Analysis for {{headingDate}}</strong></h6><!--<h6> </h6>--></td></tr>
+
+                                                <tr><td align="center" colspan="3"><strong><h6><strong>BANK: {{BankName}}</strong></h6></strong></td><!--<td align="left"><strong></strong></td>--></tr>
                                             </table>
 
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <table class="tables table-stripeds">
+                                                <table class="tables table-stripeds" border="1" style="border-color: black !important;font-size:small !important;">
                                                     <tr style="border:none !important">
                                                         <td colspan="3" style="border:none !important"></td>
-                                                        <th colspan="3" style="border:none !important"><strong><h6><u>Analysis for  {{headingDate}}</u></h6></strong></th>
+                                                        <!--<th colspan="3" style="border:none !important"><strong><h6><u>Analysis for  {{headingDate}}</u></h6></strong></th>-->
+                                                    <th colspan="3" align="right" style="border:none !important;background-color:black !important; color:white !important;">
+
+                                                        <u><medium><center>Analysis for<br /> {{headingDate}}</center></medium></u>
+
+                                                    </th>
                                                         <th>&nbsp;&nbsp;</th>
-                                                        <th colspan="3" style="border:none !important"><strong><h6><u>Analysis for {{WeeklyDate}}</u></h6></strong></th>
+                                                        <!--<th colspan="3" style="border:none !important"><strong><h6><u>Analysis for {{WeeklyDate}}</u></h6></strong></th>-->
+                                                    <th colspan="3" align="right" style="border:none !important; background-color:black !important; color:white !important;">
+
+                                                        <u><medium><center>Analysis for<br /> {{WeeklyDate}}</center></medium></u></h6>
+
+                                                    </th>
                                                     </tr>
                                                     <tr>
-                                                        <td></td>
-                                                        <th class="col-sm-1">OPERATIONAL PLATFROMS</th>
-                                                        <th class="col-sm-8">MEASURES</th>
-                                                        <th class="col-sm-1">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
-                                                        <th class="col-sm-1">RANKING</th>
-                                                        <th class="col-sm-1">BEST BANK RANKING</th>
+                                                        <td style="width:40px !important;"></td>
+                                                        <th class="col-sm-1z">OPERATIONAL PLATFROMS</th>
+                                                        <th class="col-sm-8z">MEASURES</th>
+                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
                                                         <th>&nbsp;&nbsp;</th>
-                                                        <th class="col-sm-1">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
-                                                        <th class="col-sm-1">RANKING</th>
-                                                        <th class="col-sm-1">BEST BANK RANKING</th>
+                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
                                                     </tr>
                                                     <tr>
-                                                        <td class="col-sm-1">1</td>
+                                                        <td class="col-sm-1z">1</td>
                                                         <td><strong>PESALINK</strong></td>
                                                         <td><strong>1. Trans. Failure</strong></td>
                                                         <td></td>
@@ -126,7 +154,7 @@
                                                     <tr>
                                                         <td></td>
                                                         <td><strong>1.) INWARD</strong></td>
-                                                        <td><i>(Code 911) - Card Issuer Timed Out</i></td>
+                                                        <td><i>(Code 911) - System Timed Out</i></td>
                                                         <td>{{In911}}</td>
                                                         <td>{{In911r}}</td>
                                                         <td>{{In911bb}}%</td>
@@ -138,7 +166,7 @@
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
-                                                        <td><i>(Code 912) - Card Issuer Unavailable </i></td>
+                                                        <td><i>(Code 912) - Bank Interface Unavailable </i></td>
                                                         <td>{{In912}}</td>
                                                         <td>{{In912r}}</td>
                                                         <td>{{In912bb}}%</td>
@@ -240,7 +268,7 @@
                                                     <tr>
                                                         <td></td>
                                                         <td><strong>2.) OUTWARD</strong></td>
-                                                        <td><i>(Code 121) - Exceeded Withdrawal Limit</i></td>
+                                                        <td><i>(Code 121) - Invalid Amount</i></td>
                                                         <td>{{Out121}}</td>
                                                         <td>{{Out121r}}</td>
                                                         <td>{{Out121bb}}%</td>
@@ -391,7 +419,8 @@
                                                         <td></td>
                                                         <td><i>Link Availability</i></td>
                                                         <td>{{link}}%</td>
-                                                        <td>{{linkr}}</td>
+                                                        <td ng-if="linkr > 0">{{linkr}}</td>
+                                                        <td ng-if="linkr == 0"></td>
                                                         <td>{{linkbb}}%</td>
                                                         <td style="border: none; !important;">&nbsp;&nbsp;</td>
                                                         <td>{{linkw}}</td>
@@ -399,7 +428,7 @@
                                                         <td>{{linkbbw}}%</td>
                                                     </tr>
 
-                                                    <tr style="height:20px !important">
+                                                    <!--<tr style="height:20px !important">
                                                         <td class="col-sm-1z"><strong></strong></td>
                                                         <td><strong></strong></td>
                                                         <td><strong></strong></td>
@@ -434,7 +463,7 @@
                                                         <td>{{intfw}}</td>
                                                         <td>{{intfwr}}</td>
                                                         <td>{{intfbbw}}%</td>
-                                                    </tr>
+                                                    </tr>-->
 
                                                     <tr style="height:20px !important">
                                                         <td class="col-sm-1z"><strong></strong></td>
@@ -448,7 +477,7 @@
                                                         <td></td>
                                                         <td></td>
                                                     </tr>
-                                                    <tr>
+                                                    <!--<tr>
                                                         <td class="col-sm-1z"></td>
                                                         <td></td>
                                                         <td><i>Bank Average for Ranked Performance Measures</i></td>
@@ -471,7 +500,7 @@
                                                         <td>{{indrankw}}</td>
                                                         <td></td>
                                                         <td></td>
-                                                    </tr>
+                                                    </tr>-->
                                                     <!--<tr>
                         <td></td>
                         <td></td>
@@ -600,14 +629,14 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <a class="list-group-item active" style="background-color:black !important;color:white !important;border:none !important"><strong>METRICS BREAKDOWN for @ViewBag.headingDate</strong></a>
+                                    <a class="list-group-item active" style="background-color:black !important;color:white !important;border:none !important"><strong>METRICS BREAKDOWN for {{headingDate}}</strong></a>
                                     <table class="table table-striped" style="font-size:14px !important">
-                                        <tr><td><strong>Measures</strong></td><td><strong>Weights</strong></td><td><strong>Meet Requirement</strong></td></tr>
-                                        <tr><td><i><strong>Transaction Failure</strong></i></td><td><i><strong>@ViewBag.tf%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Network Uptime</strong></i></td><td><i><strong>@ViewBag.nu%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Interface Uptime</strong></i></td><td><i><strong>@ViewBag.iu%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Aggregated Rating</strong></i></td><td><i><strong>%</strong></i></td><td><i><strong>Yes</strong></i></td></tr>
-                                        <tr><td><i><strong>Bank Rank</strong></i></td><td><i><strong></strong></i></td></tr>
+                                        <tr><td><strong>Measures</strong></td><td><strong>Weights</strong></td><td><strong>Benchmark</strong></td><td><strong>Meet Requirement</strong></td></tr>
+                                        <tr><td><i><strong>Transaction Success Rate</strong></i></td><td><i><strong>{{tf}}%</strong></i></td><td><i><strong>90</strong></i></td><td><i><strong>{{tfreq}}</strong></i></td></tr>
+                                        <tr><td><i><strong>Network Uptime</strong></i></td><td><i><strong>{{nu}}%</strong></i></td><td><i><strong>90</strong></i></td><td><i><strong>{{nureq}}</strong></i></td></tr>
+                                        <!--<tr><td><i><strong>Interface Uptime</strong></i></td><td><i><strong>{{iu}}%</strong></i></td><td><i><strong>30</strong></i></td><td><i><strong>{{iureq}}</strong></i></td></tr>-->
+                                        <tr><td><i><strong>Aggregated Rating</strong></i></td><td><i><strong>{{aggr}}%</strong></i></td><td><i><strong>90</strong></i></td><td><i><strong>{{aggreq}}</strong></i></td></tr>
+                                        <tr><td><i><strong>Bank Rank</strong></i></td><td><i><strong>{{weekposition}}</strong></i></td><td></td><td></td></tr>
 
 
                                     </table>
@@ -636,7 +665,7 @@
 
     </section>
 </div>
-<!--<div ng-show="blackout" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
+<!--<div ng-show="false" style="position:fixed; z-index: 220; top:0; left:0; bottom:0; right:0;background:rgba(0,0,0,.5);margin: auto">
     <center>Loading...</center>
 </div>-->
 <script src="~/Scripts/app/Report.js"></script>

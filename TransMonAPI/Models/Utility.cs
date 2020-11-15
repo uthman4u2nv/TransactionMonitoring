@@ -1923,6 +1923,11 @@ namespace TransMonAPI.Models
         public string tfreq { get; set; }
         public string nureq { get; set; }
         public string iureq { get; set; }
+        public string aggreq { get; set; }
+
+        public decimal aggr { get; set; }
+        public string weekposition { get; set; }
+
 
 
 

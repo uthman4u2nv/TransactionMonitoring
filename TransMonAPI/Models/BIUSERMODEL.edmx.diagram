@@ -12,6 +12,8 @@
         <EntityTypeShape EntityType="BIDATABASEModel.banksefficiency2" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BIDATABASEModel.INTERFACE_UPTIME" Width="1.5" PointX="5.75" PointY="3.75" />
         <EntityTypeShape EntityType="BIDATABASEModel.LINK_AVAILABILITY" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="BIDATABASEModel.WEEKLY_POSITION" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="BIDATABASEModel.NetworkReport" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

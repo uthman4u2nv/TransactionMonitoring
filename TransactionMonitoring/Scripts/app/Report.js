@@ -1,5 +1,6 @@
     var app = angular.module("Reports", []);
-    app.controller("ReportData", function ($scope, $location, $http, $window) {        
+app.controller("ReportData", function ($scope, $location, $http, $window) {    
+    $scope.blackout = false;
        // alert('yes');
         //function($scope) {
             $scope.data = [{ "agence": "CTM", "secteur": "Safi", "statutImp": "operationnel" }];
@@ -59,8 +60,10 @@
             //$scope.dTo = "";
             //$scope.sCode = "";
            
-            debugger;
-			$scope.blackout=true;
+            //debugger;
+            $scope.blackout = true;
+            $scope.responseCode = "99";
+            $scope.noresult = "Loading Data....";
             var user = {
                 dateFrom: formatDate($scope.datefrom),
                 dateTo: formatDate($scope.dateto),
@@ -232,6 +235,10 @@
                     $scope.tfreq = response.data.tfreq;
                     $scope.nureq = response.data.nureq;
                     $scope.iureq = response.data.iureq;
+                    $scope.aggreq = response.data.aggreq;
+
+                    $scope.aggr = response.data.aggr;
+                    $scope.weekposition = response.data.weekposition;
 
                     $scope.bankrank = "1.08%";
                     $scope.bankrankw = "1.49%";

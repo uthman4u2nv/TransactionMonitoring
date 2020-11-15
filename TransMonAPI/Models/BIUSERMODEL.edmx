@@ -60,7 +60,31 @@ warning 6002: The table/view 'BIDATABASE.BIUSER.banksefficiency' does not have a
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="END_DATE" Type="date" />
           <Property Name="BANK_CODE" Type="nvarchar" MaxLength="10" />
-          <Property Name="RATE" Type="int" />
+          <Property Name="RATE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RANK" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BIDATABASE.BIUSER.NetworkReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="NetworkReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bankID" Type="nvarchar" MaxLength="10" />
+          <Property Name="bankname" Type="nvarchar" MaxLength="50" />
+          <Property Name="bankcode" Type="int" />
+          <Property Name="LinkAvailability" Type="decimal" Precision="11" Scale="2" />
+          <Property Name="entitytype" Type="nvarchar" MaxLength="15" />
+          <Property Name="ENDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WEEKLY_POSITION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="END_DATE" Type="date" />
+          <Property Name="BANK" Type="nvarchar" MaxLength="30" />
+          <Property Name="RATE" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RANK" Type="int" />
         </EntityType>
         <EntityType Name="Banks2">
@@ -95,6 +119,7 @@ warning 6002: The table/view 'BIDATABASE.dbo.banksefficiency2' does not have a p
           <EntitySet Name="Banks" EntityType="Self.Banks" Schema="BIUSER" store:Type="Tables" />
           <EntitySet Name="INTERFACE_UPTIME" EntityType="Self.INTERFACE_UPTIME" Schema="BIUSER" store:Type="Tables" />
           <EntitySet Name="LINK_AVAILABILITY" EntityType="Self.LINK_AVAILABILITY" Schema="BIUSER" store:Type="Tables" />
+          <EntitySet Name="WEEKLY_POSITION" EntityType="Self.WEEKLY_POSITION" Schema="BIUSER" store:Type="Tables" />
           <EntitySet Name="Banks2" EntityType="Self.Banks2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="banksefficiency" EntityType="Self.banksefficiency" store:Type="Tables" store:Schema="BIUSER">
             <DefiningQuery>SELECT 
@@ -105,6 +130,17 @@ warning 6002: The table/view 'BIDATABASE.dbo.banksefficiency2' does not have a p
 [banksefficiency].[WEEKLYRANK] AS [WEEKLYRANK], 
 [banksefficiency].[ORIENTATION] AS [ORIENTATION]
 FROM [BIUSER].[banksefficiency] AS [banksefficiency]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="NetworkReport" EntityType="Self.NetworkReport" store:Type="Tables" store:Schema="BIUSER">
+            <DefiningQuery>SELECT 
+[NetworkReport].[ID] AS [ID], 
+[NetworkReport].[bankID] AS [bankID], 
+[NetworkReport].[bankname] AS [bankname], 
+[NetworkReport].[bankcode] AS [bankcode], 
+[NetworkReport].[LinkAvailability] AS [LinkAvailability], 
+[NetworkReport].[entitytype] AS [entitytype], 
+[NetworkReport].[ENDDATE] AS [ENDDATE]
+FROM [BIUSER].[NetworkReport] AS [NetworkReport]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="banksefficiency2" EntityType="Self.banksefficiency2" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -190,6 +226,8 @@ FROM [dbo].[banksefficiency2] AS [banksefficiency2]</DefiningQuery>
           <EntitySet Name="banksefficiency2" EntityType="Self.banksefficiency2" />
           <EntitySet Name="INTERFACE_UPTIME" EntityType="BIDATABASEModel.INTERFACE_UPTIME" />
           <EntitySet Name="LINK_AVAILABILITY" EntityType="BIDATABASEModel.LINK_AVAILABILITY" />
+          <EntitySet Name="WEEKLY_POSITION" EntityType="BIDATABASEModel.WEEKLY_POSITION" />
+          <EntitySet Name="NetworkReports" EntityType="BIDATABASEModel.NetworkReport" />
         </EntityContainer>
         <EntityType Name="INTERFACE_UPTIME">
           <Key>
@@ -210,6 +248,28 @@ FROM [dbo].[banksefficiency2] AS [banksefficiency2]</DefiningQuery>
           <Property Name="BANK_CODE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="RATE" Type="Int32" />
           <Property Name="RANK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="WEEKLY_POSITION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="END_DATE" Type="DateTime" Precision="0" />
+          <Property Name="BANK" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="RATE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RANK" Type="Int32" />
+        </EntityType>
+        <EntityType Name="NetworkReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bankID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="bankname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bankcode" Type="Int32" />
+          <Property Name="LinkAvailability" Type="Decimal" Precision="11" Scale="2" />
+          <Property Name="entitytype" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ENDDATE" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -291,6 +351,30 @@ FROM [dbo].[banksefficiency2] AS [banksefficiency2]</DefiningQuery>
                 <ScalarProperty Name="RATE" ColumnName="RATE" />
                 <ScalarProperty Name="BANK_CODE" ColumnName="BANK_CODE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEEKLY_POSITION">
+            <EntityTypeMapping TypeName="BIDATABASEModel.WEEKLY_POSITION">
+              <MappingFragment StoreEntitySet="WEEKLY_POSITION">
+                <ScalarProperty Name="RANK" ColumnName="RANK" />
+                <ScalarProperty Name="RATE" ColumnName="RATE" />
+                <ScalarProperty Name="BANK" ColumnName="BANK" />
+                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NetworkReports">
+            <EntityTypeMapping TypeName="BIDATABASEModel.NetworkReport">
+              <MappingFragment StoreEntitySet="NetworkReport">
+                <ScalarProperty Name="ENDDATE" ColumnName="ENDDATE" />
+                <ScalarProperty Name="entitytype" ColumnName="entitytype" />
+                <ScalarProperty Name="LinkAvailability" ColumnName="LinkAvailability" />
+                <ScalarProperty Name="bankcode" ColumnName="bankcode" />
+                <ScalarProperty Name="bankname" ColumnName="bankname" />
+                <ScalarProperty Name="bankID" ColumnName="bankID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

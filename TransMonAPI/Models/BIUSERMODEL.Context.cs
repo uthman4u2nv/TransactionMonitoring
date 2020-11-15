@@ -32,5 +32,7 @@ namespace TransMonAPI.Models
         public DbSet<banksefficiency2> banksefficiency2 { get; set; }
         public DbSet<INTERFACE_UPTIME> INTERFACE_UPTIME { get; set; }
         public DbSet<LINK_AVAILABILITY> LINK_AVAILABILITY { get; set; }
+        public DbSet<WEEKLY_POSITION> WEEKLY_POSITION { get; set; }
+        public DbSet<NetworkReport> NetworkReports { get; set; }
     }
 }

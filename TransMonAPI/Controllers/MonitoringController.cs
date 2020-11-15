@@ -3003,6 +3003,57 @@ namespace TransMonAPI.Controllers
             return rank;
         }
 
+        public decimal WeeklyRatingIn(string ErrorCode, DateTime dtTo,string sortCode)
+        {
+            decimal rating = 0;
+            try
+            {
+                using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
+                {
+                    var details = db.banksefficiencies.FirstOrDefault(b => b.RESPONSECODE == ErrorCode && b.ENDDATE == dtTo && b.ORIENTATION == "INFLOW" && b.BANK==sortCode);
+                    if (details != null)
+                    {
+                        rating = details.PCTEFF;
+                    }
+                    else
+                    {
+                        rating = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return rating;
+        }
+
+        public decimal WeeklyRatingOut(string ErrorCode, DateTime dtTo, string sortCode)
+        {
+            decimal rating = 0;
+            try
+            {
+                using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
+                {
+                    var details = db.banksefficiencies.FirstOrDefault(b => b.RESPONSECODE == ErrorCode && b.ENDDATE == dtTo && b.ORIENTATION == "OUTFLOW" && b.BANK == sortCode);
+                    if (details != null)
+                    {
+                        rating = details.PCTEFF;
+                    }
+                    else
+                    {
+                        rating = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return rating;
+        }
+
+
         public decimal BestBankRatingIn(string ErrorCode,DateTime dtTo)
         {
             decimal rating = 0;
@@ -3172,14 +3223,14 @@ namespace TransMonAPI.Controllers
         public async Task<HttpResponseMessage> GetReport(BankReportRequest req)
         {
             var output = "";
-            DateTime dtFrom = Convert.ToDateTime(req.dateFrom);
+            DateTime dtFrom = Convert.ToDateTime(req.dateTo);
             DateTime dtTo = Convert.ToDateTime(req.dateTo);
 
-            DateTime lastweekTo = req.dateFrom.AddDays(-1);
-            DateTime lastweekFrom = req.dateFrom.AddDays(-7);
+            DateTime lastweekTo = req.dateTo.AddDays(-1);
+            DateTime lastweekFrom = req.dateTo.AddDays(-7);
 
-            DateTime lastweekToDisp = Convert.ToDateTime(req.dateFrom.AddDays(-1));
-            DateTime lastweekFromDispl = Convert.ToDateTime(req.dateFrom.AddDays(-7));
+            DateTime lastweekToDisp = Convert.ToDateTime(req.dateTo.AddDays(-0));
+            DateTime lastweekFromDispl = Convert.ToDateTime(req.dateTo.AddDays(-7));
 
             //var p = ReturnPosition(21);
             decimal s911 = 0;decimal s912 = 0;decimal slink = 0;decimal sInt = 0;decimal s121 = 0;decimal s909 = 0;
@@ -3891,19 +3942,37 @@ namespace TransMonAPI.Controllers
                         Out909bbw = 0;
                     }
 
-                    
+
+                    //check if the banks position exists
+                    int cnt = CheckRankAvailability(dtTo);
+                    if(cnt < 1)
+                    {
+                        //process the ranking
+                        using(BIDATABASEEntities1 dbb=new BIDATABASEEntities1())
+                        {
+                            var det = db.Bank_Description.Where(a => a.STATUS == 1);
+                            foreach(var dd in det)
+                            {
+                                ProcessRanking(dtTo, dd.SORT_CODE, lastweekFrom);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //get the rank from the db;
+                        ProcessRankingUpdate(dtTo, req.sortCode, lastweekFrom);
+                    }
 
 
-
-                    resp.dateFrom = req.dateFrom;
+                    resp.dateFrom = req.dateTo;
                     resp.dateTo = req.dateTo;
                     resp.responseCode = "00";
                     resp.In114 = Math.Round(In114,2);
                     resp.In118 = Math.Round(In118, 2);
-                    resp.In911 = Math.Round(In911, 2);
+                    
                     resp.In111 = Math.Round(In111, 2);
                     resp.In400 = Math.Round(In400, 2);
-                    resp.In912 = Math.Round(In912, 2);
+                    
                     resp.In102 = Math.Round(In102, 2);
                     resp.In100 = Math.Round(In100, 2);
                     resp.In120 = Math.Round(In120, 2);
@@ -3979,8 +4048,8 @@ namespace TransMonAPI.Controllers
                     resp.Out102 = Math.Round(Out102, 2);
                     resp.Out100 = Math.Round(Out100, 2);
                     resp.Out120 = Math.Round(Out120, 2);
-                    resp.Out121 = Math.Round(Out121, 2);
-                    resp.Out909 = Math.Round(Out909, 2);
+
+                    
 
                     resp.Out114w = Math.Round(Out114w, 2);
                     resp.Out118w = Math.Round(Out118w, 2);
@@ -4025,18 +4094,25 @@ namespace TransMonAPI.Controllers
                     s909 = (Out909 / 100) * 10;
 
                     //calculate the link uptime and network int
-                    slink = (l.link/ 100) * 30;
-                    sInt = (ii.intf / 100) * 30;
-
+                    slink = (l.link/ 100) * 60;
+                    decimal slink2 = l.link;
+                    ///sInt = (ii.intf / 100) * 30;
+                    sInt = 0;
                     decimal tq = Convert.ToDecimal(ConfigurationManager.AppSettings["tfreq"]);
                     decimal nq = Convert.ToDecimal(ConfigurationManager.AppSettings["nureq"]);
                     decimal lq = Convert.ToDecimal(ConfigurationManager.AppSettings["lureq"]);
+                    decimal aq = Convert.ToDecimal(ConfigurationManager.AppSettings["aggreq"]);
                     
 
                     string tfreq = "No";
                     string nureq = "No";
                     string lureq = "No";
-                    if (tq >= (s911+s912+s121+s909))
+                    string aggreq = "No";
+
+                    decimal tFailure = ((100 - s911) + (100 - s912) + (100 - s121) + (100 - s909)) / 400 * 100;
+
+                    //if (tq >= (s911+s912+s121+s909))
+                    if (tq <= tFailure)
                     {
                         tfreq = "Yes";
                     }
@@ -4048,12 +4124,29 @@ namespace TransMonAPI.Controllers
                     {
                         lureq = "Yes";
                     }
-                    resp.tf = s911 + s912 + s121 + s909;
-                    resp.nu = slink;
+                    if(ReturnAggre(req.sortCode, dtTo) >= aq)
+                    {
+                        aggreq = "Yes";
+                    }
+
+
+                    //check for the bank position
+                    
+                    resp.tf = Math.Round(tFailure,2);
+                    resp.nu = Math.Round(slink2,2);
                     resp.iu = sInt;
                     resp.tfreq = tfreq;
                     resp.nureq = nureq;
                     resp.iureq = lureq;
+                    resp.aggreq = aggreq;
+
+
+                    resp.In911 = WeeklyRatingIn("911",dtTo,req.sortCode);
+                    resp.In912 = WeeklyRatingIn("912", dtTo, req.sortCode);
+                    resp.Out121 = WeeklyRatingOut("121", dtTo, req.sortCode);
+                    resp.Out909 = WeeklyRatingOut("909", dtTo, req.sortCode);
+
+
 
                     resp.link = l.link;
                     resp.linkr = ReturnPosition(l.linkr);
@@ -4068,11 +4161,13 @@ namespace TransMonAPI.Controllers
                     resp.intfw = ii.intfw;
                     resp.intfwr = ReturnPosition(ii.intfwr);
                     resp.intfbbw = ii.intfbbw;
+                    resp.aggr = ReturnAggre(req.sortCode, dtTo);
+                    resp.weekposition = ReturnPosition(ReturnBankIndustryPosition(ReturnAggre(req.sortCode, dtTo), dtTo));
 
 
                     resp.BankName = GetBankName(req.sortCode).ToUpper();
-                    resp.WeeklyDate = lastweekFromDispl.ToString("MMMM dd, yyyy") + " to " + lastweekToDisp.ToString("MMMM dd, yyyy");
-                    resp.headingDate = req.dateFrom.ToString("MMMM dd, yyyy") + " to " + req.dateTo.ToString("MMMM dd, yyyy");
+                    resp.WeeklyDate = req.dateTo.AddDays(-14).ToString("MMMM dd, yyyy") + " to " + req.dateTo.AddDays(-8).ToString("MMMM dd, yyyy");
+                    resp.headingDate = req.dateTo.AddDays(-7).ToString("MMMM dd, yyyy") + " to " + req.dateTo.ToString("MMMM dd, yyyy");
                     output = JsonConvert.SerializeObject(resp);
                 }
             }catch(Exception ex)
@@ -4086,6 +4181,210 @@ namespace TransMonAPI.Controllers
                 Content = new StringContent(output, System.Text.Encoding.UTF8, "application/json")
             };
         }
+        public class NumberRank
+        {
+            public decimal Number { get; set; }
+            public int Rank { get; set; }
+
+            public NumberRank(decimal number, int rank)
+            {
+                Number = number;
+                Rank = rank;
+            }
+        }
+
+        public int ReturnLinkPosition(decimal aggr, DateTime dt)
+        {
+            int r = 0;
+
+            try
+            {
+                using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
+                {
+                    var details = db.NetworkReports.Where(a => a.ENDDATE == dt).OrderByDescending(x => x.LinkAvailability).ToList();
+
+
+                    for (int i = 0; i < details.Count; i++)
+                    {
+                        if (details[i].LinkAvailability == aggr)
+                        {
+                            if (aggr == 100)
+                            {
+                                r = 1;
+                            }
+                            else
+                            {
+                                r = i;
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return r;
+        }
+
+
+        public int ReturnBankIndustryPosition(decimal aggr,DateTime dt)
+        {
+            int r = 0;
+
+            try
+            {
+                using(BIDATABASEEntities1 db=new BIDATABASEEntities1())
+                {
+                    var details = db.WEEKLY_POSITION.Where(a => a.END_DATE == dt).OrderByDescending(x=>x.RATE).ToList();
+
+                    
+                    for (int i = 0; i < details.Count; i++)
+                    {
+                        if (details[i].RATE==aggr)
+                        {
+                            if (aggr == 100)
+                            {
+                                r = 1;
+                            }
+                            else
+                            {
+                                r = i;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return r;
+        }
+        public decimal ReturnAggre(string sortCode,DateTime dt)
+        {
+            decimal aggr = 0;
+            try
+            {
+                using(BIDATABASEEntities1 db=new BIDATABASEEntities1())
+                {
+                    var details = db.WEEKLY_POSITION.FirstOrDefault(a => a.BANK == sortCode && a.END_DATE == dt);
+                    aggr = Convert.ToDecimal(details.RATE);
+
+                }
+            }catch(Exception ex)
+            {
+
+            }
+            return aggr;
+        }
+        public int ProcessRanking(DateTime dt,string sortCode,DateTime lastweekFrom)
+        {
+            int process = 0;
+           
+            Link l = ReturnLink(dt, sortCode, lastweekFrom);
+            IntFace ii = ReturnInterface(dt, sortCode, lastweekFrom);
+            decimal In911=WeeklyRatingIn("911", dt, sortCode);
+            decimal In912 = WeeklyRatingIn("912", dt, sortCode);
+            decimal Out121 = WeeklyRatingOut("121", dt, sortCode);
+            decimal Out909 = WeeklyRatingOut("909", dt, sortCode);
+            decimal link = l.link;
+            decimal intf = ii.intf;
+
+            decimal tf = (((100-In911) + (100-In912) + (100-Out121) + (100-Out909)) / 400) * 40;
+            decimal lnk = link / 100 * 60;
+            decimal intface = intf / 100 * 30;
+            //decimal aggr = tf + lnk + intface;
+            decimal aggr = tf + lnk;
+            try
+            {
+                using(BIDATABASEEntities1 db=new BIDATABASEEntities1())
+                {
+                    WEEKLY_POSITION w = new WEEKLY_POSITION();
+                    w.BANK = sortCode;
+                    w.END_DATE = dt;
+                    w.RATE = aggr;
+                    db.WEEKLY_POSITION.Add(w);
+                    db.SaveChanges();
+                    process = w.ID;
+                }
+                
+            }catch(Exception ex)
+            {
+
+            }
+            return process;
+        }
+        public int ProcessRankingUpdate(DateTime dt, string sortCode, DateTime lastweekFrom)
+        {
+            int process = 0;
+
+            Link l = ReturnLink(dt, sortCode, lastweekFrom);
+            IntFace ii = ReturnInterface(dt, sortCode, lastweekFrom);
+            decimal In911 = WeeklyRatingIn("911", dt, sortCode);
+            decimal In912 = WeeklyRatingIn("912", dt, sortCode);
+            decimal Out121 = WeeklyRatingOut("121", dt, sortCode);
+            decimal Out909 = WeeklyRatingOut("909", dt, sortCode);
+            decimal link = l.link;
+            decimal intf = ii.intf;
+
+            decimal tf = (((100 - In911) + (100 - In912) + (100 - Out121) + (100 - Out909)) / 400) * 40;
+            decimal lnk = link / 100 * 60;
+            decimal intface = intf / 100 * 30;
+            //decimal aggr = tf + lnk + intface;
+            decimal aggr = tf + lnk;
+            try
+            {
+                using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
+                {
+                    WEEKLY_POSITION w = new WEEKLY_POSITION();
+                    var details = db.WEEKLY_POSITION.FirstOrDefault(a => a.END_DATE == dt && a.BANK == sortCode);
+                    if(details == null)
+                    {
+                        //if not available add it
+                        w.BANK = sortCode;
+                        w.END_DATE = dt;
+                        w.RATE = aggr;
+                        db.WEEKLY_POSITION.Add(w);
+                        db.SaveChanges();
+                        process = w.ID;
+                    }
+                    else
+                    {
+                        //update the weekly  details
+                        
+                        details.RATE = aggr;
+                        db.SaveChanges();
+                        process = details.ID;
+                    }
+                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return process;
+        }
+
+        public int CheckRankAvailability(DateTime dt)
+        {
+            int count = 0;
+            try
+            {
+                using(BIDATABASEEntities1 db=new BIDATABASEEntities1())
+                {
+                    count = db.WEEKLY_POSITION.Count(a => a.END_DATE == dt);
+                }
+            }catch(Exception ex)
+            {
+
+            }
+            return count;
+        }
         public decimal GetBestBankLinkRate(DateTime dt)
         {
             decimal bb = 0;
@@ -4093,10 +4392,11 @@ namespace TransMonAPI.Controllers
             {
                 using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
                 {
-                    var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.END_DATE == dt && a.RANK == 1);
+                    var d = db.NetworkReports.Where(a => a.ENDDATE == dt).OrderByDescending(x => x.LinkAvailability).First();
+                    //var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.END_DATE == dt && a.RANK == 1);
                     if (d != null)
                     {
-                        bb = Convert.ToDecimal(d.RATE);
+                        bb = Convert.ToDecimal(d.LinkAvailability);
                     }
                     else
                     {
@@ -4138,14 +4438,15 @@ namespace TransMonAPI.Controllers
         public decimal GetLastWeekLinkRate(string sortCode,DateTime lw)
         {
             decimal r = 0;
+            int sCode = Convert.ToInt32(sortCode);
             try
             {
                 using(BIDATABASEEntities1 db=new BIDATABASEEntities1())
                 {
-                    var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.BANK_CODE == sortCode && a.END_DATE == lw);
+                    var d = db.NetworkReports.FirstOrDefault(a => a.bankcode == sCode && a.ENDDATE == lw);
                     if (d != null)
                     {
-                        r = Convert.ToDecimal(d.RATE);
+                        r = Convert.ToDecimal(d.LinkAvailability);
                     }
                     else
                     {
@@ -4190,7 +4491,15 @@ namespace TransMonAPI.Controllers
                 using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
                 {
                     var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.BANK_CODE == sortCode && a.END_DATE == lw);
-                    r =Convert.ToInt16(d.RANK);
+                    if(d != null)
+                    {
+                        r = Convert.ToInt16(d.RANK);
+                    }
+                    else
+                    {
+                        r = 0;
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -4228,19 +4537,21 @@ namespace TransMonAPI.Controllers
         {
             decimal link = 0;
             Link l = new Link();
+            int sCode = Convert.ToInt32(sortCode);
             try
             {
                 
                 using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
                 {
-                    var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.BANK_CODE == sortCode && a.END_DATE == dt);
+                    var d = db.NetworkReports.FirstOrDefault(a => a.bankcode == sCode && a.ENDDATE == dt);
                     if (d != null)
                     {
-                        l.link = Convert.ToDecimal(d.RATE);
-                        l.linkr = Convert.ToInt16(d.RANK);
+                        l.link = Convert.ToDecimal(d.LinkAvailability);
+                        l.linkr = ReturnLinkPosition(Convert.ToDecimal(d.LinkAvailability),dt);
                         l.linkbb = GetBestBankLinkRate(dt);
                         l.linkw = GetLastWeekLinkRate(sortCode, lw);
-                        l.linkwr = GetLastWeekLinkRank(sortCode, lw);
+                        l.linkwr = ReturnLinkPosition(GetLastWeekLinkRate(sortCode, lw), lw);
+                            //GetLastWeekLinkRank(sortCode, lw);
                         l.linkbbw = GetBestBankLinkRate(lw);
                     }
                     else

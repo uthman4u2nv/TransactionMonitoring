@@ -323,6 +323,9 @@ namespace TransactionMonitoring.Controllers
             ViewBag.tfreq = rr.tfreq;
             ViewBag.nureq = rr.nureq;
             ViewBag.iureq = rr.iureq;
+            ViewBag.aggreq = rr.aggreq;
+            ViewBag.aggr = rr.aggr;
+            ViewBag.weekposition = rr.weekposition;
 
 
             return View();
