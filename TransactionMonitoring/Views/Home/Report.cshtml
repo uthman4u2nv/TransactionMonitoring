@@ -131,13 +131,13 @@
                                                         <td style="width:40px !important;"></td>
                                                         <th class="col-sm-1z">OPERATIONAL PLATFROMS</th>
                                                         <th class="col-sm-8z">MEASURES</th>
-                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">BEST BANK'S RATING</th>
                                                         <th class="col-sm-1z">RANKING</th>
-                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RATING</th>
                                                         <th>&nbsp;&nbsp;</th>
-                                                        <th class="col-sm-1z">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1z">BEST BANK'S RATING</th>
                                                         <th class="col-sm-1z">RANKING</th>
-                                                        <th class="col-sm-1z">BEST BANK RANKING</th>
+                                                        <th class="col-sm-1z">BEST BANK RATING</th>
                                                     </tr>
                                                     <tr>
                                                         <td class="col-sm-1z">1</td>
@@ -394,13 +394,13 @@
                                                         <td></td>
                                                         <th class="col-sm-1">&nbsp;</th>
                                                         <th class="col-sm-8">&nbsp;</th>
-                                                        <th class="col-sm-1">ASSESSMENT<br /><small><strong><i>Expected Score=100.00%</i></strong></small></th>
+                                                        <th class="col-sm-1">BANK'S RATING</th>
                                                         <th class="col-sm-1">RANKING</th>
-                                                        <th class="col-sm-1">BEST BANK RANKING</th>
+                                                        <th class="col-sm-1">BEST BANK RATING</th>
                                                         <th>&nbsp;&nbsp;</th>
-                                                        <th class="col-sm-1">ASSESSMENT<br /><small><strong><i>Expected Score=0.00%</i></strong></small></th>
+                                                        <th class="col-sm-1">BANK'S RATING</th>
                                                         <th class="col-sm-1">RANKING</th>
-                                                        <th class="col-sm-1">BEST BANK RANKING</th>
+                                                        <th class="col-sm-1">BEST BANK RATING</th>
                                                     </tr>
                                                     <tr>
                                                         <td class="col-sm-1z"><strong>2</strong></td>
@@ -419,8 +419,8 @@
                                                         <td></td>
                                                         <td><i>Link Availability</i></td>
                                                         <td>{{link}}%</td>
-                                                        <td ng-if="linkr > 0">{{linkr}}</td>
-                                                        <td ng-if="linkr == 0"></td>
+                                                        <td>{{linkr}}</td>
+                                                        
                                                         <td>{{linkbb}}%</td>
                                                         <td style="border: none; !important;">&nbsp;&nbsp;</td>
                                                         <td>{{linkw}}</td>
@@ -631,7 +631,7 @@
                                     <hr />
                                     <a class="list-group-item active" style="background-color:black !important;color:white !important;border:none !important"><strong>METRICS BREAKDOWN for {{headingDate}}</strong></a>
                                     <table class="table table-striped" style="font-size:14px !important">
-                                        <tr><td><strong>Measures</strong></td><td><strong>Weights</strong></td><td><strong>Benchmark</strong></td><td><strong>Meet Requirement</strong></td></tr>
+                                        <tr><td><strong>Measures</strong></td><td><strong>Overall Bank's Performance</strong></td><td><strong>Benchmark</strong></td><td><strong>Meet Requirement</strong></td></tr>
                                         <tr><td><i><strong>Transaction Success Rate</strong></i></td><td><i><strong>{{tf}}%</strong></i></td><td><i><strong>90</strong></i></td><td><i><strong>{{tfreq}}</strong></i></td></tr>
                                         <tr><td><i><strong>Network Uptime</strong></i></td><td><i><strong>{{nu}}%</strong></i></td><td><i><strong>90</strong></i></td><td><i><strong>{{nureq}}</strong></i></td></tr>
                                         <!--<tr><td><i><strong>Interface Uptime</strong></i></td><td><i><strong>{{iu}}%</strong></i></td><td><i><strong>30</strong></i></td><td><i><strong>{{iureq}}</strong></i></td></tr>-->

@@ -4392,7 +4392,7 @@ namespace TransMonAPI.Controllers
             {
                 using (BIDATABASEEntities1 db = new BIDATABASEEntities1())
                 {
-                    var d = db.NetworkReports.Where(a => a.ENDDATE == dt).OrderByDescending(x => x.LinkAvailability).First();
+                    var d = db.NetworkReports.Where(a => a.ENDDATE == dt).OrderByDescending(x => x.LinkAvailability).FirstOrDefault();
                     //var d = db.LINK_AVAILABILITY.FirstOrDefault(a => a.END_DATE == dt && a.RANK == 1);
                     if (d != null)
                     {
@@ -4558,10 +4558,12 @@ namespace TransMonAPI.Controllers
                     {
                         l.link =0;
                         l.linkr = 0;
-                        l.linkbb = 0;
+                        //l.linkbb = 0;
+                        l.linkbb = GetBestBankLinkRate(dt);
                         l.linkw = 0;
                         l.linkwr = 0;
-                        l.linkbbw = 0;
+                        //l.linkbbw = 0;
+                        l.linkbbw = GetBestBankLinkRate(lw);
                     }
 
                 }
