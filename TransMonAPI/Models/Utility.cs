@@ -21,7 +21,7 @@ namespace TransMonAPI.Models
         public int outVolume { get; set; }
         public double IndInRate { get; set; }
         public double IndOutRate { get; set; }
-        
+
         public int IndInVolume { get; set; }
         public int IndOutVolume { get; set; }
 
@@ -365,7 +365,7 @@ namespace TransMonAPI.Models
         public string bankCode { get; set; }
         public string bankData { get; set; }
         public string dailyData { get; set; }
-       
+
 
         [OnError]
         internal void OnError(StreamingContext context, ErrorContext errorContext)
@@ -494,7 +494,7 @@ namespace TransMonAPI.Models
     {
         public long Date { get; set; }
         public int FailureRate { get; set; }
-        
+
 
 
     }
@@ -671,7 +671,7 @@ namespace TransMonAPI.Models
         public int inerror114 { get; set; }
         public int inerror117 { get; set; }
         public int inerror204 { get; set; }
-        
+
         public int inerror908 { get; set; }
         public int inerror111 { get; set; }
         public int inerror400 { get; set; }
@@ -1128,7 +1128,7 @@ namespace TransMonAPI.Models
         public float _112 { get; set; }
         public float _115 { get; set; }
         public float _117 { get; set; }
-       
+
         public float _125 { get; set; }
         public float _200 { get; set; }
         public float _201 { get; set; }
@@ -1433,7 +1433,7 @@ namespace TransMonAPI.Models
         public double _904 { get; set; }
         public double _913 { get; set; }
         public double _923 { get; set; }
-        
+
     }
 
     public class NBankresponsecodecount
@@ -1490,7 +1490,7 @@ namespace TransMonAPI.Models
     {
         public double _102 { get; set; }
         public double _000 { get; set; }
-       public double _114 { get; set; }      
+        public double _114 { get; set; }
         public double _111 { get; set; }
         public double _118 { get; set; }
         public double _912 { get; set; }
@@ -1530,8 +1530,8 @@ namespace TransMonAPI.Models
     public class NBankresponsecodecount1
     {
         public int _102 { get; set; }
-        public int _000 { get; set; }        
-        public int _114 { get; set; }        
+        public int _000 { get; set; }
+        public int _114 { get; set; }
         public int _111 { get; set; }
         public int _118 { get; set; }
         public int _912 { get; set; }
@@ -1676,9 +1676,9 @@ namespace TransMonAPI.Models
     {
         public double _000 { get; set; }
         public double _102 { get; set; }
-        
+
         public double _114 { get; set; }
-        
+
         public double _111 { get; set; }
         public double _118 { get; set; }
         public double _912 { get; set; }
@@ -1936,6 +1936,35 @@ namespace TransMonAPI.Models
         public string WeeklyDate { get; set; }
         public string headingDate { get; set; }
     }
+
+    public class CountAdminReq
+    {
+        public string BankCode { get; set; }
+    }
+
+    public class CountAdminResponse
+    {
+        public int Count { get; set; }
+    }
+
+    public class ListOfAdminUsersCount
+    {
+        public Class1[] Property1 { get; set; }
+    }
+
+    public class Class1
+    {
+        public string firstname { get; set; }
+        public string lastname { get; set; }
+        public string email { get; set; }
+        public string bankCode { get; set; }
+        public bool bankAdmin { get; set; }
+        public bool bankUser { get; set; }
+        public bool ipslAdmin { get; set; }
+    }
+
+    
+
     public class Link
     {
         public decimal link { get; set; }
@@ -1954,7 +1983,7 @@ namespace TransMonAPI.Models
         public int intfwr { get; set; }
         public decimal intfbbw { get; set; }
     }
-    
+
     public class ErrorResponse
     {
         public string responseCode { get; set; }

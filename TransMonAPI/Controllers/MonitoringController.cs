@@ -204,6 +204,40 @@ namespace TransMonAPI.Controllers
 
             return r;
         }
+
+        public string GetListOfUsers222()
+        {
+            var url = "https://tpms.ipsl.co.ke:4433/TransMonAPI/api/ListOfUsers";
+
+            ListOfUserRequest l = new ListOfUserRequest();
+
+            l.startDate = "2020-01-01";
+            l.endDate = "2030-12-31";
+            l.pageNumber = 1;
+            l.pageSize = 100;
+            var rs = JsonConvert.SerializeObject(l);
+
+
+            var content = new StringContent(rs, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+
+            HttpResponseMessage result = null;
+            
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.ServerCertificateValidationCallback = new
+          RemoteCertificateValidationCallback
+          (
+             delegate { return true; }
+          );
+            result = client.PostAsync(url, content).Result;
+            
+            var r = result.Content.ReadAsStringAsync().Result.Replace("\\", "");
+
+
+
+            return r;
+        }
         public string GetListOfUsers()
         {
             var url = ConfigurationManager.AppSettings["listOfUsersURL"];
@@ -446,6 +480,48 @@ namespace TransMonAPI.Controllers
                 Content = new StringContent(output, System.Text.Encoding.UTF8, "application/json")
             };
         }
+
+        //[HttpPost]
+        //[Route("api/CountAdminUsers")]
+        //public async Task<HttpResponseMessage> CountBankAdmin()
+        //{
+        //    var output = "";
+        //    List<U> u = new List<U>();
+        //    var BankCode = "BANK53";
+        //    int count = 0;
+
+        //    try
+        //    {
+        //        var rr = GetListOfUsers222(); 
+        //        //deserialize the bank list
+        //        List<string> b = JsonConvert.DeserializeObject<ListOfAdminUsersCount>(rr);
+
+        //        foreach (var i in b.Property1)
+
+        //        {
+        //            if(i.bankCode==BankCode && i.bankAdmin == true)
+        //            {
+        //                count++;
+        //            }
+                    
+                    
+        //        }
+        //        CountAdminResponse bb = new CountAdminResponse();
+        //        bb.Count = count;
+        //        output = JsonConvert.SerializeObject(bb);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        output = JsonConvert.SerializeObject(ex.Message);
+        //    }
+
+        //    return new HttpResponseMessage()
+        //    {
+        //        Content = new StringContent(output, System.Text.Encoding.UTF8, "application/json")
+        //    };
+        //}
 
         [HttpPost]
         [Route("api/ListOfUsers")]
@@ -3209,7 +3285,8 @@ namespace TransMonAPI.Controllers
            var p = position.ToOrdinal();
             if (p == "0th")
             {
-                pp = "1st";
+                //pp = "1st";
+                pp = "--";
             }
             else
             {
@@ -4166,8 +4243,8 @@ namespace TransMonAPI.Controllers
 
 
                     resp.BankName = GetBankName(req.sortCode).ToUpper();
-                    resp.WeeklyDate = req.dateTo.AddDays(-14).ToString("MMMM dd, yyyy") + " to " + req.dateTo.AddDays(-8).ToString("MMMM dd, yyyy");
-                    resp.headingDate = req.dateTo.AddDays(-7).ToString("MMMM dd, yyyy") + " to " + req.dateTo.ToString("MMMM dd, yyyy");
+                    resp.WeeklyDate = req.dateTo.AddDays(-13).ToString("MMMM dd, yyyy") + " to " + req.dateTo.AddDays(-7).ToString("MMMM dd, yyyy");
+                    resp.headingDate = req.dateTo.AddDays(-6).ToString("MMMM dd, yyyy") + " to " + req.dateTo.ToString("MMMM dd, yyyy");
                     output = JsonConvert.SerializeObject(resp);
                 }
             }catch(Exception ex)
