@@ -121,7 +121,7 @@ namespace TransactionMonitoring.Controllers
 
             // return resulted pdf document
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
-            fileResult.FileDownloadName = "Document.pdf";
+            fileResult.FileDownloadName = sortCode+".pdf";
             return fileResult;
         }
 
